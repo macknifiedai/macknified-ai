@@ -3,22 +3,527 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <title>Macknified AI — Get Your Quote</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0066FF;
+            --primary-light: #3388FF;
+            --accent: #0066FF;
+            --dark-1: #030308;
+            --dark-2: #0a0a12;
+            --dark-3: #12121c;
+            --white: #FFFFFF;
+            --gray-300: #c0c0d0;
+            --gray-400: #8888a0;
+            --gray-500: #606078;
+            --gray-600: #404050;
+            --success: #0066FF;
+            --error: #FF4466;
+            --gradient-main: linear-gradient(135deg, #0044CC 0%, #0066FF 50%, #3388FF 100%);
+        }
 
-<!-- SEO Meta Tags -->
-<title>Macknified AI Pricing Calculator Wizard</title>
-<meta name="description" content="Interactive dark-mode pricing calculator wizard for Macknified AI services, including AI agents, web apps, automation, and consulting." />
-<meta property="og:title" content="Macknified AI Pricing Calculator Wizard" />
-<meta property="og:description" content="Interactive dark-mode pricing calculator wizard for Macknified AI services, including AI agents, web apps, automation, and consulting." />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Macknified AI Pricing Calculator Wizard" />
-<meta name="twitter:description" content="Interactive dark-mode pricing calculator wizard for Macknified AI services, including AI agents, web apps, automation, and consulting." />
-<!-- End SEO Meta Tags -->
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
-<script src="https://app.macknified.com/widget.js" data-widget="37114762" async></script>
-<link rel="stylesheet" href="styles.css">
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--dark-1);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* BG Effects */
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+            background-image: linear-gradient(rgba(0,102,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0,102,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+        .bg-orb {
+            position: fixed; border-radius: 50%; filter: blur(100px); z-index: 0; pointer-events: none;
+        }
+        .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,102,255,0.3) 0%, transparent 70%); top: -200px; left: -200px; }
+        .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,102,255,0.2) 0%, transparent 70%); bottom: -100px; right: -100px; }
+
+        /* Nav */
+        nav[data-section="navbar"] {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 16px 48px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(3,3,8,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,102,255,0.1);
+        }
+        .nav-logo {
+            display: flex; align-items: center; gap: 12px; text-decoration: none;
+        }
+        .nav-logo img {
+            height: 38px; width: 38px; border-radius: 50%;
+            filter: drop-shadow(0 0 12px rgba(0,102,255,0.5));
+            animation: spin 20s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .nav-logo span {
+            font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 700;
+            background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-back {
+            display: flex; align-items: center; gap: 8px; color: var(--accent);
+            text-decoration: none; font-family: 'Orbitron', sans-serif; font-size: 0.75rem;
+            letter-spacing: 1px; transition: all 0.3s ease;
+        }
+        .nav-back:hover { color: #fff; }
+        .nav-back svg { transition: transform 0.3s ease; }
+        .nav-back:hover svg { transform: translateX(-3px); }
+
+        /* Main layout */
+        .main {
+            position: relative; z-index: 10;
+            max-width: 860px; margin: 0 auto;
+            padding: 110px 24px 80px;
+        }
+
+        /* Header */
+        .page-header { text-align: center; margin-bottom: 48px; }
+        .page-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(0,102,255,0.08); border: 1px solid rgba(0,102,255,0.2);
+            border-radius: 50px; padding: 6px 18px; margin-bottom: 20px;
+            font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--accent);
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+        .page-header h1 {
+            font-family: 'Orbitron', sans-serif; font-size: 2.4rem; font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), var(--primary-light), var(--accent));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 12px; line-height: 1.2;
+        }
+        .page-header p {
+            color: var(--gray-400); font-size: 1.1rem;
+        }
+
+        /* Progress Stepper */
+        .stepper {
+            display: flex; align-items: center; gap: 0;
+            margin-bottom: 48px;
+        }
+        .step {
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            flex: 1; position: relative;
+        }
+        .step-icon {
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 2px solid var(--gray-600);
+            background: var(--dark-2);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron', sans-serif; font-size: 0.9rem; font-weight: 700;
+            color: var(--gray-500);
+            transition: all 0.4s ease; z-index: 2; position: relative;
+        }
+        .step-icon svg { display: none; }
+        .step.active .step-icon {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 20px rgba(0,102,255,0.3);
+            background: rgba(0,102,255,0.08);
+        }
+        .step.done .step-icon {
+            border-color: var(--success);
+            background: rgba(0,255,136,0.1);
+            color: var(--success);
+        }
+        .step.done .step-icon .num { display: none; }
+        .step.done .step-icon svg { display: block; }
+        .step-label {
+            font-family: 'Share Tech Mono', monospace; font-size: 0.7rem;
+            color: var(--gray-500); letter-spacing: 1px; text-transform: uppercase;
+            text-align: center;
+        }
+        .step.active .step-label { color: var(--accent); }
+        .step.done .step-label { color: var(--success); }
+        .step-line {
+            flex: 1; height: 2px;
+            background: var(--gray-600);
+            position: relative; top: -12px;
+            transition: background 0.4s ease;
+        }
+        .step-line.done { background: var(--success); }
+        .step-line.active { background: linear-gradient(90deg, var(--success), var(--accent)); }
+
+        /* Wizard Card */
+        .wizard-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+        .wizard-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--gradient-main);
+        }
+
+        /* Step panels */
+        .step-panel { display: none; padding: 40px; animation: fadeIn 0.4s ease; }
+        .step-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .panel-title {
+            font-family: 'Orbitron', sans-serif; font-size: 1.3rem; margin-bottom: 8px; color: var(--white);
+        }
+        .panel-subtitle {
+            color: var(--gray-400); margin-bottom: 32px; font-size: 1rem;
+        }
+
+        /* Service Cards (Step 1) */
+        .service-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px;
+        }
+        .service-card {
+            padding: 24px; border-radius: 16px;
+            border: 2px solid rgba(255,255,255,0.07);
+            background: rgba(255,255,255,0.02);
+            cursor: pointer; transition: all 0.3s ease;
+            display: flex; flex-direction: column; gap: 8px; position: relative;
+        }
+        .service-card:hover { border-color: rgba(0,102,255,0.3); background: rgba(0,102,255,0.04); }
+        .service-card.selected {
+            border-color: var(--accent);
+            background: rgba(0,102,255,0.06);
+            box-shadow: 0 0 30px rgba(0,102,255,0.12);
+        }
+        .service-card .sc-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: rgba(0,102,255,0.1); border: 1px solid rgba(0,102,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 4px;
+        }
+        .service-card.selected .sc-icon { background: rgba(0,102,255,0.15); border-color: rgba(0,102,255,0.3); }
+        .service-card h3 { font-family: 'Orbitron', sans-serif; font-size: 1rem; }
+        .service-card p { color: var(--gray-500); font-size: 0.9rem; }
+        .service-card .sc-price { font-family: 'Share Tech Mono', monospace; color: var(--accent); font-size: 1rem; margin-top: 4px; }
+        .service-card .check-badge {
+            position: absolute; top: 12px; right: 12px;
+            width: 24px; height: 24px; border-radius: 50%;
+            background: var(--accent); color: var(--dark-1);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .service-card.selected .check-badge { opacity: 1; }
+
+        /* Config Options (Step 2) */
+        .config-sections { display: flex; flex-direction: column; gap: 32px; }
+        .config-section {
+            padding: 28px; border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.07);
+            background: rgba(255,255,255,0.02);
+        }
+        .config-section-title {
+            display: flex; align-items: center; gap: 10px;
+            font-family: 'Orbitron', sans-serif; font-size: 0.95rem; color: var(--accent);
+            margin-bottom: 20px;
+        }
+        .config-section-title::before {
+            content: ''; width: 4px; height: 18px;
+            background: var(--gradient-main); border-radius: 2px;
+        }
+
+        label {
+            display: block; font-family: 'Share Tech Mono', monospace;
+            font-size: 0.78rem; color: var(--gray-300); margin-bottom: 8px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        select, input[type="number"], input[type="text"], input[type="email"], input[type="tel"] {
+            width: 100%; padding: 12px 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; color: var(--white);
+            font-family: 'Rajdhani', sans-serif; font-size: 1rem;
+            transition: all 0.3s ease; appearance: none;
+        }
+        select { cursor: pointer; }
+        select:focus, input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 20px rgba(0,102,255,0.15); }
+        select option { background: #0a0a12; }
+        .field-group { margin-bottom: 18px; }
+
+        .checkbox-group { display: flex; flex-direction: column; gap: 10px; }
+        .checkbox-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px; border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            cursor: pointer; transition: all 0.25s ease;
+        }
+        .checkbox-item:hover { border-color: rgba(0,102,255,0.2); }
+        .checkbox-item.checked { border-color: var(--accent); background: rgba(0,102,255,0.05); }
+        .cb-box {
+            width: 20px; height: 20px; border: 2px solid var(--gray-500);
+            border-radius: 5px; display: flex; align-items: center; justify-content: center;
+            transition: all 0.25s ease; flex-shrink: 0;
+        }
+        .checkbox-item.checked .cb-box { background: var(--accent); border-color: var(--accent); }
+        .cb-box::after { content: '✓'; color: var(--dark-1); font-weight: 900; opacity: 0; font-size: 0.8rem; transition: opacity 0.2s; }
+        .checkbox-item.checked .cb-box::after { opacity: 1; }
+        .cb-text { flex: 1; }
+        .cb-text span { display: block; font-size: 0.95rem; }
+        .cb-text small { color: var(--gray-500); font-size: 0.82rem; }
+        .cb-price { font-family: 'Share Tech Mono', monospace; color: var(--accent); font-size: 0.9rem; }
+
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+        /* Live estimate bar */
+        .estimate-bar {
+            background: rgba(0,102,255,0.08);
+            border: 1px solid rgba(0,102,255,0.15);
+            border-radius: 14px;
+            padding: 20px 28px;
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 32px; gap: 16px;
+        }
+        .estimate-bar-label { color: var(--gray-400); font-size: 0.9rem; }
+        .estimate-bar-value {
+            font-family: 'Orbitron', sans-serif; font-size: 2rem; font-weight: 700;
+            background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .estimate-bar-timeline { text-align: right; }
+        .estimate-bar-timeline small { color: var(--gray-500); font-size: 0.8rem; display: block; }
+        .estimate-bar-timeline span { font-family: 'Share Tech Mono', monospace; color: var(--accent); font-size: 0.9rem; }
+
+        /* Step 3 — Contact Info */
+        textarea {
+            width: 100%; padding: 14px 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; color: var(--white);
+            font-family: 'Rajdhani', sans-serif; font-size: 1rem;
+            min-height: 120px; resize: vertical; line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+        textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 20px rgba(0,102,255,0.15); }
+        textarea::placeholder, input::placeholder { color: var(--gray-600); }
+        .required { color: var(--error); margin-left: 3px; }
+
+        .input-invalid { border-color: var(--error) !important; box-shadow: 0 0 15px rgba(255,68,102,0.2) !important; }
+        .error-msg { color: var(--error); font-size: 0.8rem; margin-top: 5px; display: none; }
+        .error-msg.show { display: block; }
+
+        /* Step 4 — Summary */
+        .summary-hero {
+            text-align: center; padding: 32px; margin-bottom: 28px;
+            border-radius: 16px;
+            background: rgba(0,102,255,0.08);
+            border: 1px solid rgba(0,102,255,0.2);
+        }
+        .summary-hero-label { font-family: 'Share Tech Mono', monospace; font-size: 0.78rem; color: var(--gray-400); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .summary-hero-price {
+            font-family: 'Orbitron', sans-serif; font-size: 3.5rem; font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), var(--primary-light));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+        .summary-hero-timeline { color: var(--gray-400); margin-top: 10px; font-size: 0.95rem; }
+        .summary-hero-timeline span { color: var(--accent); font-family: 'Share Tech Mono', monospace; }
+
+        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        @media (max-width: 600px) { .summary-grid { grid-template-columns: 1fr; } }
+
+        .summary-section {
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.07);
+            background: rgba(255,255,255,0.02);
+            padding: 20px;
+        }
+        .summary-section h4 {
+            font-family: 'Share Tech Mono', monospace; font-size: 0.75rem;
+            color: var(--gray-400); letter-spacing: 1.5px; text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        .summary-line {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 0.92rem;
+        }
+        .summary-line:last-child { border-bottom: none; }
+        .summary-line .lbl { color: var(--gray-400); }
+        .summary-line .val { font-family: 'Share Tech Mono', monospace; color: var(--white); }
+        .summary-section.full { grid-column: 1 / -1; }
+
+        .breakdown-item {
+            display: flex; justify-content: space-between; padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.92rem;
+        }
+        .breakdown-item:last-child { border-bottom: none; }
+        .breakdown-item .lbl { color: var(--gray-400); }
+        .breakdown-item .val { font-family: 'Share Tech Mono', monospace; }
+
+        .disclaimer {
+            padding: 14px 18px; border-radius: 10px;
+            background: rgba(255,193,7,0.08); border: 1px solid rgba(255,193,7,0.2);
+            color: #ffc107; font-size: 0.82rem; margin-bottom: 24px;
+        }
+
+        /* Nav Buttons */
+        .wizard-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 28px 40px; border-top: 1px solid rgba(255,255,255,0.06);
+            gap: 16px;
+        }
+        .btn-prev, .btn-next, .btn-submit {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            border-radius: 12px; cursor: pointer; transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif; font-weight: 600; letter-spacing: 1px;
+            text-transform: uppercase; border: none;
+        }
+        .btn-prev {
+            padding: 14px 28px;
+            background: transparent; color: var(--gray-400);
+            border: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem;
+        }
+        .btn-prev:hover { border-color: var(--accent); color: var(--accent); }
+        .btn-prev:disabled { opacity: 0.3; pointer-events: none; }
+        .btn-next {
+            padding: 14px 36px;
+            background: var(--gradient-main); color: #fff; font-size: 0.88rem;
+            box-shadow: 0 6px 28px rgba(0,102,255,0.35);
+        }
+        .btn-next:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(0,102,255,0.5); }
+        .btn-next:disabled { opacity: 0.5; pointer-events: none; }
+        .btn-submit {
+            padding: 16px 40px; flex: 1;
+            background: var(--gradient-main); color: #fff; font-size: 0.88rem;
+            box-shadow: 0 6px 28px rgba(0,102,255,0.4);
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,102,255,0.55); }
+
+        .footer-note { color: var(--gray-500); font-size: 0.82rem; }
+
+        /* Toast */
+        .toast[data-section="toast"] {
+            position: fixed; top: 24px; right: 24px; z-index: 9999;
+            padding: 14px 22px; border-radius: 12px;
+            display: flex; align-items: center; gap: 12px;
+            font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; font-weight: 600;
+            transform: translateX(130%); transition: transform 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+        }
+        .toast.show { transform: translateX(0); }
+        .toast.success { background: rgba(0,255,136,0.12); border: 1px solid var(--success); color: var(--success); }
+        .toast.error { background: rgba(255,68,102,0.12); border: 1px solid var(--error); color: var(--error); }
+
+        .spinner { width: 18px; height: 18px; border: 2px solid transparent; border-top-color: currentColor; border-radius: 50%; animation: doSpin 0.8s linear infinite; }
+        @keyframes doSpin { to { transform: rotate(360deg); } }
+
+        /* Thank You Modal */
+        .modal-overlay[data-section="thank-you-modal"] {
+            position: fixed; inset: 0; z-index: 9998;
+            background: rgba(3,3,8,0.85); backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            padding: 24px;
+            opacity: 0; visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-card {
+            background: var(--dark-2);
+            border: 1px solid rgba(0,102,255,0.2);
+            border-radius: 24px; padding: 48px 40px;
+            max-width: 480px; width: 100%;
+            text-align: center; position: relative;
+            box-shadow: 0 0 80px rgba(0,102,255,0.15);
+            transform: translateY(20px) scale(0.97);
+            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .modal-overlay.show .modal-card { transform: translateY(0) scale(1); }
+        .modal-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--gradient-main); border-radius: 24px 24px 0 0;
+        }
+        .modal-icon {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: rgba(0,255,136,0.1); border: 2px solid var(--success);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px;
+            animation: iconPop 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;
+        }
+        @keyframes iconPop { from { transform: scale(0); } to { transform: scale(1); } }
+        .modal-icon svg { color: var(--success); }
+        .modal-card h2 {
+            font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), var(--primary-light));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+        .modal-card p { color: var(--gray-400); font-size: 1rem; line-height: 1.7; margin-bottom: 8px; }
+        .modal-card .modal-total {
+            font-family: 'Orbitron', sans-serif; font-size: 2rem; font-weight: 700;
+            background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin: 16px 0;
+        }
+        .modal-card .modal-note {
+            font-family: 'Share Tech Mono', monospace; font-size: 0.78rem;
+            color: var(--gray-500); letter-spacing: 1px; margin-top: 20px;
+        }
+        .modal-btn {
+            margin-top: 28px; padding: 14px 36px;
+            background: var(--gradient-main); color: #fff;
+            border: none; border-radius: 12px; cursor: pointer;
+            font-family: 'Orbitron', sans-serif; font-size: 0.85rem;
+            font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+            box-shadow: 0 6px 28px rgba(0,102,255,0.35);
+            transition: all 0.3s ease;
+        }
+        .modal-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(0,102,255,0.5); }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            nav { padding: 14px 20px; }
+            .main { padding: 90px 16px 60px; }
+            .page-header h1 { font-size: 1.8rem; }
+            .service-grid { grid-template-columns: 1fr; }
+            .step-panel { padding: 28px 20px; }
+            .wizard-footer { padding: 22px 20px; }
+            .estimate-bar { flex-direction: column; align-items: flex-start; }
+            .summary-hero-price { font-size: 2.6rem; }
+            .stepper { gap: 0; }
+            .step-label { font-size: 0.6rem; }
+            .step-icon { width: 40px; height: 40px; font-size: 0.8rem; }
+        }
+    
+        /* ── Nav (exact match to main site) ─────────────────────────── */
+        nav[data-section="navbar"] { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 24px 50px; display: flex; justify-content: space-between; align-items: center; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        nav.scrolled { padding: 16px 50px; background: rgba(3, 3, 8, 0.9); backdrop-filter: blur(30px); border-bottom: 1px solid rgba(0, 102, 255, 0.1); }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; cursor: pointer; }
+        .logo-img { height: 44px; width: 44px; border-radius: 50%; filter: drop-shadow(0 0 15px rgba(0, 102, 255, 0.5)); transition: all 0.4s ease; animation: logoSpin 20s linear infinite; }
+        .logo:hover .logo-img { filter: drop-shadow(0 0 25px rgba(0, 102, 255, 0.8)); transform: scale(1.05); }
+        @keyframes logoSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .logo-animated { display: flex; align-items: center; height: 48px; }
+        .logo-animated svg { height: 48px; width: auto; }
+        .logo-animated .logo-letter { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5)); animation: letterFloat 3s ease-in-out infinite, letterGlow 2s ease-in-out infinite alternate; }
+        .logo-animated .logo-letter:nth-child(1) { animation-delay: 0s, 0s; }
+        .logo-animated .logo-letter:nth-child(2) { animation-delay: 0.1s, 0.1s; }
+        .logo-animated .logo-letter:nth-child(3) { animation-delay: 0.2s, 0.2s; }
+        .logo-animated .logo-letter:nth-child(4) { animation-delay: 0.3s, 0.3s; }
+        .logo-animated .logo-letter:nth-child(5) { animation-delay: 0.4s, 0.4s; }
+        .logo-animated .logo-letter:nth-child(6) { animation-delay: 0.5s, 0.5s; }
+        .logo-animated .logo-letter:nth-child(7) { animation-delay: 0.6s, 0.6s; }
+        .logo-animated .logo-letter:nth-child(8) { animation-delay: 0.7s, 0.7s; }
+        .logo-animated .logo-letter:nth-child(9) { animation-delay: 0.8s, 0.8s; }
+        .logo-animated .logo-letter:nth-child(10) { animation-delay: 0.9s, 0.9s; }
+        @keyframes letterFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+        @keyframes letterGlow { 0% { filter: drop-shadow(0 0 5px rgba(0, 102, 255, 0.4)); } 100% { filter: drop-shadow(0 0 15px rgba(0, 102, 255, 0.8)); } }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .nav-back { display: flex; align-items: center; gap: 8px; color: #3388FF; text-decoration: none; font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 1px; transition: all 0.3s ease; }
+        .nav-back:hover { color: #fff; }
+        .nav-back svg { transition: transform 0.3s ease; }
+        .nav-back:hover svg { transform: translateX(-3px); }
+        .nav-cta { padding: 10px 22px; background: linear-gradient(135deg, #0044CC 0%, #0066FF 50%, #3388FF 100%); color: #fff; text-decoration: none; border-radius: 6px; font-family: 'Orbitron', sans-serif; font-weight: 600; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 20px rgba(0, 102, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2); position: relative; overflow: hidden; }
+        .nav-cta::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.6s ease; }
+        .nav-cta:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 50px rgba(0, 102, 255, 0.6); }
+        .nav-cta:hover::before { left: 100%; }
+        @media (max-width: 768px) { nav { padding: 16px 20px; } .logo-animated { display: none; } }
+    </style>
 </head>
 <body>
 
@@ -448,258 +953,344 @@
         </div>
     </div>
 
+    <!-- Thank You Modal -->
+    <div class="modal-overlay" id="thankYouModal" data-section="thank-you-modal">
+        <div class="modal-card">
+            <div class="modal-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h2>You're All Set!</h2>
+            <p>Your estimate has been submitted successfully.</p>
+            <div class="modal-total" id="modalTotal"></div>
+            <p>We've sent your full breakdown to <strong id="modalEmail" style="color:var(--accent);"></strong></p>
+            <p class="modal-note">Our team will follow up within 24 hours · macknified.com</p>
+            <button class="modal-btn" onclick="window.location.href='https://macknified.com'">
+                Back to Macknified.com
+            </button>
+        </div>
+    </div>
+
     <script>
-    // ─── State ───────────────────────────────────────────────────────────────
-    let currentStep = 1;
-    const totalSteps = 4;
-    let selectedServices = new Set();
 
-    // ─── Service Toggle ───────────────────────────────────────────────────────
-    function toggleService(service, el) {
-        if (selectedServices.has(service)) {
-            selectedServices.delete(service);
-            el.classList.remove('selected');
-        } else {
-            selectedServices.add(service);
-            el.classList.add('selected');
-        }
-        recalc();
-    }
+        let currentStep = 1;
+        const TOTAL_STEPS = 4;
 
-    // ─── Checkbox Toggle ──────────────────────────────────────────────────────
-    function toggleCb(el, id) {
-        const cb = document.getElementById(id);
-        cb.checked = !cb.checked;
-        el.classList.toggle('checked', cb.checked);
-        recalc();
-    }
+        let selectedServices = { chatbot: false, webapp: false, automation: false, consulting: false };
+        let quoteData = { total: 0, timeline: '—', breakdown: [], services: [] };
 
-    // ─── Consulting Change ────────────────────────────────────────────────────
-    function handleConsultingChange() {
-        const type = document.getElementById('consultingType').value;
-        document.getElementById('hoursGroup').style.display = type === 'hourly' ? '' : 'none';
-        recalc();
-    }
-
-    // ─── Pricing Calc ─────────────────────────────────────────────────────────
-    function recalc() {
-        let total = 0;
-        let weeks = 0;
-
-        if (selectedServices.has('chatbot')) {
-            const complexity = document.getElementById('chatbotComplexity').value;
-            const kb = document.getElementById('knowledgeBase').value;
-            const complexityMap = { basic: 500, standard: 800, advanced: 1200, enterprise: 2000 };
-            const kbMap = { small: 0, medium: 150, large: 300, xlarge: 500 };
-            total += complexityMap[complexity] + kbMap[kb];
-            if (document.getElementById('multiLanguage').checked) total += 200;
-            if (document.getElementById('crmIntegration').checked) total += 300;
-            if (document.getElementById('customBranding').checked) total += 150;
-            if (document.getElementById('priorityTraining').checked) total += 200;
-            weeks = Math.max(weeks, complexity === 'enterprise' ? 4 : complexity === 'advanced' ? 3 : 2);
+        // ── Service Selection ──────────────────────────────────────────────────
+        function toggleService(key, el) {
+            selectedServices[key] = !selectedServices[key];
+            el.classList.toggle('selected', selectedServices[key]);
         }
 
-        if (selectedServices.has('webapp')) {
-            const webType = document.getElementById('webType').value;
-            const design = document.getElementById('designLevel').value;
-            const typeMap = { landing: 800, multipage: 1500, interactive: 2500, custom: 4000 };
-            const designMap = { standard: 0, premium: 400, ultra: 800 };
-            total += typeMap[webType] + designMap[design];
-            if (document.getElementById('animations').checked) total += 300;
-            if (document.getElementById('formIntegration').checked) total += 150;
-            if (document.getElementById('seoSetup').checked) total += 200;
-            if (document.getElementById('thirdParty').checked) total += 250;
-            weeks = Math.max(weeks, webType === 'custom' ? 6 : webType === 'interactive' ? 4 : 2);
+        // ── Checkbox Toggle ────────────────────────────────────────────────────
+        function toggleCb(el, id) {
+            el.classList.toggle('checked');
+            const cb = document.getElementById(id);
+            if (cb) { cb.checked = el.classList.contains('checked'); recalc(); }
+        }
+        function isChecked(id) { const el = document.getElementById(id); return el && el.checked; }
+
+        // ── Consulting Type Change ─────────────────────────────────────────────
+        function handleConsultingChange() {
+            const t = document.getElementById('consultingType').value;
+            document.getElementById('hoursGroup').style.display = t === 'hourly' ? 'block' : 'none';
+            recalc();
         }
 
-        if (selectedServices.has('automation')) {
-            const scope = document.getElementById('automationScope').value;
-            const integrations = document.getElementById('integrationCount').value;
-            const scopeMap = { single: 1000, multi: 1800, system: 3000 };
-            const intMap = { '1-2': 0, '3-4': 400, '5+': 800 };
-            total += scopeMap[scope] + intMap[integrations];
-            if (document.getElementById('customApi').checked) total += 500;
-            if (document.getElementById('dataMapping').checked) total += 350;
-            if (document.getElementById('errorHandling').checked) total += 200;
-            weeks = Math.max(weeks, scope === 'system' ? 5 : scope === 'multi' ? 3 : 2);
-        }
+        // ── Calculate ──────────────────────────────────────────────────────────
+        function recalc() {
+            let total = 0, breakdown = [], services = [], timelines = [];
 
-        if (selectedServices.has('consulting')) {
-            const type = document.getElementById('consultingType').value;
-            if (type === 'hourly') {
-                const hrs = parseInt(document.getElementById('consultingHours').value) || 1;
-                total += hrs * 150;
-            } else if (type === 'halfday') {
-                total += 500;
-            } else if (type === 'fullday') {
-                total += 900;
-            } else if (type === 'strategy') {
-                total += 1350;
+            if (selectedServices.chatbot) {
+                services.push('AI Agent');
+                const complexity = document.getElementById('chatbotComplexity').value;
+                const p = { basic: 500, standard: 800, advanced: 1200, enterprise: 2000 };
+                const n = { basic: 'AI Agent — Basic', standard: 'AI Agent — Standard', advanced: 'AI Agent — Advanced', enterprise: 'AI Agent — Enterprise' };
+                total += p[complexity]; breakdown.push({ label: n[complexity], value: p[complexity] });
+                const kb = document.getElementById('knowledgeBase').value;
+                const kbp = { small: 0, medium: 150, large: 300, xlarge: 500 };
+                if (kbp[kb]) { total += kbp[kb]; breakdown.push({ label: 'Knowledge Base (' + kb + ')', value: kbp[kb] }); }
+                if (isChecked('multiLanguage')) { total += 200; breakdown.push({ label: 'Multi-language Support', value: 200 }); }
+                if (isChecked('crmIntegration')) { total += 300; breakdown.push({ label: 'CRM Integration', value: 300 }); }
+                if (isChecked('customBranding')) { total += 150; breakdown.push({ label: 'Custom Branding', value: 150 }); }
+                if (isChecked('priorityTraining')) { total += 200; breakdown.push({ label: 'Priority Training', value: 200 }); }
+                timelines.push(complexity === 'basic' ? 1 : complexity === 'standard' ? 2 : complexity === 'advanced' ? 3 : 5);
             }
-            if (document.getElementById('writtenReport').checked) total += 200;
-            if (document.getElementById('roadmap').checked) total += 150;
-            weeks = Math.max(weeks, 1);
+
+            if (selectedServices.webapp) {
+                services.push('Web App');
+                const wt = document.getElementById('webType').value;
+                const wp = { landing: 800, multipage: 1500, interactive: 2500, custom: 4000 };
+                const wn = { landing: 'Landing Page', multipage: 'Multi-Page Site', interactive: 'Interactive Web App', custom: 'Custom Platform' };
+                total += wp[wt]; breakdown.push({ label: wn[wt], value: wp[wt] });
+                const dl = document.getElementById('designLevel').value;
+                const dlp = { standard: 0, premium: 400, ultra: 800 };
+                if (dlp[dl]) { total += dlp[dl]; breakdown.push({ label: 'Design — ' + dl.charAt(0).toUpperCase() + dl.slice(1), value: dlp[dl] }); }
+                if (isChecked('animations')) { total += 300; breakdown.push({ label: 'Advanced Animations', value: 300 }); }
+                if (isChecked('formIntegration')) { total += 150; breakdown.push({ label: 'Form Integration', value: 150 }); }
+                if (isChecked('seoSetup')) { total += 200; breakdown.push({ label: 'SEO Optimization', value: 200 }); }
+                if (isChecked('thirdParty')) { total += 250; breakdown.push({ label: 'Third-party Integrations', value: 250 }); }
+                timelines.push(wt === 'landing' ? 1 : wt === 'multipage' ? 2 : wt === 'interactive' ? 3 : 5);
+            }
+
+            if (selectedServices.automation) {
+                services.push('Automation');
+                const scope = document.getElementById('automationScope').value;
+                const sp = { single: 1000, multi: 1800, system: 3000 };
+                const sn = { single: 'Single Workflow', multi: 'Multiple Workflows', system: 'Full System Integration' };
+                total += sp[scope]; breakdown.push({ label: sn[scope], value: sp[scope] });
+                const ic = document.getElementById('integrationCount').value;
+                const ip = { '1-2': 0, '3-4': 400, '5+': 800 };
+                if (ip[ic]) { total += ip[ic]; breakdown.push({ label: 'Integrations (' + ic + ')', value: ip[ic] }); }
+                if (isChecked('customApi')) { total += 500; breakdown.push({ label: 'Custom API Development', value: 500 }); }
+                if (isChecked('dataMapping')) { total += 350; breakdown.push({ label: 'Complex Data Mapping', value: 350 }); }
+                if (isChecked('errorHandling')) { total += 200; breakdown.push({ label: 'Advanced Error Handling', value: 200 }); }
+                timelines.push(scope === 'single' ? 1 : scope === 'multi' ? 3 : 5);
+            }
+
+            if (selectedServices.consulting) {
+                services.push('Consulting');
+                const ct = document.getElementById('consultingType').value;
+                if (ct === 'hourly') {
+                    const hrs = parseInt(document.getElementById('consultingHours').value) || 2;
+                    const cv = hrs * 150;
+                    total += cv; breakdown.push({ label: hrs + ' hrs @ $150/hr', value: cv });
+                    timelines.push(Math.ceil(hrs / 8));
+                } else {
+                    const cp = { halfday: 500, fullday: 900, strategy: 1350 };
+                    const cn = { halfday: 'Half-Day Workshop', fullday: 'Full-Day Workshop', strategy: 'Strategy Package (10hrs)' };
+                    total += cp[ct]; breakdown.push({ label: cn[ct], value: cp[ct] });
+                    timelines.push(ct === 'strategy' ? 2 : 1);
+                }
+                if (isChecked('writtenReport')) { total += 200; breakdown.push({ label: 'Written Strategy Report', value: 200 }); }
+                if (isChecked('roadmap')) { total += 150; breakdown.push({ label: 'Implementation Roadmap', value: 150 }); }
+            }
+
+            let timelineText = '—';
+            if (timelines.length > 0) {
+                const maxW = Math.max(...timelines);
+                const sumW = timelines.reduce((a,b) => a+b, 0);
+                const estW = Math.max(maxW, Math.ceil(sumW * 0.7));
+                timelineText = estW <= 1 ? '1–2 weeks' : estW <= 3 ? '2–4 weeks' : estW <= 5 ? '4–6 weeks' : '6–8 weeks';
+            }
+
+            quoteData = { total, timeline: timelineText, breakdown, services };
+
+            // Update live bar
+            document.getElementById('livePrice').textContent = '$' + total.toLocaleString();
+            document.getElementById('liveTimeline').textContent = timelineText;
         }
 
-        const formatted = '$' + total.toLocaleString();
-        const timeline = weeks > 0 ? (weeks === 1 ? '1 week' : weeks + ' weeks') : '—';
+        // ── Step Navigation ────────────────────────────────────────────────────
+        function setStep(n) {
+            // Update panels
+            document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('panel-' + n).classList.add('active');
+            currentStep = n;
 
-        document.getElementById('livePrice').textContent = formatted;
-        document.getElementById('liveTimeline').textContent = timeline;
-        document.getElementById('summaryPrice').textContent = formatted;
-        document.getElementById('summaryTimeline').textContent = timeline;
-    }
+            // Update stepper nodes
+            for (let i = 1; i <= TOTAL_STEPS; i++) {
+                const node = document.getElementById('stepNode-' + i);
+                node.classList.remove('active', 'done');
+                if (i < n) node.classList.add('done');
+                else if (i === n) node.classList.add('active');
+            }
+            // Update lines
+            for (let i = 1; i < TOTAL_STEPS; i++) {
+                const line = document.getElementById('line-' + i + '-' + (i+1));
+                line.classList.remove('done', 'active');
+                if (i < n) line.classList.add('done');
+                else if (i === n - 1) line.classList.add('active');
+            }
 
-    // ─── Step Navigation ──────────────────────────────────────────────────────
-    function showStep(step) {
-        document.querySelectorAll('.step-panel').forEach((p, i) => {
-            p.classList.toggle('active', i + 1 === step);
+            // Footer
+            document.getElementById('btnPrev').disabled = n === 1;
+            document.getElementById('footerNote').textContent = 'Step ' + n + ' of ' + TOTAL_STEPS;
+            const btnNext = document.getElementById('btnNext');
+            const btnSubmit = document.getElementById('btnSubmit');
+            if (n === TOTAL_STEPS) {
+                btnNext.style.display = 'none';
+                btnSubmit.style.display = 'flex';
+            } else {
+                btnNext.style.display = 'flex';
+                btnSubmit.style.display = 'none';
+            }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextStep() {
+            if (currentStep === 1) {
+                const hasService = Object.values(selectedServices).some(v => v);
+                if (!hasService) { showToast('Please select at least one service to continue.', 'error'); return; }
+                // Show config sections for selected services
+                ['chatbot','webapp','automation','consulting'].forEach(s => {
+                    document.getElementById('cfg-' + s).style.display = selectedServices[s] ? 'block' : 'none';
+                });
+                recalc();
+            }
+            if (currentStep === 2) {
+                // Nothing to validate here
+            }
+            if (currentStep === 3) {
+                if (!validateContact()) return;
+            }
+            if (currentStep === 3) {
+                buildSummary();
+            }
+            if (currentStep < TOTAL_STEPS) setStep(currentStep + 1);
+        }
+
+        function prevStep() {
+            if (currentStep > 1) setStep(currentStep - 1);
+        }
+
+        // ── Validation ─────────────────────────────────────────────────────────
+        function validateContact() {
+            let ok = true;
+            const name = document.getElementById('clientName');
+            const email = document.getElementById('clientEmail');
+            const desc = document.getElementById('projectDescription');
+
+            const setErr = (el, errId, show) => {
+                el.classList.toggle('input-invalid', show);
+                document.getElementById(errId).classList.toggle('show', show);
+            };
+
+            setErr(name, 'err-name', !name.value.trim());
+            if (!name.value.trim()) ok = false;
+
+            const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+            setErr(email, 'err-email', !emailOk);
+            if (!emailOk) ok = false;
+
+            setErr(desc, 'err-desc', !desc.value.trim());
+            if (!desc.value.trim()) ok = false;
+
+            return ok;
+        }
+
+        // Clear errors on input
+        ['clientName','clientEmail','projectDescription'].forEach(id => {
+            document.addEventListener('DOMContentLoaded', () => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', () => { el.classList.remove('input-invalid'); });
+            });
         });
 
-        // Update stepper
-        for (let i = 1; i <= totalSteps; i++) {
-            const node = document.getElementById('stepNode-' + i);
-            node.classList.remove('active', 'completed');
-            if (i < step) node.classList.add('completed');
-            else if (i === step) node.classList.add('active');
-            if (i < totalSteps) {
-                const line = document.getElementById('line-' + i + '-' + (i + 1));
-                if (line) line.classList.toggle('active', i < step);
-            }
+        // ── Build Summary ──────────────────────────────────────────────────────
+        function buildSummary() {
+            document.getElementById('summaryPrice').textContent = '$' + quoteData.total.toLocaleString();
+            document.getElementById('summaryTimeline').textContent = quoteData.timeline;
+
+            const name = document.getElementById('clientName').value.trim();
+            const email = document.getElementById('clientEmail').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+            const company = document.getElementById('clientCompany').value.trim();
+
+            let html = `
+                <div class="summary-section">
+                    <h4>Contact Info</h4>
+                    <div class="summary-line"><span class="lbl">Name</span><span class="val">${name}</span></div>
+                    <div class="summary-line"><span class="lbl">Email</span><span class="val">${email}</span></div>
+                    ${phone ? `<div class="summary-line"><span class="lbl">Phone</span><span class="val">${phone}</span></div>` : ''}
+                    ${company ? `<div class="summary-line"><span class="lbl">Company</span><span class="val">${company}</span></div>` : ''}
+                </div>
+                <div class="summary-section">
+                    <h4>Services Selected</h4>
+                    ${quoteData.services.map(s => `<div class="summary-line"><span class="lbl">✓</span><span class="val">${s}</span></div>`).join('')}
+                </div>
+                <div class="summary-section full">
+                    <h4>Price Breakdown</h4>
+                    ${quoteData.breakdown.map(item => `
+                        <div class="breakdown-item">
+                            <span class="lbl">${item.label}</span>
+                            <span class="val">$${item.value.toLocaleString()}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('summaryGrid').innerHTML = html;
         }
 
-        document.getElementById('btnPrev').disabled = step === 1;
-        document.getElementById('footerNote').textContent = 'Step ' + step + ' of ' + totalSteps;
+        // ── Submit ─────────────────────────────────────────────────────────────
+        async function submitQuote() {
+            const btn = document.getElementById('btnSubmit');
+            const txt = document.getElementById('submitBtnText');
+            btn.disabled = true;
+            txt.innerHTML = '<div class="spinner"></div> Sending...';
 
-        const isLast = step === totalSteps;
-        document.getElementById('btnNext').style.display = isLast ? 'none' : '';
-        document.getElementById('btnSubmit').style.display = isLast ? '' : 'none';
+            const clientName    = document.getElementById('clientName').value.trim();
+            const clientEmail   = document.getElementById('clientEmail').value.trim();
+            const clientPhone   = document.getElementById('clientPhone').value.trim() || '';
+            const clientCompany = document.getElementById('clientCompany').value.trim() || '';
+            const projectDesc   = document.getElementById('projectDescription').value.trim();
+            const breakdown     = quoteData.breakdown.map(i => i.label + ': $' + i.value.toLocaleString()).join(' | ');
+            const totalFormatted = '$' + quoteData.total.toLocaleString();
+            const nameParts     = clientName.split(' ');
+            const firstName     = nameParts[0];
+            const lastName      = nameParts.slice(1).join(' ') || '';
+            const servicesStr   = quoteData.services.join(', ');
 
-        // Show/hide config sections
-        if (step === 2) {
-            ['chatbot', 'webapp', 'automation', 'consulting'].forEach(s => {
-                const el = document.getElementById('cfg-' + s);
-                if (el) el.style.display = selectedServices.has(s) ? '' : 'none';
+            // Build thank you page URL params
+            const params = new URLSearchParams({
+                first_name:          firstName,
+                email:               clientEmail,
+                phone:               clientPhone || 'Not provided',
+                company:             clientCompany || 'Not provided',
+                selected_services:   servicesStr,
+                estimated_total:     totalFormatted,
+                estimated_timeline:  quoteData.timeline,
+                quote_breakdown:     breakdown,
+                project_description: projectDesc
+            });
+
+            // Submit to Macknified form 419 — triggers automation 389 which fires email flow 1708
+            fetch('https://app.macknified.com/api/public/forms/419/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    first_name:        firstName,
+                    last_name:         lastName,
+                    full_name:         clientName,
+                    email:             clientEmail,
+                    phone:             clientPhone,
+                    company:           clientCompany,
+                    selected_services: servicesStr,
+                    estimated_total:   totalFormatted,
+                    estimated_timeline: quoteData.timeline,
+                    price_breakdown:   breakdown,
+                    project_description: projectDesc,
+                    ref:               'pricing-calculator'
+                })
+            }).finally(function() {
+                window.location.href = 'https://macknifiedai.github.io/project-thank-you-page/?' + params.toString();
             });
         }
 
-        // Build summary
-        if (step === 4) buildSummary();
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function nextStep() {
-        if (currentStep === 1 && selectedServices.size === 0) {
-            showToast('Please select at least one service.', 'error');
-            return;
+                // ── Toast ──────────────────────────────────────────────────────────────
+        function showToast(msg, type) {
+            const t = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            document.getElementById('toastMsg').textContent = msg;
+            t.className = 'toast ' + type + ' show';
+            icon.innerHTML = type === 'success'
+                ? '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>'
+                : '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>';
+            setTimeout(() => t.classList.remove('show'), 4500);
         }
-        if (currentStep === 3) {
-            if (!validateContact()) return;
-        }
-        if (currentStep < totalSteps) {
-            currentStep++;
-            showStep(currentStep);
-        }
-    }
 
-    function prevStep() {
-        if (currentStep > 1) {
-            currentStep--;
-            showStep(currentStep);
-        }
-    }
+        // Init
 
-    // ─── Contact Validation ───────────────────────────────────────────────────
-    function validateContact() {
-        let valid = true;
-        const name = document.getElementById('clientName').value.trim();
-        const email = document.getElementById('clientEmail').value.trim();
-        const desc = document.getElementById('projectDescription').value.trim();
-
-        document.getElementById('err-name').style.display = '';
-        document.getElementById('err-email').style.display = '';
-        document.getElementById('err-desc').style.display = '';
-
-        if (!name) {
-            document.getElementById('err-name').style.display = 'block';
-            valid = false;
-        }
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            document.getElementById('err-email').style.display = 'block';
-            valid = false;
-        }
-        if (!desc) {
-            document.getElementById('err-desc').style.display = 'block';
-            valid = false;
-        }
-        return valid;
-    }
-
-    // ─── Summary Builder ──────────────────────────────────────────────────────
-    function buildSummary() {
-        const grid = document.getElementById('summaryGrid');
-        grid.innerHTML = '';
-        recalc();
-
-        const serviceLabels = {
-            chatbot: 'AI Agent',
-            webapp: 'Web App',
-            automation: 'Automation',
-            consulting: 'Consulting'
-        };
-
-        selectedServices.forEach(s => {
-            const card = document.createElement('div');
-            card.className = 'summary-card';
-            card.innerHTML = '<div class="summary-card-title">' + serviceLabels[s] + '</div>';
-            grid.appendChild(card);
+        window.addEventListener('scroll', function() {
+            var navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) { navbar.classList.add('scrolled'); }
+            else { navbar.classList.remove('scrolled'); }
         });
-    }
-
-    // ─── Toast ────────────────────────────────────────────────────────────────
-    function showToast(msg, type) {
-        const toast = document.getElementById('toast');
-        const icon = document.getElementById('toastIcon');
-        document.getElementById('toastMsg').textContent = msg;
-        toast.className = 'toast show ' + (type || '');
-        icon.innerHTML = type === 'error'
-            ? '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>'
-            : '<polyline points="20 6 9 17 4 12"/>';
-        setTimeout(() => { toast.className = 'toast'; }, 3500);
-    }
-
-    // ─── Submit → Redirect ────────────────────────────────────────────────────
-    function submitQuote() {
-        const btn = document.getElementById('btnSubmit');
-        const btnText = document.getElementById('submitBtnText');
-        btnText.textContent = 'Sending...';
-        btn.disabled = true;
-
-        const name = document.getElementById('clientName').value;
-        const email = document.getElementById('clientEmail').value;
-        const phone = document.getElementById('clientPhone').value;
-        const company = document.getElementById('clientCompany').value;
-        const description = document.getElementById('projectDescription').value;
-        const total = document.getElementById('summaryPrice').textContent;
-        const timeline = document.getElementById('summaryTimeline').textContent;
-
-        const params = new URLSearchParams({
-            first_name: name.split(' ')[0],
-            email: email,
-            phone: phone,
-            company: company,
-            estimated_total: total,
-            estimated_timeline: timeline,
-            project_description: description
-        });
-
-        window.location.href = '../project-thank-you-page/?' + params.toString();
-    }
-
-    // ─── Init ─────────────────────────────────────────────────────────────────
-    showStep(1);
+        setStep(1);
     </script>
-
 </body>
 </html>
