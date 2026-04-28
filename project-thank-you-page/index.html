@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   
-
 <!-- SEO Meta Tags -->
 <title>Project Thank you Page</title>
 <meta property="og:title" content="Project Thank you Page" />
@@ -16,11 +15,8 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Project Thank you Page" />
 <!-- End SEO Meta Tags -->
-
-
-
-
-<script src="https://app.macknified.com/widget.js" data-widget="37114762" async></script>  <link rel="stylesheet" href="styles.css">
+<script src="https://app.macknified.com/widget.js" data-widget="37114762" async></script>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div data-section="background-mesh" class="mesh-gradient"></div>
@@ -92,8 +88,19 @@
     </div>
   </div>
 
-  
-  
-  <script src="script.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.body.innerHTML = document.body.innerHTML
+      .replaceAll("{{first_name}}", params.get("first_name") || "there")
+      .replaceAll("{{email}}", params.get("email") || "Not provided")
+      .replaceAll("{{phone}}", params.get("phone") || "Not provided")
+      .replaceAll("{{company}}", params.get("company") || "Not provided")
+      .replaceAll("{{estimated_total}}", params.get("estimated_total") || "Pending review")
+      .replaceAll("{{estimated_timeline}}", params.get("estimated_timeline") || "Pending review")
+      .replaceAll("{{project_description}}", params.get("project_description") || "Not provided")
+      .replaceAll("{{selected_services}}", "Selected services")
+      .replaceAll("{{quote_breakdown}}", "Full quote breakdown will be reviewed by our team.");
+  </script>
+
 </body>
 </html>
