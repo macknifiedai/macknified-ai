@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- BASE:START (managed by Coding Agent — do not edit) -->
+<base href="/macknified-ai/">
+<!-- BASE:END -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <meta name="description" content="Custom AI chatbots, intelligent web applications, and automation solutions for businesses ready to work smarter.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+
+<!-- SEO Meta Tags -->
+<title>Macknified AI</title>
+<meta property="og:title" content="Macknified AI" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Macknified AI" />
+<!-- End SEO Meta Tags -->
+
+<script data-field-replace>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var fields={};
+  var paramMap={
+    'first_name':'firstName','last_name':'lastName','full_name':'fullName',
+    'email':'email','phone':'phone','company':'company',
+    'city':'city','state':'state','country':'country'
+  };
+  var skipTags={'SCRIPT':1,'STYLE':1,'NOSCRIPT':1,'TEXTAREA':1,'CODE':1,'PRE':1};
+  var hasUrlFields=false;
+  for(var p in paramMap){
+    var v=params.get(p);
+    if(v){fields[paramMap[p]]=v;hasUrlFields=true;}
+  }
+  var contactId=params.get('contact_id');
+  function esc(s){
+    if(!s)return s;
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  function doReplace(data){
+    var r={};
+    r['{{full_name}}']=esc(((data.firstName||'')+' '+(data.lastName||'')).trim()||((data.fullName||data.name)||''));
+    r['{{first_name}}']=esc(data.firstName||(data.name?data.name.split(' ')[0]:'')||'');
+    r['{{last_name}}']=esc(data.lastName||(data.name&&data.name.indexOf(' ')>-1?data.name.substring(data.name.indexOf(' ')+1):'')||'');
+    r['{{email}}']=esc(data.email||'');
+    r['{{phone}}']=esc(data.phone||'');
+    r['{{company}}']=esc(data.company||'');
+    r['{{city}}']=esc(data.city||'');
+    r['{{state}}']=esc(data.state||'');
+    r['{{country}}']=esc(data.country||'');
+    r['{{date}}']=new Date().toLocaleDateString();
+    r['{{time}}']=new Date().toLocaleTimeString();
+    r['{{location}}']=[data.city,data.state,data.country].filter(Boolean).join(', ');
+    r['{{tracking_id}}']=esc(data.trackingId||'');
+    r['{{lastClickedProduct}}']=esc(data.lastClickedProduct||'');
+    r['{{lastProductClickDate}}']=esc(data.lastProductClickDate||'');
+    r['{{lastClickedProductPrice}}']=esc(data.lastClickedProductPrice||'');
+    r['{{lastClickedProductURL}}']=esc(data.lastClickedProductURL||'');
+    r['{{productsClickedCount}}']=esc(data.productsClickedCount||'0');
+    r['{{ip_address}}']=esc(data.ipAddress||'');
+    r['{{ip}}']=esc(data.ipAddress||'');
+    if(data.customFields){
+      for(var k in data.customFields){
+        r['{{'+k+'}}']=esc(String(data.customFields[k]||''));
+      }
+    }
+    params.forEach(function(v,k){
+      if(!paramMap[k]&&k!=='contact_id'&&k!=='page_id'&&k.indexOf('utm_')!==0){
+        r['{{'+k+'}}']=esc(v);
+      }
+    });
+    var hasValues=false;
+    for(var key in r){if(r[key]){hasValues=true;break;}}
+    if(!hasValues)return;
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        var p=n.parentNode;
+        if(p&&skipTags[p.nodeName])return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while(node=walker.nextNode()){
+      var txt=node.nodeValue;
+      if(txt&&txt.indexOf('{{')>-1){
+        var changed=txt;
+        for(var ph in r){
+          if(r[ph]&&changed.indexOf(ph)>-1){
+            changed=changed.split(ph).join(r[ph]);
+          }
+        }
+        if(changed!==txt)node.nodeValue=changed;
+      }
+    }
+    var attrs=['value','placeholder','content','alt','title'];
+    attrs.forEach(function(attr){
+      var els=document.querySelectorAll('['+attr+'*="{{"]');
+      for(var i=0;i<els.length;i++){
+        var tag=els[i].tagName;
+        if(skipTags[tag])continue;
+        var val=els[i].getAttribute(attr);
+        if(val){
+          var nv=val;
+          for(var ph in r){
+            if(r[ph]&&nv.indexOf(ph)>-1){
+              nv=nv.split(ph).join(r[ph]);
+            }
+          }
+          if(nv!==val)els[i].setAttribute(attr,nv);
+        }
+      }
+    });
+  }
+  function run(){
+    if(contactId){
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','https://app.macknified.com/api/landing/context/'+encodeURIComponent(contactId)+'?page_id=1536');
+      xhr.onload=function(){
+        if(xhr.status===200){
+          try{
+            var resp=JSON.parse(xhr.responseText);
+            if(resp.success&&resp.contact){
+              var merged=resp.contact;
+              for(var k in fields){merged[k]=fields[k];}
+              doReplace(merged);
+              return;
+            }
+          }catch(e){}
+        }
+        if(hasUrlFields)doReplace(fields);
+      };
+      xhr.onerror=function(){if(hasUrlFields)doReplace(fields);};
+      xhr.send();
+    }else if(hasUrlFields){
+      doReplace(fields);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
+<script data-payment>
+(function(){
+  var slug='V5ekpvrcG';
+  var apiBase='https://app.macknified.com';
+  function findEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  var __realProcessPayment=function(a,b,c,d,e){
+    var amountCents,email,productName,productDescription,customerName,quantity;
+    if(a&&typeof a==='object'){
+      amountCents=a.amountCents;email=a.email;productName=a.productName;
+      productDescription=a.productDescription||'';customerName=a.name||'';quantity=a.quantity||1;
+    }else{
+      amountCents=typeof a==='number'?a:0;productName=typeof b==='string'?b:'';
+      productDescription=typeof c==='string'?c:'';email='';customerName='';quantity=1;
+    }
+    if(!email)email=findEmail();
+    if(!customerName)customerName=findName();
+    if(!productName){alert('Product name is required.');return Promise.reject('no_product_name');}
+    if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
+    });
+  };
+  Object.defineProperty(window,'__processPayment',{value:__realProcessPayment,writable:false,configurable:false});
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('payment')==='success'){
+      var pName=urlParams.get('product')||'your item';
+      var overlay=document.createElement('div');overlay.id='payment-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">Thank you for purchasing '+pName.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'.</p><button onclick="document.getElementById(\'payment-success-overlay\').remove();window.history.replaceState({},\'\',window.location.pathname);" style="padding:12px 32px;font-size:16px;font-weight:600;background:#16a34a;color:white;border:none;border-radius:8px;cursor:pointer;">Continue</button></div>';
+      document.body.appendChild(overlay);
+    }
+  });
+})();
+</script>
+<script data-widget-config>
+  window.WidgetConfig = {"widgetId":"37114762","launcherType":"tab","primaryColor":"#4890ed","tabPosition":"right","tabLabel":"Chat","customFooterText":"Powered by Macknified AI"};
+</script>
+<script src="https://app.macknified.com/widget.js" data-widget="37114762" async></script>  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner-container">
+            <div class="loading-spinner"></div>
+            <div class="loading-spinner"></div>
+            <div class="loading-spinner"></div>
+            <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Loading" class="loading-logo-img">
+        </div>
+        <div class="loading-logo-animated">
+            <svg viewBox="0 0 340 50" xmlns="http://www.w3.org/2000/svg" style="width: 280px; height: auto;">
+                <defs>
+                    <linearGradient id="logoGradientLoad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#3388FF">
+                            <animate attributeName="stop-color" values="#3388FF;#0066FF;#0066FF;#3388FF" dur="2s" repeatCount="indefinite"/>
+                        </stop>
+                        <stop offset="50%" style="stop-color:#0066FF">
+                            <animate attributeName="stop-color" values="#0066FF;#0066FF;#3388FF;#0066FF" dur="2s" repeatCount="indefinite"/>
+                        </stop>
+                        <stop offset="100%" style="stop-color:#0066FF">
+                            <animate attributeName="stop-color" values="#0066FF;#3388FF;#0066FF;#0066FF" dur="2s" repeatCount="indefinite"/>
+                        </stop>
+                    </linearGradient>
+                    <linearGradient id="logoGradientWhiteLoad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#FFFFFF"/>
+                        <stop offset="100%" style="stop-color:#E0E0E0"/>
+                    </linearGradient>
+                    <linearGradient id="logoGradientAILoad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#0066FF">
+                            <animate attributeName="stop-color" values="#0066FF;#FFFFFF;#0066FF" dur="1s" repeatCount="indefinite"/>
+                        </stop>
+                        <stop offset="100%" style="stop-color:#FFFFFF">
+                            <animate attributeName="stop-color" values="#FFFFFF;#0066FF;#FFFFFF" dur="1s" repeatCount="indefinite"/>
+                        </stop>
+                    </linearGradient>
+                </defs>
+                <g>
+                    <text x="0" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.1s;">M</text>
+                    <text x="28" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.15s;">A</text>
+                    <text x="52" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.2s;">C</text>
+                    <text x="76" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.25s;">K</text>
+                    <text x="100" y="35" fill="url(#logoGradientWhiteLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.3s;">N</text>
+                    <text x="126" y="35" fill="url(#logoGradientWhiteLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.35s;">I</text>
+                    <text x="140" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.4s;">F</text>
+                    <text x="160" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.45s;">I</text>
+                    <text x="174" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.5s;">E</text>
+                    <text x="196" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.55s;">D</text>
+                    <text x="235" y="35" fill="url(#logoGradientAILoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 15px rgba(0, 102, 255, 0.8)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.65s;">A</text>
+                    <text x="259" y="35" fill="url(#logoGradientAILoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 15px rgba(0, 102, 255, 0.8)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.7s;">I</text>
+                </g>
+            </svg>
+        </div>
+        <div class="loading-bar"></div>
+        <span class="loading-text">Initializing...</span>
+    </div>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="mesh-gradient"></div>
+    <div class="animated-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div id="particles-container"></div>
+    
+    <div class="main-content">
+        <nav id="navbar">
+            <div class="logo">
+                <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Macknified AI" class="logo-img">
+                <div class="logo-animated">
+                    <svg viewBox="0 0 340 50" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#3388FF">
+                                    <animate attributeName="stop-color" values="#3388FF;#0066FF;#0066FF;#3388FF" dur="4s" repeatCount="indefinite"/>
+                                </stop>
+                                <stop offset="50%" style="stop-color:#0066FF">
+                                    <animate attributeName="stop-color" values="#0066FF;#0066FF;#3388FF;#0066FF" dur="4s" repeatCount="indefinite"/>
+                                </stop>
+                                <stop offset="100%" style="stop-color:#0066FF">
+                                    <animate attributeName="stop-color" values="#0066FF;#3388FF;#0066FF;#0066FF" dur="4s" repeatCount="indefinite"/>
+                                </stop>
+                            </linearGradient>
+                            <linearGradient id="logoGradientWhite" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#FFFFFF">
+                                    <animate attributeName="stop-color" values="#FFFFFF;#E0E0E0;#FFFFFF" dur="3s" repeatCount="indefinite"/>
+                                </stop>
+                                <stop offset="100%" style="stop-color:#E0E0E0">
+                                    <animate attributeName="stop-color" values="#E0E0E0;#FFFFFF;#E0E0E0" dur="3s" repeatCount="indefinite"/>
+                                </stop>
+                            </linearGradient>
+                            <linearGradient id="logoGradientAI" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#0066FF">
+                                    <animate attributeName="stop-color" values="#0066FF;#FFFFFF;#0066FF" dur="2s" repeatCount="indefinite"/>
+                                </stop>
+                                <stop offset="100%" style="stop-color:#FFFFFF">
+                                    <animate attributeName="stop-color" values="#FFFFFF;#0066FF;#FFFFFF" dur="2s" repeatCount="indefinite"/>
+                                </stop>
+                            </linearGradient>
+                            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <g filter="url(#glow)">
+                            <text x="0" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0s">M</text>
+                            <text x="28" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.05s">A</text>
+                            <text x="52" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.1s">C</text>
+                            <text x="76" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.15s">K</text>
+                            <text x="100" y="35" class="logo-letter" fill="url(#logoGradientWhite)" style="animation-delay: 0.2s">N</text>
+                            <text x="126" y="35" class="logo-letter" fill="url(#logoGradientWhite)" style="animation-delay: 0.25s">I</text>
+                            <text x="140" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.3s">F</text>
+                            <text x="160" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.35s">I</text>
+                            <text x="174" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.4s">E</text>
+                            <text x="196" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.45s">D</text>
+                            <text x="235" y="35" class="logo-letter ai" fill="url(#logoGradientAI)" style="animation-delay: 0.55s">A</text>
+                            <text x="259" y="35" class="logo-letter ai" fill="url(#logoGradientAI)" style="animation-delay: 0.6s">I</text>
+                        </g>
+                    </svg>
+                </div>
+                <span class="logo-text"></span>
+            </div>
+            <div class="nav-right">
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-btn" onclick="toggleNavDropdown()">
+                        <span>Menu</span>
+                        <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="nav-dropdown-menu" id="navDropdown">
+                        <a href="#home" onclick="closeNavDropdown()">Home</a>
+                        <a href="#services" onclick="closeNavDropdown()">Services</a>
+                        <a href="#portfolio" onclick="closeNavDropdown()">Portfolio</a>
+                        <a href="#testimonials" onclick="closeNavDropdown()">Testimonials</a>
+                        <a href="#process" onclick="closeNavDropdown()">Process</a>
+                        <a href="#about" onclick="closeNavDropdown()">About</a>
+                        <a href="#faq" onclick="closeNavDropdown()">FAQ</a>
+                        <a href="#contact" onclick="closeNavDropdown()">Contact</a>
+                    </div>
+                </div>
+                <a href="https://macknifiedai.github.io/pricing-calculator-final/" class="nav-cta">Start a Project</a>
+            </div>
+        </nav>
+
+        <section class="hero" id="home">
+            <div class="hero-badge">
+                <i data-lucide="sparkles"></i>
+                AI-Powered Digital Solutions
+            </div>
+            <h1>
+                <span class="line"><span class="word">AI Solutions That</span></span>
+                <span class="line"><span class="word gradient-text"><span class="typewriter-container"><span class="typewriter-text" id="typewriter"></span><span class="typewriter-cursor"></span></span></span></span>
+            </h1>
+            <p class="hero-subtitle">Custom chatbots, intelligent web applications, and AI automation — built for businesses ready to work smarter and scale faster.</p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn btn-primary">Explore Services<i data-lucide="arrow-right"></i></a>
+                <a href="https://macknifiedai.github.io/pricing-calculator-final/" class="btn btn-secondary">Start a Project<i data-lucide="message-circle"></i></a>
+            </div>
+            <div class="scroll-indicator"><div class="mouse"></div><span>Scroll</span></div>
+        </section>
+
+        <section id="services">
+            <div class="section-header">
+                <div class="section-badge"><i data-lucide="layers"></i>Our Services</div>
+                <h2>What We Build</h2>
+                <p>Custom AI solutions designed around your business — not recycled templates or off-the-shelf software.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="message-square-code"></i></div>
+                    <h3>Custom AI Agents</h3>
+                    <p>Intelligent conversational assistants that handle customer inquiries, capture leads, and provide 24/7 support — trained specifically on your business.</p>
+                    <ul class="service-features">
+                        <li><i data-lucide="check-circle-2"></i>Custom-trained on your business knowledge</li>
+                        <li><i data-lucide="check-circle-2"></i>Natural, human-like conversations</li>
+                        <li><i data-lucide="check-circle-2"></i>Lead capture & qualification</li>
+                        <li><i data-lucide="check-circle-2"></i>Multi-platform deployment</li>
+                        <li><i data-lucide="check-circle-2"></i>Analytics & insights dashboard</li>
+                    </ul>
+                    <div class="service-price">Starting at <span>$500</span></div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="app-window"></i></div>
+                    <h3>Web Applications</h3>
+                    <p>Custom landing pages, web apps, and interactive tools built with HTML, CSS, and JavaScript — designed and coded from scratch for your needs.</p>
+                    <ul class="service-features">
+                        <li><i data-lucide="check-circle-2"></i>Custom landing pages & microsites</li>
+                        <li><i data-lucide="check-circle-2"></i>Interactive web applications</li>
+                        <li><i data-lucide="check-circle-2"></i>Mobile-responsive design</li>
+                        <li><i data-lucide="check-circle-2"></i>Clean, optimized code</li>
+                        <li><i data-lucide="check-circle-2"></i>Complete ownership & handoff</li>
+                    </ul>
+                    <div class="service-price">Starting at <span>$800</span></div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="workflow"></i></div>
+                    <h3>Automation & Integration</h3>
+                    <p>Connect your existing systems with AI. Automate repetitive tasks, streamline workflows, and make your tech stack work together.</p>
+                    <ul class="service-features">
+                        <li><i data-lucide="check-circle-2"></i>Workflow analysis & optimization</li>
+                        <li><i data-lucide="check-circle-2"></i>AI-powered task automation</li>
+                        <li><i data-lucide="check-circle-2"></i>Custom API development</li>
+                        <li><i data-lucide="check-circle-2"></i>Cross-platform integration</li>
+                        <li><i data-lucide="check-circle-2"></i>Document & data processing</li>
+                    </ul>
+                    <div class="service-price">Starting at <span>$1,000</span></div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="lightbulb"></i></div>
+                    <h3>AI Strategy & Consulting</h3>
+                    <p>Not sure where AI fits? We help you cut through the hype, identify real opportunities, and build a practical implementation plan.</p>
+                    <ul class="service-features">
+                        <li><i data-lucide="check-circle-2"></i>Business process review</li>
+                        <li><i data-lucide="check-circle-2"></i>AI opportunity assessment</li>
+                        <li><i data-lucide="check-circle-2"></i>Technology recommendations</li>
+                        <li><i data-lucide="check-circle-2"></i>Implementation roadmap</li>
+                        <li><i data-lucide="check-circle-2"></i>Training & documentation</li>
+                    </ul>
+                    <div class="service-price"><span>$150</span>/hour or project-based</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="diy-section">
+            <div class="diy-card">
+                <h3 class="diy-title">Not Looking for Done-For-You?</h3>
+                <p class="diy-copy">If you're a builder or power user who prefers to design and deploy AI solutions on your own, you can access our AI platform and build independently.</p>
+                <a href="https://app.macknified.com" class="diy-btn">Build It Yourself<i data-lucide="arrow-right"></i></a>
+                <p class="diy-micro">Best for builders, developers, and DIY users</p>
+            </div>
+        </div>
+
+        <section id="portfolio">
+            <div class="section-header">
+                <div class="section-badge"><i data-lucide="briefcase"></i>Case Studies</div>
+                <h2>Our Portfolio</h2>
+                <p>Real projects, real results. See how we've helped businesses transform with AI.</p>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        <div class="portfolio-icon"><i data-lucide="building-2"></i></div>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">AI Agent</span>
+                        <h3>Real Estate AI Agent</h3>
+                        <p>Built a 24/7 property inquiry assistant that qualifies leads and schedules viewings automatically.</p>
+                        <div class="portfolio-stats">
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">68%</span><span class="portfolio-stat-label">More Leads</span></div>
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">24/7</span><span class="portfolio-stat-label">Availability</span></div>
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">3hr</span><span class="portfolio-stat-label">Saved/Day</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        <div class="portfolio-icon"><i data-lucide="stethoscope"></i></div>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Web Application</span>
+                        <h3>Healthcare Patient Portal</h3>
+                        <p>Custom patient management system with AI-powered appointment scheduling and document processing.</p>
+                        <div class="portfolio-stats">
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">45%</span><span class="portfolio-stat-label">Less Admin</span></div>
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">2x</span><span class="portfolio-stat-label">Efficiency</span></div>
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">98%</span><span class="portfolio-stat-label">Satisfaction</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        <div class="portfolio-icon"><i data-lucide="shopping-cart"></i></div>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Automation</span>
+                        <h3>E-commerce Workflow Automation</h3>
+                        <p>Integrated inventory, orders, and customer service across multiple platforms with AI assistance.</p>
+                        <div class="portfolio-stats">
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">80%</span><span class="portfolio-stat-label">Automated</span></div>
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">$50K</span><span class="portfolio-stat-label">Saved/Year</span></div>
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">0</span><span class="portfolio-stat-label">Errors</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        <div class="portfolio-icon"><i data-lucide="scale"></i></div>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">AI Agent</span>
+                        <h3>Law Firm Client Intake Bot</h3>
+                        <p>Intelligent intake system that pre-qualifies potential clients and gathers case information 24/7.</p>
+                        <div class="portfolio-stats">
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">40%</span><span class="portfolio-stat-label">More Cases</span></div>
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">5min</span><span class="portfolio-stat-label">Avg Intake</span></div>
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">92%</span><span class="portfolio-stat-label">Qualified</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        <div class="portfolio-icon"><i data-lucide="utensils"></i></div>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Web Application</span>
+                        <h3>Restaurant Ordering System</h3>
+                        <p>Custom online ordering platform with AI recommendations and kitchen management integration.</p>
+                        <div class="portfolio-stats">
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">35%</span><span class="portfolio-stat-label">More Orders</span></div>
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">$12</span><span class="portfolio-stat-label">Avg Upsell</span></div>
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">4.9★</span><span class="portfolio-stat-label">Rating</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        <div class="portfolio-icon"><i data-lucide="graduation-cap"></i></div>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Consulting</span>
+                        <h3>EdTech AI Strategy</h3>
+                        <p>Comprehensive AI roadmap for an education platform, identifying high-impact automation opportunities.</p>
+                        <div class="portfolio-stats">
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">12</span><span class="portfolio-stat-label">AI Features</span></div>
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">6mo</span><span class="portfolio-stat-label">Roadmap</span></div>
+                            <div class="portfolio-stat"><span class="portfolio-stat-value">3x</span><span class="portfolio-stat-label">ROI</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials">
+            <div class="section-header">
+                <div class="section-badge"><i data-lucide="message-square-quote"></i>Testimonials</div>
+                <h2>What Clients Say</h2>
+                <p>Don't just take our word for it — hear from businesses we've helped.</p>
+            </div>
+            <div class="testimonials-container">
+                <div class="testimonials-track">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i data-lucide="quote"></i></div>
+                        <div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                        <p class="testimonial-text">"The AI chatbot has transformed our lead generation. We're capturing inquiries 24/7 now, and our response time went from hours to seconds. Game changer."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">JM</div>
+                            <div class="testimonial-info"><h4>James Mitchell</h4><p>CEO, Premier Realty Group</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i data-lucide="quote"></i></div>
+                        <div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                        <p class="testimonial-text">"Finally, a tech team that actually listens. They built exactly what we needed — no bloat, no unnecessary features. Just a clean, efficient solution."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">SL</div>
+                            <div class="testimonial-info"><h4>Sarah Lee</h4><p>Operations Director, MedCare Clinic</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i data-lucide="quote"></i></div>
+                        <div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                        <p class="testimonial-text">"We were skeptical about AI, but Macknified showed us real, practical applications. The automation they built saves us 20+ hours every week."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">RP</div>
+                            <div class="testimonial-info"><h4>Robert Park</h4><p>Founder, TechRetail Solutions</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i data-lucide="quote"></i></div>
+                        <div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                        <p class="testimonial-text">"The consulting session alone was worth it. They helped us see opportunities we'd completely missed and prioritized what would actually move the needle."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">AK</div>
+                            <div class="testimonial-info"><h4>Amanda Kim</h4><p>CTO, EduLearn Platform</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i data-lucide="quote"></i></div>
+                        <div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                        <p class="testimonial-text">"Our client intake is completely automated now. The bot qualifies leads better than most humans and never misses a potential case. Incredible ROI."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">DW</div>
+                            <div class="testimonial-info"><h4>David Williams</h4><p>Managing Partner, Williams & Associates</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i data-lucide="quote"></i></div>
+                        <div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                        <p class="testimonial-text">"The AI chatbot has transformed our lead generation. We're capturing inquiries 24/7 now, and our response time went from hours to seconds. Game changer."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">JM</div>
+                            <div class="testimonial-info"><h4>James Mitchell</h4><p>CEO, Premier Realty Group</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i data-lucide="quote"></i></div>
+                        <div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                        <p class="testimonial-text">"Finally, a tech team that actually listens. They built exactly what we needed — no bloat, no unnecessary features. Just a clean, efficient solution."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">SL</div>
+                            <div class="testimonial-info"><h4>Sarah Lee</h4><p>Operations Director, MedCare Clinic</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i data-lucide="quote"></i></div>
+                        <div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                        <p class="testimonial-text">"We were skeptical about AI, but Macknified showed us real, practical applications. The automation they built saves us 20+ hours every week."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">RP</div>
+                            <div class="testimonial-info"><h4>Robert Park</h4><p>Founder, TechRetail Solutions</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i data-lucide="quote"></i></div>
+                        <div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                        <p class="testimonial-text">"The consulting session alone was worth it. They helped us see opportunities we'd completely missed and prioritized what would actually move the needle."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">AK</div>
+                            <div class="testimonial-info"><h4>Amanda Kim</h4><p>CTO, EduLearn Platform</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i data-lucide="quote"></i></div>
+                        <div class="testimonial-stars"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+                        <p class="testimonial-text">"Our client intake is completely automated now. The bot qualifies leads better than most humans and never misses a potential case. Incredible ROI."</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">DW</div>
+                            <div class="testimonial-info"><h4>David Williams</h4><p>Managing Partner, Williams & Associates</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="why">
+            <div class="section-header">
+                <div class="section-badge"><i data-lucide="award"></i>Why Choose Us</div>
+                <h2>The Macknified Difference</h2>
+                <p>No hype, no buzzwords — just intelligent solutions that deliver real results.</p>
+            </div>
+            <div class="bento-grid bento-3">
+                <div class="bento-card large"><i data-lucide="fingerprint"></i><h3>Built Around Your Needs</h3><p>No templates. No one-size-fits-all. Every solution is designed specifically for your business, your workflows, and your goals.</p></div>
+                <div class="bento-card"><i data-lucide="zap"></i><h3>AI Without Complexity</h3><p>We handle the technical side. You get powerful tools that are simple to use.</p></div>
+                <div class="bento-card"><i data-lucide="shield-check"></i><h3>Transparent Pricing</h3><p>Clear quotes upfront. No hidden fees. No surprises.</p></div>
+                <div class="bento-card"><i data-lucide="package"></i><h3>Complete Handoff</h3><p>We build it, train you, and hand it over. You own it completely.</p></div>
+                <div class="bento-card large"><i data-lucide="target"></i><h3>Results Over Hype</h3><p>AI is a tool, not magic. We focus on practical applications that deliver measurable results for your business — not flashy demos.</p></div>
+            </div>
+        </section>
+
+        <section id="process">
+            <div class="section-header">
+                <div class="section-badge"><i data-lucide="git-branch"></i>Our Process</div>
+                <h2>How We Work</h2>
+                <p>Simple, transparent process. No surprises, no runaround.</p>
+            </div>
+            <div class="process-container">
+                <div class="process-line"></div>
+                <div class="process-grid process-4">
+                    <div class="process-step"><div class="process-number">1</div><h3>Discovery</h3><p>Free consultation to understand your business and goals.</p></div>
+                    <div class="process-step"><div class="process-number">2</div><h3>Proposal</h3><p>Clear scope, timeline, and transparent pricing.</p></div>
+                    <div class="process-step"><div class="process-number">3</div><h3>Build</h3><p>We create your solution with regular updates.</p></div>
+                    <div class="process-step"><div class="process-number">4</div><h3>Launch</h3><p>Deploy, test, and train your team to use it.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="about-container">
+                <div class="about-visual">
+                    <div class="about-visual-inner"></div>
+                    <div class="about-floating-elements">
+                        <div class="floating-icon"><i data-lucide="bot"></i></div>
+                        <div class="floating-icon"><i data-lucide="code-2"></i></div>
+                        <div class="floating-icon"><i data-lucide="sparkles"></i></div>
+                        <div class="floating-icon"><i data-lucide="cpu"></i></div>
+                        <div class="floating-icon"><i data-lucide="brain"></i></div>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <div class="section-badge"><i data-lucide="info"></i>About Us</div>
+                    <h2>Why <span>Macknified</span> Exists</h2>
+                    <p>We built Macknified AI on a simple belief: <strong>AI should work for businesses, not the other way around.</strong></p>
+                    <p>Too many companies are overwhelmed by AI hype. Enterprise solutions cost a fortune. DIY options are confusing. And most "AI agencies" care more about buzzwords than results.</p>
+                    <p><strong>We do things differently.</strong> Practical solutions. Real results. Fair prices.</p>
+                    <div class="about-values">
+                        <div class="value-item"><i data-lucide="zap"></i><div><h4>Practical Over Flashy</h4><p>Solutions that solve real problems</p></div></div>
+                        <div class="value-item"><i data-lucide="fingerprint"></i><div><h4>Custom Over Cookie-Cutter</h4><p>Built for your specific needs</p></div></div>
+                        <div class="value-item"><i data-lucide="eye"></i><div><h4>Clear Over Complicated</h4><p>Plain language, easy tools</p></div></div>
+                        <div class="value-item"><i data-lucide="users"></i><div><h4>Partnership Over Transaction</h4><p>Long-term success together</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="section-header">
+                <div class="section-badge"><i data-lucide="help-circle"></i>FAQ</div>
+                <h2>Common Questions</h2>
+                <p>Quick answers to questions we hear most often.</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item"><button class="faq-question">How much does a project cost?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>Every project is unique. Agents typically start around $500, web applications around $800, and automation projects around $1,000. Consulting is $150/hour. After our initial conversation, you'll receive a detailed quote with no hidden fees.</p></div></div>
+                <div class="faq-item"><button class="faq-question">How long does a project take?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>Timeline depends on complexity. Simple chatbots can be ready in 1-2 weeks. Landing pages in 1-2 weeks, full web apps 2-4 weeks. We'll give you a realistic timeline upfront.</p></div></div>
+                <div class="faq-item"><button class="faq-question">What happens after the project is complete?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>We do a complete handoff — you own everything. We train you and your team to use and manage the solution. It's yours to run independently. No monthly fees, no lock-in.</p></div></div>
+                <div class="faq-item"><button class="faq-question">What industries do you work with?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>We work with businesses across many industries — financial services, insurance, professional services, real estate, healthcare, e-commerce, and more.</p></div></div>
+                <div class="faq-item"><button class="faq-question">What if I'm not sure what I need?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>That's completely okay! Book a free discovery call and we'll help you figure out the best approach. No pressure, no commitment.</p></div></div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="contact-container contact-centered">
+                <div class="contact-info">
+                    <div class="section-badge"><i data-lucide="mail"></i>Get In Touch</div>
+                    <h2>Let's Build Something Amazing</h2>
+                    <p>Have a project in mind? Use the chat below for quick questions, or get an instant estimate with our pricing calculator.</p>
+                    <div class="contact-methods">
+                        <div class="contact-method"><div class="contact-icon"><i data-lucide="mail"></i></div><div class="contact-method-text"><h4>Email Us</h4><a href="mailto:support@macknified.com">support@macknified.com</a></div></div>
+                        <div class="contact-method"><div class="contact-icon"><i data-lucide="clock"></i></div><div class="contact-method-text"><h4>Response Time</h4><p>Within 24 hours</p></div></div>
+                        <div class="contact-method"><div class="contact-icon"><i data-lucide="globe"></i></div><div class="contact-method-text"><h4>Location</h4><p>United States (Remote)</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-section">
+            <div class="cta-content">
+                <h2>Ready to <span>Get Started?</span></h2>
+                <p>Let's talk about what AI can do for your business. Get an instant estimate or chat with us — no pressure, no commitment.</p>
+                <a href="https://macknifiedai.github.io/pricing-calculator-final/" class="btn btn-primary">Get Your Free Estimate<i data-lucide="arrow-right"></i></a>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Macknified AI" class="logo-img">
+                        <div class="logo-animated">
+                            <svg viewBox="0 0 340 50" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="logoGradientFooter" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#3388FF">
+                                            <animate attributeName="stop-color" values="#3388FF;#0066FF;#0066FF;#3388FF" dur="4s" repeatCount="indefinite"/>
+                                        </stop>
+                                        <stop offset="50%" style="stop-color:#0066FF">
+                                            <animate attributeName="stop-color" values="#0066FF;#0066FF;#3388FF;#0066FF" dur="4s" repeatCount="indefinite"/>
+                                        </stop>
+                                        <stop offset="100%" style="stop-color:#0066FF">
+                                            <animate attributeName="stop-color" values="#0066FF;#3388FF;#0066FF;#0066FF" dur="4s" repeatCount="indefinite"/>
+                                        </stop>
+                                    </linearGradient>
+                                    <linearGradient id="logoGradientWhiteFooter" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#FFFFFF"/>
+                                        <stop offset="100%" style="stop-color:#E0E0E0"/>
+                                    </linearGradient>
+                                    <linearGradient id="logoGradientAIFooter" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#0066FF">
+                                            <animate attributeName="stop-color" values="#0066FF;#FFFFFF;#0066FF" dur="2s" repeatCount="indefinite"/>
+                                        </stop>
+                                        <stop offset="100%" style="stop-color:#FFFFFF">
+                                            <animate attributeName="stop-color" values="#FFFFFF;#0066FF;#FFFFFF" dur="2s" repeatCount="indefinite"/>
+                                        </stop>
+                                    </linearGradient>
+                                </defs>
+                                <g>
+                                    <text x="0" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">M</text>
+                                    <text x="28" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">A</text>
+                                    <text x="52" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">C</text>
+                                    <text x="76" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">K</text>
+                                    <text x="100" y="35" fill="url(#logoGradientWhiteFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));">N</text>
+                                    <text x="126" y="35" fill="url(#logoGradientWhiteFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));">I</text>
+                                    <text x="140" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">F</text>
+                                    <text x="160" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">I</text>
+                                    <text x="174" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">E</text>
+                                    <text x="196" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">D</text>
+                                    <text x="235" y="35" fill="url(#logoGradientAIFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">A</text>
+                                    <text x="259" y="35" fill="url(#logoGradientAIFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">I</text>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                    <p>AI solutions that work for you. Custom chatbots, web applications, automation, and consulting for businesses ready to work smarter.</p>
+                </div>
+                <div class="footer-column"><h4>Services</h4><ul><li><a href="#services">AI Agents</a></li><li><a href="#services">Web Applications</a></li><li><a href="#services">Automation</a></li><li><a href="#services">Consulting</a></li></ul></div>
+                <div class="footer-column"><h4>Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#process">Our Process</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li></ul></div>
+                <div class="footer-column"><h4>Legal</h4><ul><li><a href="#terms">Terms of Service</a></li><li><a href="#privacy">Privacy Policy</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Macknified LLC. All rights reserved.</p>
+                <div class="footer-legal"><a href="#terms">Terms</a><a href="#privacy">Privacy</a></div>
+            </div>
+        </footer>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+    <div id="pageTransition" style="position:fixed;inset:0;background:#030308;z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 0.4s ease,visibility 0.4s ease;">
+      <div style="position:relative;width:120px;height:120px;margin-bottom:30px;">
+        <div style="position:absolute;inset:0;border:3px solid transparent;border-top-color:#0066FF;border-radius:50%;animation:ptSpin 1s linear infinite;"></div>
+        <div style="position:absolute;inset:8px;border:3px solid transparent;border-top-color:#3388FF;border-radius:50%;animation:ptSpin 1.5s linear infinite reverse;"></div>
+        <div style="position:absolute;inset:16px;border:3px solid transparent;border-top-color:#0044CC;border-radius:50%;animation:ptSpin 2s linear infinite;"></div>
+        <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;filter:drop-shadow(0 0 15px rgba(0,102,255,0.8));">
+      </div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#0066FF;letter-spacing:3px;text-transform:uppercase;animation:ptPulse 1.5s ease-in-out infinite;">Loading...</div>
+    </div>
+    
+    
+  <script src="script.js"></script>
+</body>
+</html>
