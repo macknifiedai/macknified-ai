@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
 
 <!-- SEO Meta Tags -->
 <title>Macknified AI Pricing Calculator Wizard</title>
@@ -18,11 +17,8 @@
 <meta name="twitter:description" content="Interactive dark-mode pricing calculator wizard for Macknified AI services, including AI agents, web apps, automation, and consulting." />
 <!-- End SEO Meta Tags -->
 
-
-
-
-
-<script src="https://app.macknified.com/widget.js" data-widget="37114762" async></script>  <link rel="stylesheet" href="styles.css">
+<script src="https://app.macknified.com/widget.js" data-widget="37114762" async></script>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -452,24 +448,258 @@
         </div>
     </div>
 
-    <!-- Thank You Modal -->
-    <div class="modal-overlay" id="thankYouModal" data-section="thank-you-modal">
-        <div class="modal-card">
-            <div class="modal-icon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <h2>You're All Set!</h2>
-            <p>Your estimate has been submitted successfully.</p>
-            <div class="modal-total" id="modalTotal"></div>
-            <p>We've sent your full breakdown to <strong id="modalEmail" style="color:var(--accent);"></strong></p>
-            <p class="modal-note">Our team will follow up within 24 hours · macknified.com</p>
-            <button class="modal-btn" onclick="window.location.href='https://macknified.com'">
-                Back to Macknified.com
-            </button>
-        </div>
-    </div>
+    <script>
+    // ─── State ───────────────────────────────────────────────────────────────
+    let currentStep = 1;
+    const totalSteps = 4;
+    let selectedServices = new Set();
 
-    
-  <script src="script.js"></script>
+    // ─── Service Toggle ───────────────────────────────────────────────────────
+    function toggleService(service, el) {
+        if (selectedServices.has(service)) {
+            selectedServices.delete(service);
+            el.classList.remove('selected');
+        } else {
+            selectedServices.add(service);
+            el.classList.add('selected');
+        }
+        recalc();
+    }
+
+    // ─── Checkbox Toggle ──────────────────────────────────────────────────────
+    function toggleCb(el, id) {
+        const cb = document.getElementById(id);
+        cb.checked = !cb.checked;
+        el.classList.toggle('checked', cb.checked);
+        recalc();
+    }
+
+    // ─── Consulting Change ────────────────────────────────────────────────────
+    function handleConsultingChange() {
+        const type = document.getElementById('consultingType').value;
+        document.getElementById('hoursGroup').style.display = type === 'hourly' ? '' : 'none';
+        recalc();
+    }
+
+    // ─── Pricing Calc ─────────────────────────────────────────────────────────
+    function recalc() {
+        let total = 0;
+        let weeks = 0;
+
+        if (selectedServices.has('chatbot')) {
+            const complexity = document.getElementById('chatbotComplexity').value;
+            const kb = document.getElementById('knowledgeBase').value;
+            const complexityMap = { basic: 500, standard: 800, advanced: 1200, enterprise: 2000 };
+            const kbMap = { small: 0, medium: 150, large: 300, xlarge: 500 };
+            total += complexityMap[complexity] + kbMap[kb];
+            if (document.getElementById('multiLanguage').checked) total += 200;
+            if (document.getElementById('crmIntegration').checked) total += 300;
+            if (document.getElementById('customBranding').checked) total += 150;
+            if (document.getElementById('priorityTraining').checked) total += 200;
+            weeks = Math.max(weeks, complexity === 'enterprise' ? 4 : complexity === 'advanced' ? 3 : 2);
+        }
+
+        if (selectedServices.has('webapp')) {
+            const webType = document.getElementById('webType').value;
+            const design = document.getElementById('designLevel').value;
+            const typeMap = { landing: 800, multipage: 1500, interactive: 2500, custom: 4000 };
+            const designMap = { standard: 0, premium: 400, ultra: 800 };
+            total += typeMap[webType] + designMap[design];
+            if (document.getElementById('animations').checked) total += 300;
+            if (document.getElementById('formIntegration').checked) total += 150;
+            if (document.getElementById('seoSetup').checked) total += 200;
+            if (document.getElementById('thirdParty').checked) total += 250;
+            weeks = Math.max(weeks, webType === 'custom' ? 6 : webType === 'interactive' ? 4 : 2);
+        }
+
+        if (selectedServices.has('automation')) {
+            const scope = document.getElementById('automationScope').value;
+            const integrations = document.getElementById('integrationCount').value;
+            const scopeMap = { single: 1000, multi: 1800, system: 3000 };
+            const intMap = { '1-2': 0, '3-4': 400, '5+': 800 };
+            total += scopeMap[scope] + intMap[integrations];
+            if (document.getElementById('customApi').checked) total += 500;
+            if (document.getElementById('dataMapping').checked) total += 350;
+            if (document.getElementById('errorHandling').checked) total += 200;
+            weeks = Math.max(weeks, scope === 'system' ? 5 : scope === 'multi' ? 3 : 2);
+        }
+
+        if (selectedServices.has('consulting')) {
+            const type = document.getElementById('consultingType').value;
+            if (type === 'hourly') {
+                const hrs = parseInt(document.getElementById('consultingHours').value) || 1;
+                total += hrs * 150;
+            } else if (type === 'halfday') {
+                total += 500;
+            } else if (type === 'fullday') {
+                total += 900;
+            } else if (type === 'strategy') {
+                total += 1350;
+            }
+            if (document.getElementById('writtenReport').checked) total += 200;
+            if (document.getElementById('roadmap').checked) total += 150;
+            weeks = Math.max(weeks, 1);
+        }
+
+        const formatted = '$' + total.toLocaleString();
+        const timeline = weeks > 0 ? (weeks === 1 ? '1 week' : weeks + ' weeks') : '—';
+
+        document.getElementById('livePrice').textContent = formatted;
+        document.getElementById('liveTimeline').textContent = timeline;
+        document.getElementById('summaryPrice').textContent = formatted;
+        document.getElementById('summaryTimeline').textContent = timeline;
+    }
+
+    // ─── Step Navigation ──────────────────────────────────────────────────────
+    function showStep(step) {
+        document.querySelectorAll('.step-panel').forEach((p, i) => {
+            p.classList.toggle('active', i + 1 === step);
+        });
+
+        // Update stepper
+        for (let i = 1; i <= totalSteps; i++) {
+            const node = document.getElementById('stepNode-' + i);
+            node.classList.remove('active', 'completed');
+            if (i < step) node.classList.add('completed');
+            else if (i === step) node.classList.add('active');
+            if (i < totalSteps) {
+                const line = document.getElementById('line-' + i + '-' + (i + 1));
+                if (line) line.classList.toggle('active', i < step);
+            }
+        }
+
+        document.getElementById('btnPrev').disabled = step === 1;
+        document.getElementById('footerNote').textContent = 'Step ' + step + ' of ' + totalSteps;
+
+        const isLast = step === totalSteps;
+        document.getElementById('btnNext').style.display = isLast ? 'none' : '';
+        document.getElementById('btnSubmit').style.display = isLast ? '' : 'none';
+
+        // Show/hide config sections
+        if (step === 2) {
+            ['chatbot', 'webapp', 'automation', 'consulting'].forEach(s => {
+                const el = document.getElementById('cfg-' + s);
+                if (el) el.style.display = selectedServices.has(s) ? '' : 'none';
+            });
+        }
+
+        // Build summary
+        if (step === 4) buildSummary();
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextStep() {
+        if (currentStep === 1 && selectedServices.size === 0) {
+            showToast('Please select at least one service.', 'error');
+            return;
+        }
+        if (currentStep === 3) {
+            if (!validateContact()) return;
+        }
+        if (currentStep < totalSteps) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    }
+
+    // ─── Contact Validation ───────────────────────────────────────────────────
+    function validateContact() {
+        let valid = true;
+        const name = document.getElementById('clientName').value.trim();
+        const email = document.getElementById('clientEmail').value.trim();
+        const desc = document.getElementById('projectDescription').value.trim();
+
+        document.getElementById('err-name').style.display = '';
+        document.getElementById('err-email').style.display = '';
+        document.getElementById('err-desc').style.display = '';
+
+        if (!name) {
+            document.getElementById('err-name').style.display = 'block';
+            valid = false;
+        }
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            document.getElementById('err-email').style.display = 'block';
+            valid = false;
+        }
+        if (!desc) {
+            document.getElementById('err-desc').style.display = 'block';
+            valid = false;
+        }
+        return valid;
+    }
+
+    // ─── Summary Builder ──────────────────────────────────────────────────────
+    function buildSummary() {
+        const grid = document.getElementById('summaryGrid');
+        grid.innerHTML = '';
+        recalc();
+
+        const serviceLabels = {
+            chatbot: 'AI Agent',
+            webapp: 'Web App',
+            automation: 'Automation',
+            consulting: 'Consulting'
+        };
+
+        selectedServices.forEach(s => {
+            const card = document.createElement('div');
+            card.className = 'summary-card';
+            card.innerHTML = '<div class="summary-card-title">' + serviceLabels[s] + '</div>';
+            grid.appendChild(card);
+        });
+    }
+
+    // ─── Toast ────────────────────────────────────────────────────────────────
+    function showToast(msg, type) {
+        const toast = document.getElementById('toast');
+        const icon = document.getElementById('toastIcon');
+        document.getElementById('toastMsg').textContent = msg;
+        toast.className = 'toast show ' + (type || '');
+        icon.innerHTML = type === 'error'
+            ? '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>'
+            : '<polyline points="20 6 9 17 4 12"/>';
+        setTimeout(() => { toast.className = 'toast'; }, 3500);
+    }
+
+    // ─── Submit → Redirect ────────────────────────────────────────────────────
+    function submitQuote() {
+        const btn = document.getElementById('btnSubmit');
+        const btnText = document.getElementById('submitBtnText');
+        btnText.textContent = 'Sending...';
+        btn.disabled = true;
+
+        const name = document.getElementById('clientName').value;
+        const email = document.getElementById('clientEmail').value;
+        const phone = document.getElementById('clientPhone').value;
+        const company = document.getElementById('clientCompany').value;
+        const description = document.getElementById('projectDescription').value;
+        const total = document.getElementById('summaryPrice').textContent;
+        const timeline = document.getElementById('summaryTimeline').textContent;
+
+        const params = new URLSearchParams({
+            first_name: name.split(' ')[0],
+            email: email,
+            phone: phone,
+            company: company,
+            estimated_total: total,
+            estimated_timeline: timeline,
+            project_description: description
+        });
+
+        window.location.href = '../project-thank-you-page/?' + params.toString();
+    }
+
+    // ─── Init ─────────────────────────────────────────────────────────────────
+    showStep(1);
+    </script>
+
 </body>
 </html>
