@@ -304,14 +304,10 @@
     }
   });
 })();
-</script>
-<script data-widget-config>
-  window.WidgetConfig = {"widgetId":"37114762","launcherType":"tab","primaryColor":"#4890ed","tabPosition":"right","tabLabel":"Chat","customFooterText":"Powered by Macknified AI"};
-</script>
-<script src="https://app.macknified.com/widget.js" data-widget="37114762" async></script>  <link rel="stylesheet" href="styles.css">
+</script>  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="loading-screen" id="loadingScreen">
+    <div class="loading-screen" id="loadingScreen" data-section="section-1">
         <div class="loading-spinner-container">
             <div class="loading-spinner"></div>
             <div class="loading-spinner"></div>
@@ -364,16 +360,16 @@
         <div class="loading-bar"></div>
         <span class="loading-text">Initializing...</span>
     </div>
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="mesh-gradient"></div>
-    <div class="animated-grid"></div>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-    <div id="particles-container"></div>
+    <div class="cursor" id="cursor" data-section="section-2"></div>
+    <div class="cursor-dot" id="cursorDot" data-section="section-3"></div>
+    <div class="mesh-gradient" data-section="section-4"></div>
+    <div class="animated-grid" data-section="section-5"></div>
+    <div class="orb orb-1" data-section="section-6"></div>
+    <div class="orb orb-2" data-section="section-7"></div>
+    <div class="orb orb-3" data-section="section-8"></div>
+    <div id="particles-container" data-section="section-9"></div>
     
-    <div class="main-content">
+    <div class="main-content" data-section="section-10">
         <nav id="navbar">
             <div class="logo">
                 <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Macknified AI" class="logo-img">
@@ -448,7 +444,7 @@
                         <a href="#about" onclick="closeNavDropdown()">About</a>
                         <a href="#faq" onclick="closeNavDropdown()">FAQ</a>
                         <a href="#contact" onclick="closeNavDropdown()">Contact</a>
-                        <a href="/blog/" onclick="closeNavDropdown()">Blog</a>
+                        <a href="https://app.macknified.com/p/e6pYehLSkP" target="_blank" onclick="closeNavDropdown()">Blog</a>
                     </div>
                 </div>
                 <a href="https://macknifiedai.github.io/pricing-calculator-final/" class="nav-cta">Start a Project</a>
@@ -895,7 +891,7 @@
                     <p>AI solutions that work for you. Custom chatbots, web applications, automation, and consulting for businesses ready to work smarter.</p>
                 </div>
                 <div class="footer-column"><h4>Services</h4><ul><li><a href="#services">AI Agents</a></li><li><a href="#services">Web Applications</a></li><li><a href="#services">Automation</a></li><li><a href="#services">Consulting</a></li></ul></div>
-                <div class="footer-column"><h4>Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#process">Our Process</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li><li><a href="/blog/">Blog</a></li></ul></div>
+                <div class="footer-column"><h4>Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#process">Our Process</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li><li><a href="https://app.macknified.com/p/e6pYehLSkP" target="_blank">Blog</a></li></ul></div>
                 <div class="footer-column"><h4>Legal</h4><ul><li><a href="#terms">Terms of Service</a></li><li><a href="#privacy">Privacy Policy</a></li></ul></div>
             </div>
             <div class="footer-bottom">
@@ -905,19 +901,35 @@
         </footer>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-
-    <div id="pageTransition" style="position:fixed;inset:0;background:#030308;z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 0.4s ease,visibility 0.4s ease;">
-      <div style="position:relative;width:120px;height:120px;margin-bottom:30px;">
-        <div style="position:absolute;inset:0;border:3px solid transparent;border-top-color:#0066FF;border-radius:50%;animation:ptSpin 1s linear infinite;"></div>
-        <div style="position:absolute;inset:8px;border:3px solid transparent;border-top-color:#3388FF;border-radius:50%;animation:ptSpin 1.5s linear infinite reverse;"></div>
-        <div style="position:absolute;inset:16px;border:3px solid transparent;border-top-color:#0044CC;border-radius:50%;animation:ptSpin 2s linear infinite;"></div>
-        <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;filter:drop-shadow(0 0 15px rgba(0,102,255,0.8));">
-      </div>
-      <div style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#0066FF;letter-spacing:3px;text-transform:uppercase;animation:ptPulse 1.5s ease-in-out infinite;">Loading...</div>
-    </div>
-    
-    
-  <script src="script.js"></script>
-</body>
-</html>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        lucide.createIcons();
+        window.addEventListener('load', () => { 
+            setTimeout(() => { document.getElementById('loadingScreen').classList.add('hidden'); }, 2500);
+            // Add shimmer animation to hero titles after reveal
+            setTimeout(() => {
+                document.querySelectorAll('.hero h1 .word').forEach(word => {
+                    word.classList.add('revealed');
+                });
+            }, 2800);
+        });
+        
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursorDot');
+        document.addEventListener('mousemove', (e) => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; cursorDot.style.left = e.clientX + 'px'; cursorDot.style.top = e.clientY + 'px'; });
+        document.querySelectorAll('a, button, .service-card, .bento-card, .faq-item, .portfolio-card, .testimonial-card').forEach(el => { el.addEventListener('mouseenter', () => cursor.classList.add('hover')); el.addEventListener('mouseleave', () => cursor.classList.remove('hover')); });
+        
+        document.querySelectorAll('.bento-card').forEach(card => { card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = ((e.clientX - rect.left) / rect.width) * 100; const y = ((e.clientY - rect.top) / rect.height) * 100; card.style.setProperty('--mouse-x', x + '%'); card.style.setProperty('--mouse-y', y + '%'); }); });
+        
+        const particlesContainer = document.getElementById('particles-container');
+        for (let i = 0; i < 50; i++) { const particle = document.createElement('div'); particle.className = 'particle'; particle.style.left = Math.random() * 100 + '%'; particle.style.top = Math.random() * 100 + '%'; particle.style.animationDelay = Math.random() * 20 + 's'; particle.style.animationDuration = (15 + Math.random() * 20) + 's'; particle.style.opacity = 0.1 + Math.random() * 0.3; particle.style.width = (2 + Math.random() * 4) + 'px'; particle.style.height = particle.style.width; particlesContainer.appendChild(particle); }
+        
+        window.addEventListener('scroll', () => { const navbar = document.getElementById('navbar'); if (window.scrollY > 100) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); } });
+        
+        function toggleNavDropdown() { 
+            const dropdown = document.getElementById('navDropdown');
+            const btn = document.querySelector('.nav-dropdown-btn');
+            dropdown.classList.toggle('active');
+            btn.classList.toggle('active');
+        }
+        function closeNavDropdown() {
+            const dropdown = document
