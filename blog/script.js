@@ -5,6 +5,49 @@ window.addEventListener('load',function(){
       setTimeout(function(){ls.style.display='none';},800);
     },2000);
   });
+
+  // ── Markdown → HTML renderer ──────────────────────────────────────────
+  function renderMarkdown(raw){
+    if(!raw)return'';
+    var lines=raw.split('\n');
+    var html='';
+    var inOl=false,inUl=false;
+    function closeList(){if(inOl){html+='</ol>';inOl=false;}if(inUl){html+='</ul>';inUl=false;}}
+    function inlineFormat(s){
+      // Bold
+      s=s.replace(/\*\*(.+?)\*\*/g,'<strong class="post-strong">$1</strong>');
+      // Italic
+      s=s.replace(/\*(.+?)\*/g,'<em class="post-em">$1</em>');
+      // Inline links [text](url)
+      s=s.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g,'<a class="post-cite" href="$2" target="_blank" rel="noopener">$1</a>');
+      // Bare URLs as links
+      s=s.replace(/(?<!["\(])(https?:\/\/[^\s\)]+)/g,'<a class="post-cite" href="$1" target="_blank" rel="noopener">$1</a>');
+      return s;
+    }
+    lines.forEach(function(line){
+      var trimmed=line.trim();
+      if(!trimmed){closeList();html+='';return;}
+      // H2
+      if(/^##\s/.test(trimmed)){closeList();html+='<div class="post-h2">'+inlineFormat(trimmed.replace(/^##\s+/,''))+'</div>';return;}
+      // H3
+      if(/^###\s/.test(trimmed)||/^####\s/.test(trimmed)){closeList();html+='<div class="post-h3">'+inlineFormat(trimmed.replace(/^#{3,}\s+/,''))+'</div>';return;}
+      // H1 treated as H2
+      if(/^#\s/.test(trimmed)){closeList();html+='<div class="post-h2">'+inlineFormat(trimmed.replace(/^#\s+/,''))+'</div>';return;}
+      // Numbered list
+      var olMatch=trimmed.match(/^(\d+)\.\s+(.*)/);
+      if(olMatch){if(!inOl){if(inUl){html+='</ul>';inUl=false;}html+='<ol class="post-ol">';inOl=true;}html+='<li class="post-li">'+inlineFormat(olMatch[2])+'</li>';return;}
+      // Bullet list
+      if(/^[-*]\s/.test(trimmed)){if(!inUl){if(inOl){html+='</ol>';inOl=false;}html+='<ul class="post-ul">';inUl=true;}html+='<li class="post-li">'+inlineFormat(trimmed.replace(/^[-*]\s+/,''))+'</li>';return;}
+      // Bold line as subheader (line is entirely **text**)
+      if(/^\*\*[^*]+\*\*$/.test(trimmed)){closeList();html+='<div class="post-h3">'+trimmed.replace(/^\*\*|\*\*$/g,'')+'</div>';return;}
+      // Regular paragraph
+      closeList();
+      html+='<p class="post-p">'+inlineFormat(trimmed)+'</p>';
+    });
+    closeList();
+    return html;
+  }
+
   (function(){
     var baseEndpoint=document.querySelector('meta[name="sheet-data-url"]')?.content;
     var topGrid=document.getElementById('top-grid');
@@ -34,7 +77,8 @@ window.addEventListener('load',function(){
       else{modalHero.classList.add('hidden');modalHeroPh.classList.remove('hidden');}
       modalMeta.textContent=fmtLong(date)||'Power Builders · Macknified AI';
       modalTitle.textContent=title;
-      modalContent.textContent=body;
+      // Render markdown instead of plain text
+      modalContent.innerHTML=renderMarkdown(body);
       modal.classList.add('open');
       document.body.style.overflow='hidden';
       modal.scrollTop=0;
@@ -88,28 +132,18 @@ window.addEventListener('load',function(){
     }
 
     if(!baseEndpoint){topGrid.innerHTML='';errorState.style.display='block';return;}
-
-    // Cache-bust + high limit to get ALL rows
     var endpoint=baseEndpoint+'?limit=500&t='+Date.now();
 
     fetch(endpoint)
       .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
       .then(function(result){
-        // Support both {data:[]} and flat array responses
         var rows=Array.isArray(result)?result.slice():Array.isArray(result?.data)?result.data.slice():[];
-        // Filter rows with no title AND no body content
-        rows=rows.filter(function(r){
-          var t=(r.Title||r.title||'').trim();
-          var b=(r.Body||r.body||'').trim();
-          return t&&t.length>0;
-        });
+        rows=rows.filter(function(r){return(r.Title||r.title||'').trim();});
         rows.sort(function(a,b){return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);});
         if(!rows.length){topGrid.innerHTML='';emptyState.style.display='block';return;}
         emptyState.style.display='none';errorState.style.display='none';
         renderTopGrid(rows.slice(0,4));
         renderRest(rows.slice(4));
       })
-      .catch(function(err){
-        console.error(err);topGrid.innerHTML='';errorState.style.display='block';
-      });
+      .catch(function(err){console.error(err);topGrid.innerHTML='';errorState.style.display='block';});
   })();
