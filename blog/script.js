@@ -1,14 +1,12 @@
-// Hide loading screen after 2s
-  window.addEventListener('load',function(){
+window.addEventListener('load',function(){
     setTimeout(function(){
       var ls=document.getElementById('loadingScreen');
       ls.classList.add('hidden');
       setTimeout(function(){ls.style.display='none';},800);
     },2000);
   });
-
   (function(){
-    var endpoint=document.querySelector('meta[name="sheet-data-url"]')?.content;
+    var baseEndpoint=document.querySelector('meta[name="sheet-data-url"]')?.content;
     var topGrid=document.getElementById('top-grid');
     var restSection=document.getElementById('rest-section');
     var restList=document.getElementById('rest-list');
@@ -60,12 +58,9 @@
         var ds=fmtShort(date);
         return '<div class="top-card" data-i="'+i+'">'+
           (img?'<img src="'+esc(img)+'" alt="'+esc(title)+'" class="card-img" loading="lazy" onerror="this.style.display=\'none\'">':'<div class="card-img-ph">'+phSvg+'</div>')+
-          '<div class="card-body">'+
-            (ds?'<div class="card-date">'+esc(ds)+'</div>':'')+
-            '<div class="card-title">'+esc(title)+'</div>'+
-            '<div class="card-read">Read →</div>'+
-          '</div>'+
-        '</div>';
+          '<div class="card-body">'+(ds?'<div class="card-date">'+esc(ds)+'</div>':'')+
+          '<div class="card-title">'+esc(title)+'</div>'+
+          '<div class="card-read">Read →</div></div></div>';
       }).join('');
       topGrid.querySelectorAll('.top-card').forEach(function(el){
         el.addEventListener('click',function(){openPost(rows[parseInt(el.dataset.i)]);});
@@ -83,11 +78,8 @@
         var ds=fmtShort(date);
         return '<div class="rest-row" data-i="'+i+'">'+
           (img?'<img src="'+esc(img)+'" class="rest-thumb" alt="'+esc(title)+'" onerror="this.style.display=\'none\'">':'<div class="rest-thumb-ph">'+phSvg+'</div>')+
-          '<div style="min-width:0;">'+
-            '<div class="rest-title">'+esc(title)+'</div>'+
-            (excerpt?'<div class="rest-excerpt">'+esc(excerpt)+'</div>':'')+
-          '</div>'+
-          (ds?'<div class="rest-date">'+esc(ds)+'</div>':'')+
+          '<div style="min-width:0;"><div class="rest-title">'+esc(title)+'</div>'+(excerpt?'<div class="rest-excerpt">'+esc(excerpt)+'</div>':'')+
+          '</div>'+(ds?'<div class="rest-date">'+esc(ds)+'</div>':'')+
         '</div>';
       }).join('');
       restList.querySelectorAll('.rest-row').forEach(function(el){
@@ -95,13 +87,22 @@
       });
     }
 
-    if(!endpoint){topGrid.innerHTML='';errorState.style.display='block';return;}
+    if(!baseEndpoint){topGrid.innerHTML='';errorState.style.display='block';return;}
+
+    // Cache-bust + high limit to get ALL rows
+    var endpoint=baseEndpoint+'?limit=500&t='+Date.now();
 
     fetch(endpoint)
       .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
       .then(function(result){
-        var rows=Array.isArray(result?.data)?result.data.slice():[];
-        rows=rows.filter(function(r){return(r.Title||r.title||'').trim();});
+        // Support both {data:[]} and flat array responses
+        var rows=Array.isArray(result)?result.slice():Array.isArray(result?.data)?result.data.slice():[];
+        // Filter rows with no title AND no body content
+        rows=rows.filter(function(r){
+          var t=(r.Title||r.title||'').trim();
+          var b=(r.Body||r.body||'').trim();
+          return t&&t.length>0;
+        });
         rows.sort(function(a,b){return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);});
         if(!rows.length){topGrid.innerHTML='';emptyState.style.display='block';return;}
         emptyState.style.display='none';errorState.style.display='none';
