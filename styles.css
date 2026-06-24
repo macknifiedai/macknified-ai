@@ -663,7 +663,3 @@
             .contact-icon { width: 50px; height: 50px; }
             .typewriter-container { min-width: 180px; }
         }
-
-@keyframes ptSpin{to{transform:rotate(360deg);}}
-      @keyframes ptPulse{0%,100%{opacity:0.5;}50%{opacity:1;}}
-      #pageTransition.show{opacity:1!important;visibility:visible!important;}
