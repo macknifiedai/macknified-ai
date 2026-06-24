@@ -5,23 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   
 
 <!-- SEO Meta Tags -->
-<title>Macknified AI Blog Index | AI Insights for Indie Founders</title>
-<meta name="description" content="A dark-themed blog index for Macknified AI that fetches posts from a sheet endpoint and displays them in a responsive card grid." />
-<meta property="og:title" content="Macknified AI Blog Index | AI Insights for Indie Founders" />
-<meta property="og:description" content="A dark-themed blog index for Macknified AI that fetches posts from a sheet endpoint and displays them in a responsive card grid." />
+<title>Power Builders — Macknified AI</title>
+<meta name="description" content="AI tools and tactics for founders who build with power." />
+<meta property="og:title" content="Power Builders — Macknified AI" />
+<meta property="og:description" content="AI tools and tactics for founders who build with power." />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Macknified AI Blog Index | AI Insights for Indie Founders" />
-<meta name="twitter:description" content="A dark-themed blog index for Macknified AI that fetches posts from a sheet endpoint and displays them in a responsive card grid." />
+<meta name="twitter:title" content="Power Builders — Macknified AI" />
+<meta name="twitter:description" content="AI tools and tactics for founders who build with power." />
 <!-- End SEO Meta Tags -->
-<meta name="sheet-data-url" content="https://paymegpt.com/api/public/landing-pages/5140/sheet-data">
+<meta name="sheet-data-url" content="https://app.macknified.com/api/public/landing-pages/5140/sheet-data">
 <script data-lp-token-hydrate>
 (function(){try{
   var slug="lp-mqpvhfh4-31f19";
@@ -303,77 +302,105 @@
     }
   });
 })();
-</script>
-<script data-widget-config>
-  window.WidgetConfig = {"widgetId":"37114762","launcherType":"tab","primaryColor":"#4890ed","tabPosition":"right","tabLabel":"Chat","customFooterText":"Powered by Macknified AI"};
-</script>
-<script src="https://app.macknified.com/widget.js" data-widget="37114762" async></script>  <link rel="stylesheet" href="styles.css">
+</script>  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="min-h-screen">
-  <!-- ============================================================================ -->
-  <!-- HEADER: Brand mark and page tagline                                          -->
-  <!-- Notes: Edit the wordmark or tagline here. The dot uses the brand gradient.    -->
-  <!-- ============================================================================ -->
-  <header data-section="header" class="px-4 py-6 sm:px-6 md:px-8 lg:px-12 border-b border-white/5">
-    <div class="mx-auto max-w-7xl">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div class="flex items-center gap-3">
-          <div class="brand-dot h-3.5 w-3.5 rounded-full"></div>
-          <div>
-            <div class="text-xl sm:text-2xl font-semibold tracking-tight">Macknified AI</div>
-            <p class="mt-1 text-sm text-slate-400">AI insights for indie founders and product builders</p>
-          </div>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loadingScreen">
+    <div class="ls-spinner-wrap">
+      <div class="ls-ring ls-ring-1"></div>
+      <div class="ls-ring ls-ring-2"></div>
+      <div class="ls-ring ls-ring-3"></div>
+      <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Loading" class="ls-logo">
+    </div>
+    <svg viewBox="0 0 300 46" xmlns="http://www.w3.org/2000/svg" style="width:260px;height:auto;margin-bottom:24px;">
+      <defs>
+        <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#3388FF"/><stop offset="100%" style="stop-color:#0066FF"/></linearGradient>
+        <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#FFFFFF"/><stop offset="100%" style="stop-color:#CCCCCC"/></linearGradient>
+      </defs>
+      <text x="2" y="34" fill="url(#lg1)" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:26px;filter:drop-shadow(0 0 8px rgba(0,102,255,.6));">MACKNI</text>
+      <text x="133" y="34" fill="url(#lg2)" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:26px;filter:drop-shadow(0 0 6px rgba(255,255,255,.3));">FIED</text>
+      <text x="210" y="34" fill="url(#lg1)" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:26px;filter:drop-shadow(0 0 8px rgba(0,102,255,.6));"> AI</text>
+    </svg>
+    <div class="ls-bar-wrap"><div class="ls-bar"></div></div>
+    <span class="ls-text">Initializing...</span>
+  </div>
+
+  <!-- NAV -->
+  <nav class="site-nav" data-section="header">
+    <div class="nav-left">
+      <a href="https://macknified.com" class="nav-back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        Macknified.com
+      </a>
+      <div class="nav-sep"></div>
+      <a href="https://macknified.com" class="nav-home-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a>
+    </div>
+    <div class="nav-brand">
+      <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Macknified AI" class="nav-logo">
+      <div class="nav-title">Power Builders</div>
+    </div>
+    <div class="nav-tag">Blog</div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <div class="hero-eyebrow">Macknified AI · Power Builders Blog</div>
+    <h1 class="hero-h1">AI Tools &amp; Tactics<br>For Founders Who Build With Power.</h1>
+  </div>
+
+  <main data-section="section-1">
+    <div class="grid-wrap">
+      <div id="top-grid" class="top-grid"></div>
+    </div>
+    <div id="rest-section" style="display:none;">
+      <div class="section-sep">
+        <div class="section-sep-label">All Posts</div>
+      </div>
+      <div class="rest-wrap">
+        <div id="rest-list"></div>
+      </div>
+    </div>
+    <div id="empty-state" style="display:none;padding:60px 40px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#404040;">No posts yet — check back soon.</div>
+    <div id="error-state" style="display:none;padding:60px 40px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#883333;">Couldn't load posts — refresh and try again.</div>
+  </main>
+
+  <footer class="site-footer" data-section="footer">
+    <div class="footer-copy">© 2025 Macknified LLC · All rights reserved</div>
+    <div class="footer-copy">Powered by <a href="https://macknified.com" style="color:#3388FF;">Macknified AI</a></div>
+  </footer>
+
+  <!-- POST MODAL -->
+  <div id="post-modal" role="dialog" aria-modal="true" data-section="section-2">
+    <div id="post-modal-inner">
+      <button id="modal-close" aria-label="Close">✕</button>
+      <img id="modal-hero" src="" alt="" />
+      <div id="modal-hero-ph">
+        <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="23" fill="none" stroke="rgba(0,102,255,.2)" stroke-width="1.5"/>
+          <circle cx="24" cy="24" r="10" fill="none" stroke="rgba(51,136,255,.3)" stroke-width="1.5"/>
+          <circle cx="24" cy="24" r="3" fill="rgba(51,136,255,.4)"/>
+        </svg>
+      </div>
+      <div id="modal-body">
+        <div class="modal-byline">
+          <div class="modal-avatar"><img src="https://i.ibb.co/BKCC5Rrc/macknified-logo-black.png" alt="M·AI"/></div>
+          <div><div class="modal-author">Macknified AI</div><div class="modal-date-text" id="modal-meta"></div></div>
         </div>
-        <div class="font-plex text-[11px] uppercase tracking-[0.28em] text-cyan-300/80">
-          Blog Index
+        <h2 id="modal-title"></h2>
+        <div class="modal-rule"></div>
+        <div id="modal-content"></div>
+        <div class="modal-sig">
+          <div class="modal-avatar"><img src="https://i.ibb.co/BKCC5Rrc/macknified-logo-black.png" alt="M·AI"/></div>
+          <div class="modal-sig-text"><strong>Macknified AI</strong><br>AI solutions for founders. <a href="https://macknified.com" target="_blank" style="color:#3388FF;">macknified.com</a></div>
         </div>
       </div>
     </div>
-  </header>
-
-  <main class="px-4 py-6 sm:px-6 md:px-8 lg:px-12">
-    <div class="mx-auto max-w-7xl">
-      <!-- ========================================================================== -->
-      <!-- POSTS GRID: Dynamic blog cards from the sheet endpoint                    -->
-      <!-- Notes: This container is intentionally empty until JavaScript fills it.    -->
-      <!-- ========================================================================== -->
-      <section data-section="posts-grid" aria-labelledby="posts-heading" class="mt-4">
-        <div class="flex items-end justify-between gap-4">
-          <div>
-            <h1 id="posts-heading" class="font-fraunces text-4xl sm:text-5xl md:text-6xl leading-[0.95] tracking-tight">
-              Fresh thinking for builders shipping with AI.
-            </h1>
-            <p class="mt-4 max-w-2xl text-base sm:text-lg text-slate-300">
-              Essays, experiments, and practical notes for founders, operators, and product teams using AI to move faster.
-            </p>
-          </div>
-        </div>
-
-        <div id="sheet-status" class="mt-6 min-h-8 text-sm text-slate-400 font-plex" aria-live="polite"></div>
-
-        <div id="sheet-data" class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3"></div>
-
-        <div id="empty-state" class="hidden mt-10 rounded-2xl border border-dashed border-white/10 bg-white/[0.02] px-6 py-12 text-center">
-          <p class="text-lg text-slate-200">No posts yet — check back soon.</p>
-        </div>
-
-        <div id="error-state" class="hidden mt-10 rounded-2xl border border-rose-400/20 bg-rose-500/5 px-6 py-12 text-center">
-          <p class="text-lg text-rose-100">We couldn’t load the latest posts right now.</p>
-          <p class="mt-2 text-sm text-rose-200/80">Please refresh the page or try again in a moment.</p>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <!-- ============================================================================ -->
-  <!-- FOOTER: Minimal brand credit                                                  -->
-  <!-- Notes: Keep this short and clean.                                             -->
-  <!-- ============================================================================ -->
-  <footer data-section="footer" class="px-4 pb-8 pt-2 sm:px-6 md:px-8 lg:px-12">
-    <div class="mx-auto max-w-7xl border-t border-white/5 pt-6 text-sm text-slate-500">
-      Powered by Macknified AI
-    </div>
-  </footer>
+  </div>
 
   
   <script src="script.js"></script>
