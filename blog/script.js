@@ -1,124 +1,114 @@
-// ===== SHEET POSTS LOADER =====
-    // Purpose: Fetch blog posts from the runtime-injected sheet endpoint, sort them
-    // by date descending, and render cards with loading / empty / error states.
-    // Triggers: Runs once on page load.
-    (function () {
-      var endpoint = document.querySelector('meta[name="sheet-data-url"]')?.content;
-      var container = document.getElementById('sheet-data');
-      var emptyState = document.getElementById('empty-state');
-      var errorState = document.getElementById('error-state');
-      var status = document.getElementById('sheet-status');
+// Hide loading screen after 2s
+  window.addEventListener('load',function(){
+    setTimeout(function(){
+      var ls=document.getElementById('loadingScreen');
+      ls.classList.add('hidden');
+      setTimeout(function(){ls.style.display='none';},800);
+    },2000);
+  });
 
-      function escapeHtml(str) {
-        return String(str || '')
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#39;');
-      }
+  (function(){
+    var endpoint=document.querySelector('meta[name="sheet-data-url"]')?.content;
+    var topGrid=document.getElementById('top-grid');
+    var restSection=document.getElementById('rest-section');
+    var restList=document.getElementById('rest-list');
+    var emptyState=document.getElementById('empty-state');
+    var errorState=document.getElementById('error-state');
+    var modal=document.getElementById('post-modal');
+    var modalHero=document.getElementById('modal-hero');
+    var modalHeroPh=document.getElementById('modal-hero-ph');
+    var modalMeta=document.getElementById('modal-meta');
+    var modalTitle=document.getElementById('modal-title');
+    var modalContent=document.getElementById('modal-content');
+    var modalClose=document.getElementById('modal-close');
 
-      function formatDate(value) {
-        if (!value) return '';
-        var d = new Date(value);
-        if (!isNaN(d.getTime())) {
-          return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-        }
-        return String(value);
-      }
+    function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+    function dateVal(v){var d=new Date(v);return isNaN(d)?0:d.getTime();}
+    function fmtShort(v){if(!v)return'';var d=new Date(v);if(isNaN(d))return'';return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});}
+    function fmtLong(v){if(!v)return'';var d=new Date(v);if(isNaN(d))return'';return d.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});}
 
-      function dateValue(value) {
-        var d = new Date(value);
-        return isNaN(d.getTime()) ? 0 : d.getTime();
-      }
+    function openPost(row){
+      var img=row.ImageURL||row.imageUrl||row.imageurl||'';
+      var title=row.Title||row.title||'Untitled';
+      var date=row.Date||row.date||'';
+      var body=row.Body||row.body||row.Excerpt||row.excerpt||'';
+      if(img){modalHero.src=img;modalHero.alt=title;modalHero.classList.remove('hidden');modalHeroPh.classList.add('hidden');}
+      else{modalHero.classList.add('hidden');modalHeroPh.classList.remove('hidden');}
+      modalMeta.textContent=fmtLong(date)||'Power Builders · Macknified AI';
+      modalTitle.textContent=title;
+      modalContent.textContent=body;
+      modal.classList.add('open');
+      document.body.style.overflow='hidden';
+      modal.scrollTop=0;
+    }
+    function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+    modalClose.addEventListener('click',closeModal);
+    modal.addEventListener('click',function(e){if(e.target===modal)closeModal();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
 
-      function showSkeletons() {
-        if (!container) return;
-        container.innerHTML = Array.from({ length: 6 }).map(function () {
-          return (
-            '<article class="overflow-hidden rounded-3xl border border-white/10 bg-[#0D111A]">' +
-              '<div class="aspect-[16/10] w-full shimmer"></div>' +
-              '<div class="p-5 space-y-4">' +
-                '<div class="h-4 w-24 rounded-full shimmer"></div>' +
-                '<div class="h-7 w-5/6 rounded-lg shimmer"></div>' +
-                '<div class="space-y-2">' +
-                  '<div class="h-4 w-full rounded shimmer"></div>' +
-                  '<div class="h-4 w-11/12 rounded shimmer"></div>' +
-                '</div>' +
-                '<div class="h-5 w-28 rounded shimmer"></div>' +
-              '</div>' +
-            '</article>'
-          );
-        }).join('');
-      }
+    var phSvg='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(0,102,255,.2)" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
 
-      function renderPosts(rows) {
-        if (!container) return;
-        container.innerHTML = rows.map(function (row) {
-          var title = row.Title || row.title || 'Untitled post';
-          var date = row.Date || row.date || '';
-          var excerpt = row.Excerpt || row.excerpt || '';
-          var image = row.ImageURL || row.imageurl || row.ImageUrl || row.imageUrl || '';
-          var url = row.PostURL || row.posturl || row.PostUrl || row.postUrl || '#';
+    topGrid.innerHTML=Array.from({length:4}).map(function(){
+      return '<div class="top-card"><div style="width:100%;aspect-ratio:4/3;" class="shimmer"></div><div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px;"><div style="height:9px;width:70px;border-radius:3px;" class="shimmer"></div><div style="height:13px;width:90%;border-radius:3px;" class="shimmer"></div><div style="height:13px;width:65%;border-radius:3px;" class="shimmer"></div></div></div>';
+    }).join('');
 
-          return (
-            '<article class="card-glow overflow-hidden rounded-3xl border border-white/10 bg-[#0D111A] transition-all duration-200">' +
-              '<a href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer" class="block">' +
-                '<div class="relative aspect-[16/10] w-full overflow-hidden bg-[#101725]">' +
-                  (image
-                    ? '<img src="' + escapeHtml(image) + '" alt="' + escapeHtml(title) + '" class="h-full w-full object-cover" loading="lazy" onerror="this.style.display=\'none\';this.parentElement.classList.add(\'bg-gradient-to-br\');this.parentElement.classList.add(\'from-slate-800\');this.parentElement.classList.add(\'to-slate-950\');" />'
-                    : '<div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-800 to-slate-950"><span class="font-plex text-xs uppercase tracking-[0.25em] text-slate-500">No image</span></div>') +
-                '</div>' +
-                '<div class="p-5 sm:p-6">' +
-                  '<div class="font-plex text-[11px] uppercase tracking-[0.25em] text-cyan-300/80">' + escapeHtml(formatDate(date)) + '</div>' +
-                  '<h2 class="mt-3 font-fraunces text-2xl leading-tight text-slate-50">' + escapeHtml(title) + '</h2>' +
-                  '<p class="mt-3 line-clamp-2 text-sm leading-6 text-slate-300">' + escapeHtml(excerpt) + '</p>' +
-                  '<div class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[#5EE1FF]">' +
-                    '<span>Read post</span><span aria-hidden="true">→</span>' +
-                  '</div>' +
-                '</div>' +
-              '</a>' +
-            '</article>'
-          );
-        }).join('');
-      }
+    function renderTopGrid(rows){
+      topGrid.innerHTML=rows.map(function(row,i){
+        var title=row.Title||row.title||'Untitled';
+        var date=row.Date||row.date||'';
+        var img=row.ImageURL||row.imageUrl||row.imageurl||'';
+        var ds=fmtShort(date);
+        return '<div class="top-card" data-i="'+i+'">'+
+          (img?'<img src="'+esc(img)+'" alt="'+esc(title)+'" class="card-img" loading="lazy" onerror="this.style.display=\'none\'">':'<div class="card-img-ph">'+phSvg+'</div>')+
+          '<div class="card-body">'+
+            (ds?'<div class="card-date">'+esc(ds)+'</div>':'')+
+            '<div class="card-title">'+esc(title)+'</div>'+
+            '<div class="card-read">Read →</div>'+
+          '</div>'+
+        '</div>';
+      }).join('');
+      topGrid.querySelectorAll('.top-card').forEach(function(el){
+        el.addEventListener('click',function(){openPost(rows[parseInt(el.dataset.i)]);});
+      });
+    }
 
-      if (!endpoint) {
-        if (status) status.textContent = 'Content source unavailable.';
-        if (errorState) errorState.classList.remove('hidden');
-        return;
-      }
+    function renderRest(rows){
+      if(!rows.length){restSection.style.display='none';return;}
+      restSection.style.display='block';
+      restList.innerHTML=rows.map(function(row,i){
+        var title=row.Title||row.title||'Untitled';
+        var date=row.Date||row.date||'';
+        var excerpt=row.Excerpt||row.excerpt||'';
+        var img=row.ImageURL||row.imageUrl||row.imageurl||'';
+        var ds=fmtShort(date);
+        return '<div class="rest-row" data-i="'+i+'">'+
+          (img?'<img src="'+esc(img)+'" class="rest-thumb" alt="'+esc(title)+'" onerror="this.style.display=\'none\'">':'<div class="rest-thumb-ph">'+phSvg+'</div>')+
+          '<div style="min-width:0;">'+
+            '<div class="rest-title">'+esc(title)+'</div>'+
+            (excerpt?'<div class="rest-excerpt">'+esc(excerpt)+'</div>':'')+
+          '</div>'+
+          (ds?'<div class="rest-date">'+esc(ds)+'</div>':'')+
+        '</div>';
+      }).join('');
+      restList.querySelectorAll('.rest-row').forEach(function(el){
+        el.addEventListener('click',function(){openPost(rows[parseInt(el.dataset.i)]);});
+      });
+    }
 
-      showSkeletons();
-      if (status) status.textContent = 'Loading posts...';
+    if(!endpoint){topGrid.innerHTML='';errorState.style.display='block';return;}
 
-      fetch(endpoint)
-        .then(function (r) {
-          if (!r.ok) throw new Error('HTTP ' + r.status);
-          return r.json();
-        })
-        .then(function (result) {
-          var rows = Array.isArray(result?.data) ? result.data.slice() : [];
-          rows.sort(function (a, b) {
-            return dateValue(b.Date || b.date) - dateValue(a.Date || a.date);
-          });
-
-          if (!rows.length) {
-            if (container) container.innerHTML = '';
-            if (status) status.textContent = '';
-            if (emptyState) emptyState.classList.remove('hidden');
-            return;
-          }
-
-          if (emptyState) emptyState.classList.add('hidden');
-          if (errorState) errorState.classList.add('hidden');
-          if (status) status.textContent = rows.length + ' post' + (rows.length === 1 ? '' : 's') + ' loaded.';
-          renderPosts(rows);
-        })
-        .catch(function (err) {
-          console.error('Sheet data error:', err);
-          if (container) container.innerHTML = '';
-          if (status) status.textContent = '';
-          if (errorState) errorState.classList.remove('hidden');
-        });
-    })();
+    fetch(endpoint)
+      .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+      .then(function(result){
+        var rows=Array.isArray(result?.data)?result.data.slice():[];
+        rows=rows.filter(function(r){return(r.Title||r.title||'').trim();});
+        rows.sort(function(a,b){return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);});
+        if(!rows.length){topGrid.innerHTML='';emptyState.style.display='block';return;}
+        emptyState.style.display='none';errorState.style.display='none';
+        renderTopGrid(rows.slice(0,4));
+        renderRest(rows.slice(4));
+      })
+      .catch(function(err){
+        console.error(err);topGrid.innerHTML='';errorState.style.display='block';
+      });
+  })();
