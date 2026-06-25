@@ -172,9 +172,9 @@ window.addEventListener('load',function(){
         var now=Date.now();
         rows=rows.filter(function(r){
           var d=r.Date||r.date||'';
-          if(!d)return false;           // no date → always show
+          if(!d)return true;           // no date → always show
           var ts=parsePostDate(d);
-          if(ts===null)return false;    // unparseable → show
+          if(ts===null)return true;    // unparseable → show
           return ts<=now;              // future → hide
         });
         // ──────────────────────────────────────────────────────────────
