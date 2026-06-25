@@ -132,15 +132,17 @@ window.addEventListener('load',function(){
         rows=rows.filter(function(r){return(r.Title||r.title||'').trim();});
 
         // ── PUBLISH DATE GATE ──────────────────────────────────────────
-        // Only show posts whose Date is today or in the past.
-        // Posts with no date are shown immediately.
-        var now=Date.now();
-        rows=rows.filter(function(r){
-          var d=r.Date||r.date||'';
-          if(!d)return true;          // no date → always visible
-          var ts=new Date(d).getTime();
-          return isNaN(ts)||ts<=now;  // unparseable → show; future → hide
-        });
+        // Only show posts whose post date is today or in the past
+var today = new Date();
+today.setHours(23, 59, 59, 999);
+
+rows = rows.filter(function(r){
+  var d = r.Date || r.date || '';
+  if(!d) return false;        // hide posts with no date
+  var ts = parsePostDate(d);
+  if(ts === null) return false; // hide bad dates
+  return ts <= today.getTime();
+});
         // ──────────────────────────────────────────────────────────────
 
         rows.sort(function(a,b){return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);});
