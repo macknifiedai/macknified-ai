@@ -418,26 +418,25 @@
 
   function parsePostDate(v){
     if(v===null||v===undefined||v==='')return null;
-    var s=String(v).trim();
-    if(!s)return null;
+    var s=String(v).trim();if(!s)return null;
     if(/^\d+(\.\d+)?$/.test(s)){var n=parseFloat(s);if(n>=36526&&n<=80000)return Math.round((n-25569)*86400000);}
-    var ts=new Date(s).getTime();
-    return isNaN(ts)?null:ts;
+    var ts=new Date(s).getTime();return isNaN(ts)?null:ts;
   }
 
   (function(){
-    var LEAD_WH='https://app.macknified.com/api/webhooks/flow/3824/d6fa51d1cd39e489ae3ce269324e4096b8e546a3c2638ef5899231516fe19d53';
+    var BLOG_SUB_WH='https://app.macknified.com/api/webhooks/flow/3971/d2fc59a711404f79ed80ebd617d011052f0c06719f0107eb6526677bbff9a06b';
     var btn=document.getElementById('subBtn');
     var input=document.getElementById('subEmail');
-    var confirm=document.getElementById('subConfirm');
+    var conf=document.getElementById('subConfirm');
     var err=document.getElementById('subErr');
     btn.addEventListener('click',function(){
       var email=input.value.trim();
       err.classList.remove('show');
       if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.classList.add('show');return;}
       btn.disabled=true;btn.textContent='Subscribing…';
-      fetch(LEAD_WH,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contactEmail:email,contactName:email.split('@')[0],data:{source:'Power Builders Blog Subscribe',tag:'blog-subscriber'}})})
-      .then(function(){confirm.classList.add('show');btn.style.display='none';input.style.display='none';})
+      fetch(BLOG_SUB_WH,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({contactEmail:email,contactName:email.split('@')[0],data:{source:'Power Builders Blog Subscribe',tag:'blog-subscriber'}})})
+      .then(function(){conf.classList.add('show');btn.style.display='none';input.style.display='none';})
       .catch(function(){btn.disabled=false;btn.textContent='Subscribe';err.textContent='Something went wrong — try again.';err.classList.add('show');});
     });
     input.addEventListener('keydown',function(e){if(e.key==='Enter')btn.click();});
@@ -446,8 +445,7 @@
   function renderMarkdown(raw){
     if(!raw)return'';
     var normalized=raw.replace(/\|\|\|/g,'\n');
-    var lines=normalized.split('\n');
-    var html='';var inOl=false,inUl=false;
+    var lines=normalized.split('\n');var html='';var inOl=false,inUl=false;
     function closeList(){if(inOl){html+='</ol>';inOl=false;}if(inUl){html+='</ul>';inUl=false;}}
     function inlineFormat(s){
       s=s.replace(/\*\*(.+?)\*\*/g,'<strong class="post-strong">$1</strong>');
