@@ -6,6 +6,28 @@ window.addEventListener('load',function(){
     },2000);
   });
 
+  // ── DATE PARSING ────────────────────────────────────────────────────
+  // Handles ISO strings ("2026-07-07T09:00:00.000Z") AND
+  // Google Sheets serial numbers (e.g. 46209 = Jul 7 2026).
+  // Returns Unix milliseconds, or null if unparseable.
+  function parsePostDate(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var s = String(v).trim();
+    if (!s) return null;
+    // Google Sheets stores dates as days since Dec 30 1899.
+    // Serials for years 2000-2100 fall in the range ~36526-73050.
+    if (/^\d+(\.\d+)?$/.test(s)) {
+      var n = parseFloat(s);
+      if (n >= 36526 && n <= 80000) {
+        return Math.round((n - 25569) * 86400000);
+      }
+    }
+    // ISO string or any other standard date string
+    var ts = new Date(s).getTime();
+    return isNaN(ts) ? null : ts;
+  }
+  // ────────────────────────────────────────────────────────────────────
+
   function renderMarkdown(raw){
     if(!raw)return'';
     var normalized=raw.replace(/\|\|\|/g,'\n');
@@ -38,7 +60,15 @@ window.addEventListener('load',function(){
   }
 
   (function(){
-    var baseEndpoint=document.querySelector('meta[name="sheet-data-url"]')?.content;
+    // ── SHEET ENDPOINT ─────────────────────────────────────────────────
+    // Hardcoded so this works on GitHub Pages where the Macknified
+    // platform cannot inject the meta tag at serve time.
+    var SHEET_URL = 'https://app.macknified.com/api/public/landing-pages/5140/sheet-data';
+    // Also check for a platform-injected meta tag (works on app.macknified.com / paymegpt.com)
+    var metaEl = document.querySelector('meta[name="sheet-data-url"]');
+    var baseEndpoint = (metaEl && metaEl.content) ? metaEl.content : SHEET_URL;
+    // ──────────────────────────────────────────────────────────────────
+
     var topGrid=document.getElementById('top-grid');
     var restSection=document.getElementById('rest-section');
     var restList=document.getElementById('rest-list');
@@ -53,9 +83,21 @@ window.addEventListener('load',function(){
     var modalClose=document.getElementById('modal-close');
 
     function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-    function dateVal(v){var d=new Date(v);return isNaN(d)?0:d.getTime();}
-    function fmtShort(v){if(!v)return'';var d=new Date(v);if(isNaN(d))return'';return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});}
-    function fmtLong(v){if(!v)return'';var d=new Date(v);if(isNaN(d))return'';return d.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});}
+
+    function dateVal(v){
+      var ts=parsePostDate(v);
+      return ts===null?0:ts;
+    }
+    function fmtShort(v){
+      var ts=parsePostDate(v);
+      if(ts===null)return'';
+      return new Date(ts).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
+    }
+    function fmtLong(v){
+      var ts=parsePostDate(v);
+      if(ts===null)return'';
+      return new Date(ts).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    }
 
     function openPost(row){
       var img=row.ImageURL||row.imageUrl||row.imageurl||'';
@@ -120,32 +162,34 @@ window.addEventListener('load',function(){
       });
     }
 
-    if(!baseEndpoint){topGrid.innerHTML='';errorState.style.display='block';return;}
-    var endpoint=baseEndpoint+'?limit=500&t='+Date.now();
+    var endpoint = baseEndpoint + '?limit=500&t=' + Date.now();
 
     fetch(endpoint)
       .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
       .then(function(result){
-        var rows=Array.isArray(result)?result.slice():Array.isArray(result?.data)?result.data.slice():[];
+        var rows=Array.isArray(result)?result.slice():(result&&Array.isArray(result.data)?result.data.slice():[]);
 
         // Keep only rows with a title
         rows=rows.filter(function(r){return(r.Title||r.title||'').trim();});
 
         // ── PUBLISH DATE GATE ──────────────────────────────────────────
-        // Only show posts whose post date is today or in the past
-var today = new Date();
-today.setHours(23, 59, 59, 999);
-
-rows = rows.filter(function(r){
-  var d = r.Date || r.date || '';
-  if(!d) return false;        // hide posts with no date
-  var ts = parsePostDate(d);
-  if(ts === null) return false; // hide bad dates
-  return ts <= today.getTime();
-});
+        // Only show posts whose date is today or earlier.
+        var now=new Date();
+        now.setHours(23,59,59,999);
+        var nowMs=now.getTime();
+        rows=rows.filter(function(r){
+          var d=r.Date||r.date||'';
+          if(!d)return true;
+          var ts=parsePostDate(d);
+          if(ts===null)return true;
+          return ts<=nowMs;
+        });
         // ──────────────────────────────────────────────────────────────
 
-        rows.sort(function(a,b){return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);});
+        rows.sort(function(a,b){
+          return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);
+        });
+
         if(!rows.length){topGrid.innerHTML='';emptyState.style.display='block';return;}
         emptyState.style.display='none';errorState.style.display='none';
         renderTopGrid(rows.slice(0,4));
