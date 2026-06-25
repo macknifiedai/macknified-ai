@@ -53,43 +53,9 @@ window.addEventListener('load',function(){
     var modalClose=document.getElementById('modal-close');
 
     function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-    // ── PARSE POST DATE ────────────────────────────────────────────────
-    // Handles: ISO strings, plain date strings, AND Google Sheets serial
-    // numbers (days since Dec 30 1899, e.g. 46209 = July 7 2026).
-    function parsePostDate(v){
-      if(v===null||v===undefined||v==='')return null;
-      var s=String(v).trim();
-      if(!s)return null;
-      // Google Sheets serial: a bare integer or decimal >= 40000
-      // (dates in the range 2009-2099 are serials 39814–73050)
-      if(/^\d+(\.\d+)?$/.test(s)){
-        var n=parseFloat(s);
-        if(n>=40000&&n<=80000){
-          // serial → Unix ms: (serial − 25569) × 86400000
-          return Math.round((n-25569)*86400000);
-        }
-      }
-      // ISO string or any human-readable date
-      var ts=new Date(s).getTime();
-      return isNaN(ts)?null:ts;
-    }
-
-    function dateVal(v){
-      var ts=parsePostDate(v);
-      return ts===null?0:ts;
-    }
-    function fmtShort(v){
-      var ts=parsePostDate(v);
-      if(ts===null)return'';
-      return new Date(ts).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
-    }
-    function fmtLong(v){
-      var ts=parsePostDate(v);
-      if(ts===null)return'';
-      return new Date(ts).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
-    }
-    // ──────────────────────────────────────────────────────────────────
+    function dateVal(v){var d=new Date(v);return isNaN(d)?0:d.getTime();}
+    function fmtShort(v){if(!v)return'';var d=new Date(v);if(isNaN(d))return'';return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});}
+    function fmtLong(v){if(!v)return'';var d=new Date(v);if(isNaN(d))return'';return d.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});}
 
     function openPost(row){
       var img=row.ImageURL||row.imageUrl||row.imageurl||'';
@@ -160,29 +126,24 @@ window.addEventListener('load',function(){
     fetch(endpoint)
       .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
       .then(function(result){
-        var rows=Array.isArray(result)?result.slice():Array.isArray(result&&result.data)?result.data.slice():[];
+        var rows=Array.isArray(result)?result.slice():Array.isArray(result?.data)?result.data.slice():[];
 
         // Keep only rows with a title
         rows=rows.filter(function(r){return(r.Title||r.title||'').trim();});
 
         // ── PUBLISH DATE GATE ──────────────────────────────────────────
-        // Only show posts whose scheduled date is today or in the past.
-        // Handles ISO strings AND Google Sheets serial numbers.
-        // Posts with no date are always visible.
+        // Only show posts whose Date is today or in the past.
+        // Posts with no date are shown immediately.
         var now=Date.now();
         rows=rows.filter(function(r){
           var d=r.Date||r.date||'';
-          if(!d)return true;           // no date → always show
-          var ts=parsePostDate(d);
-          if(ts===null)return true;    // unparseable → show
-          return ts<=now;              // future → hide
+          if(!d)return true;          // no date → always visible
+          var ts=new Date(d).getTime();
+          return isNaN(ts)||ts<=now;  // unparseable → show; future → hide
         });
         // ──────────────────────────────────────────────────────────────
 
-        rows.sort(function(a,b){
-          return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);
-        });
-
+        rows.sort(function(a,b){return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);});
         if(!rows.length){topGrid.innerHTML='';emptyState.style.display='block';return;}
         emptyState.style.display='none';errorState.style.display='none';
         renderTopGrid(rows.slice(0,4));
