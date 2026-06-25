@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.macknified.com/blog/</loc>
-    <lastmod>2026-06-25T10:48:54.701Z</lastmod>
+    <loc>https://www.macknified.com/</loc>
+    <lastmod>2026-06-25T10:56:27.956Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://www.macknified.com/</loc>
-    <lastmod>2026-06-24T18:56:56.474Z</lastmod>
+    <loc>https://www.macknified.com/blog/</loc>
+    <lastmod>2026-06-25T10:56:00.089Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>
