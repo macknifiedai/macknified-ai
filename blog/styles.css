@@ -79,7 +79,7 @@
     .subscribe-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px -6px rgba(0,102,255,.7);}
     .subscribe-btn:disabled{opacity:.6;cursor:wait;transform:none;}
     .subscribe-btn svg{width:14px;height:14px;flex-shrink:0;}
-    .subscribe-confirm{display:none;margin-top:16px;padding:12px 18px;background:rgba(57,226,163,.1);border:1px solid rgba(57,226,163,.3);border-radius:9px;font-family:'Share Tech Mono',monospace;font-size:12px;color:#39E2A3;letter-spacing:.04em;}
+    .subscribe-confirm{display:none;margin-top:16px;padding:12px 18px;background:rgba(0,102,255,.1);border:1px solid rgba(0,102,255,.3);border-radius:9px;font-family:'Share Tech Mono',monospace;font-size:12px;color:#3388FF;letter-spacing:.04em;}
     .subscribe-confirm.show{display:block;}
     .subscribe-err{display:none;margin-top:12px;font-family:'Share Tech Mono',monospace;font-size:11px;color:#FF5C72;letter-spacing:.04em;}
     .subscribe-err.show{display:block;}
