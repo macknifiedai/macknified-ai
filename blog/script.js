@@ -8,7 +8,8 @@ window.addEventListener('load',function(){
 
   function renderMarkdown(raw){
     if(!raw)return'';
-    var lines=raw.split('\n');
+    var normalized=raw.replace(/\|\|\|/g,'\n');
+    var lines=normalized.split('\n');
     var html='';
     var inOl=false,inUl=false;
     function closeList(){if(inOl){html+='</ol>';inOl=false;}if(inUl){html+='</ul>';inUl=false;}}
@@ -52,9 +53,43 @@ window.addEventListener('load',function(){
     var modalClose=document.getElementById('modal-close');
 
     function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-    function dateVal(v){var d=new Date(v);return isNaN(d)?0:d.getTime();}
-    function fmtShort(v){if(!v)return'';var d=new Date(v);if(isNaN(d))return'';return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});}
-    function fmtLong(v){if(!v)return'';var d=new Date(v);if(isNaN(d))return'';return d.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});}
+
+    // ── PARSE POST DATE ────────────────────────────────────────────────
+    // Handles: ISO strings, plain date strings, AND Google Sheets serial
+    // numbers (days since Dec 30 1899, e.g. 46209 = July 7 2026).
+    function parsePostDate(v){
+      if(v===null||v===undefined||v==='')return null;
+      var s=String(v).trim();
+      if(!s)return null;
+      // Google Sheets serial: a bare integer or decimal >= 40000
+      // (dates in the range 2009-2099 are serials 39814–73050)
+      if(/^\d+(\.\d+)?$/.test(s)){
+        var n=parseFloat(s);
+        if(n>=40000&&n<=80000){
+          // serial → Unix ms: (serial − 25569) × 86400000
+          return Math.round((n-25569)*86400000);
+        }
+      }
+      // ISO string or any human-readable date
+      var ts=new Date(s).getTime();
+      return isNaN(ts)?null:ts;
+    }
+
+    function dateVal(v){
+      var ts=parsePostDate(v);
+      return ts===null?0:ts;
+    }
+    function fmtShort(v){
+      var ts=parsePostDate(v);
+      if(ts===null)return'';
+      return new Date(ts).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
+    }
+    function fmtLong(v){
+      var ts=parsePostDate(v);
+      if(ts===null)return'';
+      return new Date(ts).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    }
+    // ──────────────────────────────────────────────────────────────────
 
     function openPost(row){
       var img=row.ImageURL||row.imageUrl||row.imageurl||'';
@@ -63,7 +98,6 @@ window.addEventListener('load',function(){
       var body=row.Body||row.body||row.Excerpt||row.excerpt||'';
       if(img){modalHero.src=img;modalHero.alt=title;modalHero.classList.remove('hidden');modalHeroPh.classList.add('hidden');}
       else{modalHero.classList.add('hidden');modalHeroPh.classList.remove('hidden');}
-      // FIX: show real date + byline, or fallback byline only
       var fd=fmtLong(date);
       modalMeta.textContent=fd?fd+' · Power Builders':'Power Builders · Macknified AI';
       modalTitle.textContent=title;
@@ -126,9 +160,29 @@ window.addEventListener('load',function(){
     fetch(endpoint)
       .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
       .then(function(result){
-        var rows=Array.isArray(result)?result.slice():Array.isArray(result?.data)?result.data.slice():[];
+        var rows=Array.isArray(result)?result.slice():Array.isArray(result&&result.data)?result.data.slice():[];
+
+        // Keep only rows with a title
         rows=rows.filter(function(r){return(r.Title||r.title||'').trim();});
-        rows.sort(function(a,b){return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);});
+
+        // ── PUBLISH DATE GATE ──────────────────────────────────────────
+        // Only show posts whose scheduled date is today or in the past.
+        // Handles ISO strings AND Google Sheets serial numbers.
+        // Posts with no date are always visible.
+        var now=Date.now();
+        rows=rows.filter(function(r){
+          var d=r.Date||r.date||'';
+          if(!d)return false;           // no date → always show
+          var ts=parsePostDate(d);
+          if(ts===null)return false;    // unparseable → show
+          return ts<=now;              // future → hide
+        });
+        // ──────────────────────────────────────────────────────────────
+
+        rows.sort(function(a,b){
+          return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);
+        });
+
         if(!rows.length){topGrid.innerHTML='';emptyState.style.display='block';return;}
         emptyState.style.display='none';errorState.style.display='none';
         renderTopGrid(rows.slice(0,4));
