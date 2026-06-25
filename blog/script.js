@@ -6,7 +6,6 @@ window.addEventListener('load',function(){
     },2000);
   });
 
-  // ── Markdown → HTML renderer ──────────────────────────────────────────
   function renderMarkdown(raw){
     if(!raw)return'';
     var lines=raw.split('\n');
@@ -14,33 +13,22 @@ window.addEventListener('load',function(){
     var inOl=false,inUl=false;
     function closeList(){if(inOl){html+='</ol>';inOl=false;}if(inUl){html+='</ul>';inUl=false;}}
     function inlineFormat(s){
-      // Bold
       s=s.replace(/\*\*(.+?)\*\*/g,'<strong class="post-strong">$1</strong>');
-      // Italic
       s=s.replace(/\*(.+?)\*/g,'<em class="post-em">$1</em>');
-      // Inline links [text](url)
       s=s.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g,'<a class="post-cite" href="$2" target="_blank" rel="noopener">$1</a>');
-      // Bare URLs as links
       s=s.replace(/(?<!["\(])(https?:\/\/[^\s\)]+)/g,'<a class="post-cite" href="$1" target="_blank" rel="noopener">$1</a>');
       return s;
     }
     lines.forEach(function(line){
       var trimmed=line.trim();
-      if(!trimmed){closeList();html+='';return;}
-      // H2
+      if(!trimmed){closeList();return;}
       if(/^##\s/.test(trimmed)){closeList();html+='<div class="post-h2">'+inlineFormat(trimmed.replace(/^##\s+/,''))+'</div>';return;}
-      // H3
       if(/^###\s/.test(trimmed)||/^####\s/.test(trimmed)){closeList();html+='<div class="post-h3">'+inlineFormat(trimmed.replace(/^#{3,}\s+/,''))+'</div>';return;}
-      // H1 treated as H2
       if(/^#\s/.test(trimmed)){closeList();html+='<div class="post-h2">'+inlineFormat(trimmed.replace(/^#\s+/,''))+'</div>';return;}
-      // Numbered list
       var olMatch=trimmed.match(/^(\d+)\.\s+(.*)/);
       if(olMatch){if(!inOl){if(inUl){html+='</ul>';inUl=false;}html+='<ol class="post-ol">';inOl=true;}html+='<li class="post-li">'+inlineFormat(olMatch[2])+'</li>';return;}
-      // Bullet list
       if(/^[-*]\s/.test(trimmed)){if(!inUl){if(inOl){html+='</ol>';inOl=false;}html+='<ul class="post-ul">';inUl=true;}html+='<li class="post-li">'+inlineFormat(trimmed.replace(/^[-*]\s+/,''))+'</li>';return;}
-      // Bold line as subheader (line is entirely **text**)
       if(/^\*\*[^*]+\*\*$/.test(trimmed)){closeList();html+='<div class="post-h3">'+trimmed.replace(/^\*\*|\*\*$/g,'')+'</div>';return;}
-      // Regular paragraph
       closeList();
       html+='<p class="post-p">'+inlineFormat(trimmed)+'</p>';
     });
@@ -75,9 +63,10 @@ window.addEventListener('load',function(){
       var body=row.Body||row.body||row.Excerpt||row.excerpt||'';
       if(img){modalHero.src=img;modalHero.alt=title;modalHero.classList.remove('hidden');modalHeroPh.classList.add('hidden');}
       else{modalHero.classList.add('hidden');modalHeroPh.classList.remove('hidden');}
-      modalMeta.textContent=fmtLong(date)||'Power Builders · Macknified AI';
+      // FIX: show real date + byline, or fallback byline only
+      var fd=fmtLong(date);
+      modalMeta.textContent=fd?fd+' · Power Builders':'Power Builders · Macknified AI';
       modalTitle.textContent=title;
-      // Render markdown instead of plain text
       modalContent.innerHTML=renderMarkdown(body);
       modal.classList.add('open');
       document.body.style.overflow='hidden';
