@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Macknified AI | AI Solutions That Work For You</title>
-    <meta name="description" content="Custom AI chatbots, intelligent web applications, and automation solutions for businesses ready to work smarter.">
+    <meta name="description" content="Custom AI agents, intelligent web applications, and automation solutions for businesses ready to work smarter.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -48,9 +48,26 @@
         .orb-3 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0, 102, 255, 0.25) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -5s; }
         @keyframes orbFloat { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.1); } 66% { transform: translate(-20px, 20px) scale(0.95); } }
         
-        #particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; }
-        .particle { position: absolute; width: 4px; height: 4px; background: var(--primary); border-radius: 50%; opacity: 0.3; animation: float 20s infinite ease-in-out; }
-        @keyframes float { 0%, 100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-30px) translateX(15px); } }
+        /* Background image parallax layer */
+        .bg-parallax {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-image: url('https://app.macknified.com/objects/quick-uploads/448/d1b201f05c6f6f7a.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            opacity: 0.08;
+            mix-blend-mode: screen;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        /* Scroll-driven fade: handled via JS, classes below */
+        .bg-parallax.bright { opacity: 0.15; }
+        .bg-parallax.dim { opacity: 0.04; }
         
         .main-content { position: relative; z-index: 10; }
         
@@ -445,6 +462,54 @@
         .loading-text { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; color: var(--accent); margin-top: 20px; letter-spacing: 3px; text-transform: uppercase; animation: loadingTextPulse 1.5s ease-in-out infinite; }
         @keyframes loadingTextPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
         
+        /* Video Section */
+        .video-section { padding: 120px 50px; }
+        .video-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 102, 255, 0.25);
+            box-shadow: 0 0 80px rgba(0, 102, 255, 0.2), 0 40px 100px rgba(0,0,0,0.5);
+            background: #000;
+        }
+        .video-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-main);
+            z-index: 2;
+        }
+        .video-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            box-shadow: inset 0 0 60px rgba(0, 102, 255, 0.08);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .video-wrapper iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            display: block;
+            border: none;
+        }
+        .video-corner {
+            position: absolute;
+            width: 24px; height: 24px;
+            border-color: var(--accent);
+            border-style: solid;
+            z-index: 3;
+            opacity: 0.7;
+        }
+        .video-corner-tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; border-radius: 4px 0 0 0; }
+        .video-corner-tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; border-radius: 0 4px 0 0; }
+        .video-corner-bl { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; border-radius: 0 0 0 4px; }
+        .video-corner-br { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; border-radius: 0 0 4px 0; }
+        
         /* Portfolio Section */
         .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
         .portfolio-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 16px; overflow: hidden; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
@@ -680,7 +745,22 @@
     </style>
 </head>
 <body>
-    <div class="loading-screen" id="loadingScreen">
+    <!-- BULLETPROOF LOADER DISMISS — runs before anything else can block -->
+    <script>
+        (function() {
+            function killLoader() {
+                var ls = document.getElementById('loadingScreen');
+                if (ls) { ls.style.opacity = '0'; ls.style.visibility = 'hidden'; ls.style.pointerEvents = 'none'; }
+            }
+            // Hard kill after 3 seconds no matter what
+            setTimeout(killLoader, 3000);
+            // Also try on DOMContentLoaded
+            document.addEventListener('DOMContentLoaded', function() { setTimeout(killLoader, 2500); });
+            // Also try on load
+            window.addEventListener('load', function() { setTimeout(killLoader, 2500); });
+        })();
+    </script>
+    <div class="loading-screen" id="loadingScreen" data-section="section-1">
         <div class="loading-spinner-container">
             <div class="loading-spinner"></div>
             <div class="loading-spinner"></div>
@@ -725,24 +805,24 @@
                     <text x="160" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.45s;">I</text>
                     <text x="174" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.5s;">E</text>
                     <text x="196" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.55s;">D</text>
-                    <text x="235" y="35" fill="url(#logoGradientAILoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 15px rgba(0, 102, 255, 0.8)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.65s;">A</text>
-                    <text x="259" y="35" fill="url(#logoGradientAILoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 15px rgba(0, 102, 255, 0.8)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.7s;">I</text>
+                    <text x="235" y="35" fill="url(#logoGradientAILoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.65s;">A</text>
+                    <text x="259" y="35" fill="url(#logoGradientAILoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.7s;">I</text>
                 </g>
             </svg>
         </div>
         <div class="loading-bar"></div>
         <span class="loading-text">Initializing...</span>
     </div>
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="mesh-gradient"></div>
-    <div class="animated-grid"></div>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-    <div id="particles-container"></div>
+    <div class="cursor" id="cursor" data-section="section-2"></div>
+    <div class="cursor-dot" id="cursorDot" data-section="section-3"></div>
+    <div class="mesh-gradient" data-section="section-4"></div>
+    <div class="animated-grid" data-section="section-5"></div>
+    <div class="orb orb-1" data-section="section-6"></div>
+    <div class="orb orb-2" data-section="section-7"></div>
+    <div class="orb orb-3" data-section="section-8"></div>
+    <div class="bg-parallax" id="bgParallax"></div>
     
-    <div class="main-content">
+    <div class="main-content" data-section="section-10">
         <nav id="navbar">
             <div class="logo">
                 <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Macknified AI" class="logo-img">
@@ -817,10 +897,10 @@
                         <a href="#about" onclick="closeNavDropdown()">About</a>
                         <a href="#faq" onclick="closeNavDropdown()">FAQ</a>
                         <a href="#contact" onclick="closeNavDropdown()">Contact</a>
-                        <a href="https://app.macknified.com/p/e6pYehLSkP" target="_blank" onclick="closeNavDropdown()">Blog</a>
+                        <a href="" target="_blank" onclick="closeNavDropdown()">Blog</a>
                     </div>
                 </div>
-                <a href="/pricing-calculator-final/" class="btn btn-primary">Get Your Free Estimate<i data-lucide="arrow-right"></i></a>
+                <a href="https://macknifiedai.github.io/pricing-calculator-final/" class="nav-cta">Start a Project</a>
             </div>
         </nav>
 
@@ -833,10 +913,10 @@
                 <span class="line"><span class="word">AI Solutions That</span></span>
                 <span class="line"><span class="word gradient-text"><span class="typewriter-container"><span class="typewriter-text" id="typewriter"></span><span class="typewriter-cursor"></span></span></span></span>
             </h1>
-            <p class="hero-subtitle">Custom chatbots, intelligent web applications, and AI automation — built for businesses ready to work smarter and scale faster.</p>
+            <p class="hero-subtitle">Custom agents, intelligent web applications, and AI automation — built for businesses ready to work smarter and scale faster.</p>
             <div class="hero-buttons">
                 <a href="#services" class="btn btn-primary">Explore Services<i data-lucide="arrow-right"></i></a>
-                <a href="/pricing-calculator-final/" class="btn btn-secondary">Start a Project<i data-lucide="message-circle"></i></a>
+                <a href="https://macknifiedai.github.io/pricing-calculator-final/" class="btn btn-secondary">Start a Project<i data-lucide="message-circle"></i></a>
             </div>
             <div class="scroll-indicator"><div class="mouse"></div><span>Scroll</span></div>
         </section>
@@ -1012,6 +1092,28 @@
             </div>
         </section>
 
+        <!-- VIDEO SECTION -->
+        <section id="video-showcase" class="video-section">
+            <div class="section-header">
+                <div class="section-badge"><i data-lucide="play-circle"></i>See It In Action</div>
+                <h2>Watch What We Do</h2>
+                <p>A closer look at how Macknified AI builds intelligent solutions that work for real businesses.</p>
+            </div>
+            <div class="video-wrapper">
+                <span class="video-corner video-corner-tl"></span>
+                <span class="video-corner video-corner-tr"></span>
+                <span class="video-corner video-corner-bl"></span>
+                <span class="video-corner video-corner-br"></span>
+                <!-- Replace the src below with your video embed URL -->
+                <iframe
+                    src="about:blank"
+                    title="Macknified AI — See It In Action"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </section>
+
         <section id="testimonials">
             <div class="section-header">
                 <div class="section-badge"><i data-lucide="message-square-quote"></i>Testimonials</div>
@@ -1182,7 +1284,7 @@
             </div>
             <div class="faq-container">
                 <div class="faq-item"><button class="faq-question">How much does a project cost?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>Every project is unique. Agents typically start around $500, web applications around $800, and automation projects around $1,000. Consulting is $150/hour. After our initial conversation, you'll receive a detailed quote with no hidden fees.</p></div></div>
-                <div class="faq-item"><button class="faq-question">How long does a project take?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>Timeline depends on complexity. Simple chatbots can be ready in 1-2 weeks. Landing pages in 1-2 weeks, full web apps 2-4 weeks. We'll give you a realistic timeline upfront.</p></div></div>
+                <div class="faq-item"><button class="faq-question">How long does a project take?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>Timeline depends on complexity. Simple agents can be ready in 1-2 weeks. Landing pages in 1-2 weeks, full web apps 2-4 weeks. We'll give you a realistic timeline upfront.</p></div></div>
                 <div class="faq-item"><button class="faq-question">What happens after the project is complete?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>We do a complete handoff — you own everything. We train you and your team to use and manage the solution. It's yours to run independently. No monthly fees, no lock-in.</p></div></div>
                 <div class="faq-item"><button class="faq-question">What industries do you work with?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>We work with businesses across many industries — financial services, insurance, professional services, real estate, healthcare, e-commerce, and more.</p></div></div>
                 <div class="faq-item"><button class="faq-question">What if I'm not sure what I need?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>That's completely okay! Book a free discovery call and we'll help you figure out the best approach. No pressure, no commitment.</p></div></div>
@@ -1208,7 +1310,7 @@
             <div class="cta-content">
                 <h2>Ready to <span>Get Started?</span></h2>
                 <p>Let's talk about what AI can do for your business. Get an instant estimate or chat with us — no pressure, no commitment.</p>
-                <a href="/pricing-calculator-final/" class="btn btn-primary">Get Your Free Estimate<i data-lucide="arrow-right"></i></a>
+                <a href="https://macknifiedai.github.io/pricing-calculator-final/" class="btn btn-primary">Get Your Free Estimate<i data-lucide="arrow-right"></i></a>
             </div>
         </div>
 
@@ -1261,10 +1363,10 @@
                             </svg>
                         </div>
                     </div>
-                    <p>AI solutions that work for you. Custom chatbots, web applications, automation, and consulting for businesses ready to work smarter.</p>
+                    <p>AI solutions that work for you. Custom agents, web applications, automation, and consulting for businesses ready to work smarter.</p>
                 </div>
                 <div class="footer-column"><h4>Services</h4><ul><li><a href="#services">AI Agents</a></li><li><a href="#services">Web Applications</a></li><li><a href="#services">Automation</a></li><li><a href="#services">Consulting</a></li></ul></div>
-                <div class="footer-column"><h4>Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#process">Our Process</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li></ul></div>
+                <div class="footer-column"><h4>Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#process">Our Process</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li><li><a href="" target="_blank">Blog</a></li></ul></div>
                 <div class="footer-column"><h4>Legal</h4><ul><li><a href="#terms">Terms of Service</a></li><li><a href="#privacy">Privacy Policy</a></li></ul></div>
             </div>
             <div class="footer-bottom">
@@ -1276,15 +1378,31 @@
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         lucide.createIcons();
-        window.addEventListener('load', () => { 
-            setTimeout(() => { document.getElementById('loadingScreen').classList.add('hidden'); }, 2500);
-            // Add shimmer animation to hero titles after reveal
-            setTimeout(() => {
-                document.querySelectorAll('.hero h1 .word').forEach(word => {
-                    word.classList.add('revealed');
-                });
-            }, 2800);
+
+        function dismissLoader() {
+            const ls = document.getElementById('loadingScreen');
+            if (ls && !ls.classList.contains('hidden')) {
+                ls.classList.add('hidden');
+            }
+        }
+
+        function revealHero() {
+            document.querySelectorAll('.hero h1 .word').forEach(word => {
+                word.classList.add('revealed');
+            });
+        }
+
+        // Primary: fire on window load
+        window.addEventListener('load', () => {
+            setTimeout(dismissLoader, 2500);
+            setTimeout(revealHero, 2800);
         });
+
+        // Fallback: force dismiss after 4s no matter what
+        setTimeout(() => {
+            dismissLoader();
+            setTimeout(revealHero, 300);
+        }, 4000);
         
         const cursor = document.getElementById('cursor');
         const cursorDot = document.getElementById('cursorDot');
@@ -1293,8 +1411,28 @@
         
         document.querySelectorAll('.bento-card').forEach(card => { card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = ((e.clientX - rect.left) / rect.width) * 100; const y = ((e.clientY - rect.top) / rect.height) * 100; card.style.setProperty('--mouse-x', x + '%'); card.style.setProperty('--mouse-y', y + '%'); }); });
         
-        const particlesContainer = document.getElementById('particles-container');
-        for (let i = 0; i < 50; i++) { const particle = document.createElement('div'); particle.className = 'particle'; particle.style.left = Math.random() * 100 + '%'; particle.style.top = Math.random() * 100 + '%'; particle.style.animationDelay = Math.random() * 20 + 's'; particle.style.animationDuration = (15 + Math.random() * 20) + 's'; particle.style.opacity = 0.1 + Math.random() * 0.3; particle.style.width = (2 + Math.random() * 4) + 'px'; particle.style.height = particle.style.width; particlesContainer.appendChild(particle); }
+        // Background parallax scroll effect
+        const bgParallax = document.getElementById('bgParallax');
+        let lastScrollY = 0;
+        let ticking = false;
+        function updateBgParallax() {
+            const scrollY = window.scrollY;
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            const progress = scrollY / maxScroll;
+            // Fade in/out based on scroll position for a transition feel
+            const opacity = 0.05 + Math.sin(progress * Math.PI) * 0.12;
+            bgParallax.style.opacity = opacity;
+            // Subtle parallax shift
+            bgParallax.style.backgroundPositionY = (50 + progress * 20) + '%';
+            ticking = false;
+        }
+        window.addEventListener('scroll', () => {
+            lastScrollY = window.scrollY;
+            if (!ticking) {
+                requestAnimationFrame(updateBgParallax);
+                ticking = true;
+            }
+        }, { passive: true });
         
         window.addEventListener('scroll', () => { const navbar = document.getElementById('navbar'); if (window.scrollY > 100) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); } });
         
@@ -1307,137 +1445,69 @@
         function closeNavDropdown() {
             const dropdown = document.getElementById('navDropdown');
             const btn = document.querySelector('.nav-dropdown-btn');
-            dropdown.classList.remove('active');
-            btn.classList.remove('active');
+            if (dropdown) dropdown.classList.remove('active');
+            if (btn) btn.classList.remove('active');
         }
+
         // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('.nav-dropdown')) {
-                closeNavDropdown();
+            const dropdown = document.getElementById('navDropdown');
+            const btn = document.querySelector('.nav-dropdown-btn');
+            if (dropdown && btn && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
+                btn.classList.remove('active');
             }
         });
-        
-        document.querySelectorAll('.faq-question').forEach(button => { button.addEventListener('click', () => { const faqItem = button.parentElement; const isActive = faqItem.classList.contains('active'); document.querySelectorAll('.faq-item').forEach(item => { item.classList.remove('active'); }); if (!isActive) { faqItem.classList.add('active'); } }); });
-        
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }); });
-        
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.utils.toArray('.service-card').forEach((card, i) => { gsap.from(card, { scrollTrigger: { trigger: card, start: 'top 85%' }, y: 80, opacity: 0, duration: 0.8, delay: i * 0.15, ease: 'power3.out' }); });
-        gsap.utils.toArray('.portfolio-card').forEach((card, i) => { gsap.from(card, { scrollTrigger: { trigger: card, start: 'top 85%' }, y: 80, opacity: 0, duration: 0.8, delay: i * 0.12, ease: 'power3.out' }); });
-        gsap.utils.toArray('.bento-card').forEach((card, i) => { gsap.from(card, { scrollTrigger: { trigger: card, start: 'top 85%' }, y: 60, opacity: 0, duration: 0.7, delay: i * 0.1, ease: 'power3.out' }); });
-        gsap.utils.toArray('.process-step').forEach((step, i) => { gsap.from(step, { scrollTrigger: { trigger: step, start: 'top 85%' }, y: 50, opacity: 0, duration: 0.6, delay: i * 0.12, ease: 'power3.out' }); });
-        gsap.utils.toArray('.faq-item').forEach((item, i) => { gsap.from(item, { scrollTrigger: { trigger: item, start: 'top 90%' }, x: -40, opacity: 0, duration: 0.6, delay: i * 0.1, ease: 'power3.out' }); });
-        gsap.utils.toArray('.section-header').forEach(header => { gsap.from(header, { scrollTrigger: { trigger: header, start: 'top 80%' }, y: 40, opacity: 0, duration: 0.8, ease: 'power3.out' }); });
-        gsap.from('.about-visual', { scrollTrigger: { trigger: '.about-container', start: 'top 70%' }, x: -100, opacity: 0, duration: 1, ease: 'power3.out' });
-        gsap.from('.about-content', { scrollTrigger: { trigger: '.about-container', start: 'top 70%' }, x: 100, opacity: 0, duration: 1, ease: 'power3.out' });
-        gsap.from('.contact-info', { scrollTrigger: { trigger: '.contact-container', start: 'top 70%' }, x: -80, opacity: 0, duration: 0.9, ease: 'power3.out' });
-        gsap.from('.contact-form', { scrollTrigger: { trigger: '.contact-container', start: 'top 70%' }, x: 80, opacity: 0, duration: 0.9, ease: 'power3.out' });
-        gsap.from('.cta-content', { scrollTrigger: { trigger: '.cta-section', start: 'top 75%' }, y: 60, opacity: 0, duration: 0.9, ease: 'power3.out' });
-        gsap.from('.testimonials-container', { scrollTrigger: { trigger: '.testimonials-container', start: 'top 80%' }, opacity: 0, duration: 1, ease: 'power3.out' });
-        
-        // Logo hover animation with GSAP
-        const logoLinks = document.querySelectorAll('.logo');
-        logoLinks.forEach(logo => {
-            const letters = logo.querySelectorAll('.logo-letter');
-            logo.addEventListener('mouseenter', () => {
-                letters.forEach((letter, i) => {
-                    gsap.to(letter, {
-                        y: -8,
-                        scale: 1.15,
-                        duration: 0.3,
-                        delay: i * 0.03,
-                        ease: 'power2.out'
-                    });
-                    gsap.to(letter, {
-                        y: 0,
-                        scale: 1,
-                        duration: 0.4,
-                        delay: i * 0.03 + 0.3,
-                        ease: 'bounce.out'
-                    });
-                });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
             });
         });
 
-        // Typewriter Effect
-        const typewriterWords = [
-            'Work For You',
-            'Save You Time',
-            'Drive Growth',
-            'Scale Fast',
-            'Boost Sales',
-            'Cut Costs',
-            'Never Sleep',
-            'Get Results',
-            'Make Sense',
-            'Just Work'
-        ];
-        
+        // Typewriter effect
         const typewriterEl = document.getElementById('typewriter');
-        let wordIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typeSpeed = 100;
-        
-        function typeWriter() {
-            const currentWord = typewriterWords[wordIndex];
-            
-            if (isDeleting) {
-                typewriterEl.textContent = currentWord.substring(0, charIndex - 1);
-                charIndex--;
-                typeSpeed = 50;
-            } else {
-                typewriterEl.textContent = currentWord.substring(0, charIndex + 1);
-                charIndex++;
-                typeSpeed = 100;
+        if (typewriterEl) {
+            const phrases = ['Work For You', 'Scale Your Business', 'Save You Time', 'Drive Real Results', 'Work Smarter'];
+            let phraseIndex = 0, charIndex = 0, isDeleting = false;
+            function typeWriter() {
+                const current = phrases[phraseIndex];
+                if (isDeleting) {
+                    typewriterEl.textContent = current.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typewriterEl.textContent = current.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+                if (!isDeleting && charIndex === current.length) {
+                    isDeleting = true;
+                    setTimeout(typeWriter, 1800);
+                    return;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                }
+                setTimeout(typeWriter, isDeleting ? 60 : 100);
             }
-            
-            if (!isDeleting && charIndex === currentWord.length) {
-                typeSpeed = 2000;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                wordIndex = (wordIndex + 1) % typewriterWords.length;
-                typeSpeed = 500;
-            }
-            
-            setTimeout(typeWriter, typeSpeed);
+            typeWriter();
         }
-        
-        setTimeout(typeWriter, 1500);
-    </script>
 
-    <div id="pageTransition" style="position:fixed;inset:0;background:#030308;z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 0.4s ease,visibility 0.4s ease;">
-      <div style="position:relative;width:120px;height:120px;margin-bottom:30px;">
-        <div style="position:absolute;inset:0;border:3px solid transparent;border-top-color:#0066FF;border-radius:50%;animation:ptSpin 1s linear infinite;"></div>
-        <div style="position:absolute;inset:8px;border:3px solid transparent;border-top-color:#3388FF;border-radius:50%;animation:ptSpin 1.5s linear infinite reverse;"></div>
-        <div style="position:absolute;inset:16px;border:3px solid transparent;border-top-color:#0044CC;border-radius:50%;animation:ptSpin 2s linear infinite;"></div>
-        <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;filter:drop-shadow(0 0 15px rgba(0,102,255,0.8));">
-      </div>
-      <div style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#0066FF;letter-spacing:3px;text-transform:uppercase;animation:ptPulse 1.5s ease-in-out infinite;">Loading...</div>
-    </div>
-    <style>
-      @keyframes ptSpin{to{transform:rotate(360deg);}}
-      @keyframes ptPulse{0%,100%{opacity:0.5;}50%{opacity:1;}}
-      #pageTransition.show{opacity:1!important;visibility:visible!important;}
-    </style>
-    <script>
-    (function(){
-      function showTransition(e){
-        var el=e.currentTarget;
-        var href=el.getAttribute('href');
-        if(!href||href.startsWith('#')||href.startsWith('mailto:')||href.startsWith('tel:'))return;
-        if(el.getAttribute('target')==='_blank')return;
-        e.preventDefault();
-        document.getElementById('pageTransition').classList.add('show');
-        setTimeout(function(){window.location.href=href;},2000);
-      }
-      document.addEventListener('DOMContentLoaded',function(){
-        document.querySelectorAll('a[href]').forEach(function(a){
-          a.addEventListener('click',showTransition);
-        });
-      });
-    })();
+        // GSAP scroll animations
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.utils.toArray('section').forEach(section => {
+                gsap.fromTo(section.querySelectorAll('.service-card, .portfolio-card, .bento-card, .process-step, .faq-item, .value-item, .contact-method'),
+                    { opacity: 0, y: 40 },
+                    { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power2.out',
+                      scrollTrigger: { trigger: section, start: 'top 80%', toggleActions: 'play none none none' }
+                    }
+                );
+            });
+        }
     </script>
 </body>
 </html>
