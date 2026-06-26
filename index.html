@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Macknified AI | AI Solutions That Work For You</title>
-    <meta name="description" content="Custom AI agents, intelligent web applications, and automation solutions for businesses ready to work smarter.">
+    <meta name="description" content="Custom AI chatbots, intelligent web applications, and automation solutions for businesses ready to work smarter.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -48,26 +48,9 @@
         .orb-3 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0, 102, 255, 0.25) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -5s; }
         @keyframes orbFloat { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.1); } 66% { transform: translate(-20px, 20px) scale(0.95); } }
         
-        /* Background image parallax layer */
-        .bg-parallax {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            background-image: url('https://app.macknified.com/objects/quick-uploads/448/d1b201f05c6f6f7a.jpg');
-            background-size: cover;
-            background-position: center center;
-            background-attachment: fixed;
-            opacity: 0.08;
-            mix-blend-mode: screen;
-            transition: opacity 0.5s ease;
-            pointer-events: none;
-        }
-        /* Scroll-driven fade: handled via JS, classes below */
-        .bg-parallax.bright { opacity: 0.15; }
-        .bg-parallax.dim { opacity: 0.04; }
+        #particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; }
+        .particle { position: absolute; width: 4px; height: 4px; background: var(--primary); border-radius: 50%; opacity: 0.3; animation: float 20s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-30px) translateX(15px); } }
         
         .main-content { position: relative; z-index: 10; }
         
@@ -462,54 +445,6 @@
         .loading-text { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; color: var(--accent); margin-top: 20px; letter-spacing: 3px; text-transform: uppercase; animation: loadingTextPulse 1.5s ease-in-out infinite; }
         @keyframes loadingTextPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
         
-        /* Video Section */
-        .video-section { padding: 120px 50px; }
-        .video-wrapper {
-            max-width: 1100px;
-            margin: 0 auto;
-            position: relative;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid rgba(0, 102, 255, 0.25);
-            box-shadow: 0 0 80px rgba(0, 102, 255, 0.2), 0 40px 100px rgba(0,0,0,0.5);
-            background: #000;
-        }
-        .video-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: var(--gradient-main);
-            z-index: 2;
-        }
-        .video-wrapper::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 24px;
-            box-shadow: inset 0 0 60px rgba(0, 102, 255, 0.08);
-            pointer-events: none;
-            z-index: 1;
-        }
-        .video-wrapper iframe {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            display: block;
-            border: none;
-        }
-        .video-corner {
-            position: absolute;
-            width: 24px; height: 24px;
-            border-color: var(--accent);
-            border-style: solid;
-            z-index: 3;
-            opacity: 0.7;
-        }
-        .video-corner-tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; border-radius: 4px 0 0 0; }
-        .video-corner-tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; border-radius: 0 4px 0 0; }
-        .video-corner-bl { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; border-radius: 0 0 0 4px; }
-        .video-corner-br { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; border-radius: 0 0 4px 0; }
-        
         /* Portfolio Section */
         .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
         .portfolio-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 16px; overflow: hidden; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
@@ -745,21 +680,6 @@
     </style>
 </head>
 <body>
-    <!-- BULLETPROOF LOADER DISMISS — runs before anything else can block -->
-    <script>
-        (function() {
-            function killLoader() {
-                var ls = document.getElementById('loadingScreen');
-                if (ls) { ls.style.opacity = '0'; ls.style.visibility = 'hidden'; ls.style.pointerEvents = 'none'; }
-            }
-            // Hard kill after 3 seconds no matter what
-            setTimeout(killLoader, 3000);
-            // Also try on DOMContentLoaded
-            document.addEventListener('DOMContentLoaded', function() { setTimeout(killLoader, 2500); });
-            // Also try on load
-            window.addEventListener('load', function() { setTimeout(killLoader, 2500); });
-        })();
-    </script>
     <div class="loading-screen" id="loadingScreen" data-section="section-1">
         <div class="loading-spinner-container">
             <div class="loading-spinner"></div>
@@ -820,7 +740,7 @@
     <div class="orb orb-1" data-section="section-6"></div>
     <div class="orb orb-2" data-section="section-7"></div>
     <div class="orb orb-3" data-section="section-8"></div>
-    <div class="bg-parallax" id="bgParallax"></div>
+    <div id="particles-container" data-section="section-9"></div>
     
     <div class="main-content" data-section="section-10">
         <nav id="navbar">
@@ -897,7 +817,7 @@
                         <a href="#about" onclick="closeNavDropdown()">About</a>
                         <a href="#faq" onclick="closeNavDropdown()">FAQ</a>
                         <a href="#contact" onclick="closeNavDropdown()">Contact</a>
-                        <a href="" target="_blank" onclick="closeNavDropdown()">Blog</a>
+                        <a href="https://www.macknified.com/blog/" target="_blank" onclick="closeNavDropdown()">Blog</a>
                     </div>
                 </div>
                 <a href="https://macknifiedai.github.io/pricing-calculator-final/" class="nav-cta">Start a Project</a>
@@ -913,7 +833,7 @@
                 <span class="line"><span class="word">AI Solutions That</span></span>
                 <span class="line"><span class="word gradient-text"><span class="typewriter-container"><span class="typewriter-text" id="typewriter"></span><span class="typewriter-cursor"></span></span></span></span>
             </h1>
-            <p class="hero-subtitle">Custom agents, intelligent web applications, and AI automation — built for businesses ready to work smarter and scale faster.</p>
+            <p class="hero-subtitle">Custom chatbots, intelligent web applications, and AI automation — built for businesses ready to work smarter and scale faster.</p>
             <div class="hero-buttons">
                 <a href="#services" class="btn btn-primary">Explore Services<i data-lucide="arrow-right"></i></a>
                 <a href="https://macknifiedai.github.io/pricing-calculator-final/" class="btn btn-secondary">Start a Project<i data-lucide="message-circle"></i></a>
@@ -1092,28 +1012,6 @@
             </div>
         </section>
 
-        <!-- VIDEO SECTION -->
-        <section id="video-showcase" class="video-section">
-            <div class="section-header">
-                <div class="section-badge"><i data-lucide="play-circle"></i>See It In Action</div>
-                <h2>Watch What We Do</h2>
-                <p>A closer look at how Macknified AI builds intelligent solutions that work for real businesses.</p>
-            </div>
-            <div class="video-wrapper">
-                <span class="video-corner video-corner-tl"></span>
-                <span class="video-corner video-corner-tr"></span>
-                <span class="video-corner video-corner-bl"></span>
-                <span class="video-corner video-corner-br"></span>
-                <!-- Replace the src below with your video embed URL -->
-                <iframe
-                    src="about:blank"
-                    title="Macknified AI — See It In Action"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen>
-                </iframe>
-            </div>
-        </section>
-
         <section id="testimonials">
             <div class="section-header">
                 <div class="section-badge"><i data-lucide="message-square-quote"></i>Testimonials</div>
@@ -1284,7 +1182,7 @@
             </div>
             <div class="faq-container">
                 <div class="faq-item"><button class="faq-question">How much does a project cost?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>Every project is unique. Agents typically start around $500, web applications around $800, and automation projects around $1,000. Consulting is $150/hour. After our initial conversation, you'll receive a detailed quote with no hidden fees.</p></div></div>
-                <div class="faq-item"><button class="faq-question">How long does a project take?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>Timeline depends on complexity. Simple agents can be ready in 1-2 weeks. Landing pages in 1-2 weeks, full web apps 2-4 weeks. We'll give you a realistic timeline upfront.</p></div></div>
+                <div class="faq-item"><button class="faq-question">How long does a project take?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>Timeline depends on complexity. Simple chatbots can be ready in 1-2 weeks. Landing pages in 1-2 weeks, full web apps 2-4 weeks. We'll give you a realistic timeline upfront.</p></div></div>
                 <div class="faq-item"><button class="faq-question">What happens after the project is complete?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>We do a complete handoff — you own everything. We train you and your team to use and manage the solution. It's yours to run independently. No monthly fees, no lock-in.</p></div></div>
                 <div class="faq-item"><button class="faq-question">What industries do you work with?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>We work with businesses across many industries — financial services, insurance, professional services, real estate, healthcare, e-commerce, and more.</p></div></div>
                 <div class="faq-item"><button class="faq-question">What if I'm not sure what I need?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>That's completely okay! Book a free discovery call and we'll help you figure out the best approach. No pressure, no commitment.</p></div></div>
@@ -1363,10 +1261,10 @@
                             </svg>
                         </div>
                     </div>
-                    <p>AI solutions that work for you. Custom agents, web applications, automation, and consulting for businesses ready to work smarter.</p>
+                    <p>AI solutions that work for you. Custom chatbots, web applications, automation, and consulting for businesses ready to work smarter.</p>
                 </div>
                 <div class="footer-column"><h4>Services</h4><ul><li><a href="#services">AI Agents</a></li><li><a href="#services">Web Applications</a></li><li><a href="#services">Automation</a></li><li><a href="#services">Consulting</a></li></ul></div>
-                <div class="footer-column"><h4>Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#process">Our Process</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li><li><a href="" target="_blank">Blog</a></li></ul></div>
+                <div class="footer-column"><h4>Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#process">Our Process</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li><li><a href="https://www.macknified.com/blog/" target="_blank">Blog</a></li></ul></div>
                 <div class="footer-column"><h4>Legal</h4><ul><li><a href="#terms">Terms of Service</a></li><li><a href="#privacy">Privacy Policy</a></li></ul></div>
             </div>
             <div class="footer-bottom">
@@ -1378,31 +1276,15 @@
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         lucide.createIcons();
-
-        function dismissLoader() {
-            const ls = document.getElementById('loadingScreen');
-            if (ls && !ls.classList.contains('hidden')) {
-                ls.classList.add('hidden');
-            }
-        }
-
-        function revealHero() {
-            document.querySelectorAll('.hero h1 .word').forEach(word => {
-                word.classList.add('revealed');
-            });
-        }
-
-        // Primary: fire on window load
-        window.addEventListener('load', () => {
-            setTimeout(dismissLoader, 2500);
-            setTimeout(revealHero, 2800);
+        window.addEventListener('load', () => { 
+            setTimeout(() => { document.getElementById('loadingScreen').classList.add('hidden'); }, 2500);
+            // Add shimmer animation to hero titles after reveal
+            setTimeout(() => {
+                document.querySelectorAll('.hero h1 .word').forEach(word => {
+                    word.classList.add('revealed');
+                });
+            }, 2800);
         });
-
-        // Fallback: force dismiss after 4s no matter what
-        setTimeout(() => {
-            dismissLoader();
-            setTimeout(revealHero, 300);
-        }, 4000);
         
         const cursor = document.getElementById('cursor');
         const cursorDot = document.getElementById('cursorDot');
@@ -1411,28 +1293,8 @@
         
         document.querySelectorAll('.bento-card').forEach(card => { card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = ((e.clientX - rect.left) / rect.width) * 100; const y = ((e.clientY - rect.top) / rect.height) * 100; card.style.setProperty('--mouse-x', x + '%'); card.style.setProperty('--mouse-y', y + '%'); }); });
         
-        // Background parallax scroll effect
-        const bgParallax = document.getElementById('bgParallax');
-        let lastScrollY = 0;
-        let ticking = false;
-        function updateBgParallax() {
-            const scrollY = window.scrollY;
-            const maxScroll = document.body.scrollHeight - window.innerHeight;
-            const progress = scrollY / maxScroll;
-            // Fade in/out based on scroll position for a transition feel
-            const opacity = 0.05 + Math.sin(progress * Math.PI) * 0.12;
-            bgParallax.style.opacity = opacity;
-            // Subtle parallax shift
-            bgParallax.style.backgroundPositionY = (50 + progress * 20) + '%';
-            ticking = false;
-        }
-        window.addEventListener('scroll', () => {
-            lastScrollY = window.scrollY;
-            if (!ticking) {
-                requestAnimationFrame(updateBgParallax);
-                ticking = true;
-            }
-        }, { passive: true });
+        const particlesContainer = document.getElementById('particles-container');
+        for (let i = 0; i < 50; i++) { const particle = document.createElement('div'); particle.className = 'particle'; particle.style.left = Math.random() * 100 + '%'; particle.style.top = Math.random() * 100 + '%'; particle.style.animationDelay = Math.random() * 20 + 's'; particle.style.animationDuration = (15 + Math.random() * 20) + 's'; particle.style.opacity = 0.1 + Math.random() * 0.3; particle.style.width = (2 + Math.random() * 4) + 'px'; particle.style.height = particle.style.width; particlesContainer.appendChild(particle); }
         
         window.addEventListener('scroll', () => { const navbar = document.getElementById('navbar'); if (window.scrollY > 100) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); } });
         
@@ -1443,71 +1305,4 @@
             btn.classList.toggle('active');
         }
         function closeNavDropdown() {
-            const dropdown = document.getElementById('navDropdown');
-            const btn = document.querySelector('.nav-dropdown-btn');
-            if (dropdown) dropdown.classList.remove('active');
-            if (btn) btn.classList.remove('active');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            const dropdown = document.getElementById('navDropdown');
-            const btn = document.querySelector('.nav-dropdown-btn');
-            if (dropdown && btn && !btn.contains(e.target) && !dropdown.contains(e.target)) {
-                dropdown.classList.remove('active');
-                btn.classList.remove('active');
-            }
-        });
-
-        // FAQ accordion
-        document.querySelectorAll('.faq-question').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const item = btn.parentElement;
-                const isActive = item.classList.contains('active');
-                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-                if (!isActive) item.classList.add('active');
-            });
-        });
-
-        // Typewriter effect
-        const typewriterEl = document.getElementById('typewriter');
-        if (typewriterEl) {
-            const phrases = ['Work For You', 'Scale Your Business', 'Save You Time', 'Drive Real Results', 'Work Smarter'];
-            let phraseIndex = 0, charIndex = 0, isDeleting = false;
-            function typeWriter() {
-                const current = phrases[phraseIndex];
-                if (isDeleting) {
-                    typewriterEl.textContent = current.substring(0, charIndex - 1);
-                    charIndex--;
-                } else {
-                    typewriterEl.textContent = current.substring(0, charIndex + 1);
-                    charIndex++;
-                }
-                if (!isDeleting && charIndex === current.length) {
-                    isDeleting = true;
-                    setTimeout(typeWriter, 1800);
-                    return;
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    phraseIndex = (phraseIndex + 1) % phrases.length;
-                }
-                setTimeout(typeWriter, isDeleting ? 60 : 100);
-            }
-            typeWriter();
-        }
-
-        // GSAP scroll animations
-        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-            gsap.registerPlugin(ScrollTrigger);
-            gsap.utils.toArray('section').forEach(section => {
-                gsap.fromTo(section.querySelectorAll('.service-card, .portfolio-card, .bento-card, .process-step, .faq-item, .value-item, .contact-method'),
-                    { opacity: 0, y: 40 },
-                    { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power2.out',
-                      scrollTrigger: { trigger: section, start: 'top 80%', toggleActions: 'play none none none' }
-                    }
-                );
-            });
-        }
-    </script>
-</body>
-</html>
+            const dropdown = document
