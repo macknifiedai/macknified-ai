@@ -316,15 +316,47 @@
       <div class="ls-ring ls-ring-3"></div>
       <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Loading" class="ls-logo">
     </div>
-    <svg viewBox="0 0 300 46" xmlns="http://www.w3.org/2000/svg" style="width:260px;height:auto;margin-bottom:24px;">
+    <svg viewBox="0 0 280 46" xmlns="http://www.w3.org/2000/svg" style="width:280px;height:auto;margin-bottom:24px;">
       <defs>
-        <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#3388FF"/><stop offset="100%" style="stop-color:#0066FF"/></linearGradient>
-        <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#FFFFFF"/><stop offset="100%" style="stop-color:#CCCCCC"/></linearGradient>
+        <linearGradient id="blogLgBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#3388FF"><animate attributeName="stop-color" values="#3388FF;#0066FF;#0066FF;#3388FF" dur="2s" repeatCount="indefinite"/></stop>
+          <stop offset="50%" style="stop-color:#0066FF"><animate attributeName="stop-color" values="#0066FF;#0066FF;#3388FF;#0066FF" dur="2s" repeatCount="indefinite"/></stop>
+          <stop offset="100%" style="stop-color:#0066FF"><animate attributeName="stop-color" values="#0066FF;#3388FF;#0066FF;#0066FF" dur="2s" repeatCount="indefinite"/></stop>
+        </linearGradient>
+        <linearGradient id="blogLgWhite" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#FFFFFF"><animate attributeName="stop-color" values="#FFFFFF;#E0E0E0;#FFFFFF" dur="3s" repeatCount="indefinite"/></stop>
+          <stop offset="100%" style="stop-color:#E0E0E0"><animate attributeName="stop-color" values="#E0E0E0;#FFFFFF;#E0E0E0" dur="3s" repeatCount="indefinite"/></stop>
+        </linearGradient>
+        <linearGradient id="blogLgAI" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#0066FF"><animate attributeName="stop-color" values="#0066FF;#FFFFFF;#0066FF" dur="1s" repeatCount="indefinite"/></stop>
+          <stop offset="100%" style="stop-color:#FFFFFF"><animate attributeName="stop-color" values="#FFFFFF;#0066FF;#FFFFFF" dur="1s" repeatCount="indefinite"/></stop>
+        </linearGradient>
+        <filter id="blogGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
       </defs>
-      <text x="2" y="34" fill="url(#lg1)" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:26px;">MACKNI</text>
-      <text x="133" y="34" fill="url(#lg2)" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:26px;">FIED</text>
-      <text x="210" y="34" fill="url(#lg1)" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:26px;"> AI</text>
+      <g filter="url(#blogGlow)">
+        <text x="0"   y="35" fill="url(#blogLgBlue)"  style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:28px;filter:drop-shadow(0 0 10px rgba(0,102,255,0.6));opacity:0;animation:letterRevealB 0.5s ease forwards 0.1s;">M</text>
+        <text x="23"  y="35" fill="url(#blogLgBlue)"  style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:28px;filter:drop-shadow(0 0 10px rgba(0,102,255,0.6));opacity:0;animation:letterRevealB 0.5s ease forwards 0.15s;">A</text>
+        <text x="44"  y="35" fill="url(#blogLgBlue)"  style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:28px;filter:drop-shadow(0 0 10px rgba(0,102,255,0.6));opacity:0;animation:letterRevealB 0.5s ease forwards 0.2s;">C</text>
+        <text x="63"  y="35" fill="url(#blogLgBlue)"  style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:28px;filter:drop-shadow(0 0 10px rgba(0,102,255,0.6));opacity:0;animation:letterRevealB 0.5s ease forwards 0.25s;">K</text>
+        <text x="84"  y="35" fill="url(#blogLgWhite)" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:28px;filter:drop-shadow(0 0 10px rgba(255,255,255,0.6));opacity:0;animation:letterRevealB 0.5s ease forwards 0.3s;">N</text>
+        <text x="106" y="35" fill="url(#blogLgWhite)" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:28px;filter:drop-shadow(0 0 10px rgba(255,255,255,0.6));opacity:0;animation:letterRevealB 0.5s ease forwards 0.35s;">I</text>
+        <text x="117" y="35" fill="url(#blogLgBlue)"  style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:28px;filter:drop-shadow(0 0 10px rgba(0,102,255,0.6));opacity:0;animation:letterRevealB 0.5s ease forwards 0.4s;">F</text>
+        <text x="134" y="35" fill="url(#blogLgBlue)"  style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:28px;filter:drop-shadow(0 0 10px rgba(0,102,255,0.6));opacity:0;animation:letterRevealB 0.5s ease forwards 0.45s;">I</text>
+        <text x="145" y="35" fill="url(#blogLgBlue)"  style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:28px;filter:drop-shadow(0 0 10px rgba(0,102,255,0.6));opacity:0;animation:letterRevealB 0.5s ease forwards 0.5s;">E</text>
+        <text x="163" y="35" fill="url(#blogLgBlue)"  style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:28px;filter:drop-shadow(0 0 10px rgba(0,102,255,0.6));opacity:0;animation:letterRevealB 0.5s ease forwards 0.55s;">D</text>
+        <text x="193" y="35" fill="url(#blogLgAI)"    style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:28px;filter:drop-shadow(0 0 10px rgba(0,102,255,0.6));opacity:0;animation:letterRevealB 0.5s ease forwards 0.65s;">A</text>
+        <text x="214" y="35" fill="url(#blogLgAI)"    style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:28px;filter:drop-shadow(0 0 10px rgba(0,102,255,0.6));opacity:0;animation:letterRevealB 0.5s ease forwards 0.7s;">I</text>
+      </g>
     </svg>
+    <style>
+      @keyframes letterRevealB {
+        0%   { opacity: 0; transform: translateY(20px) scale(0.5); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+    </style>
     <div class="ls-bar-wrap"><div class="ls-bar"></div></div>
     <span class="ls-text">Initializing...</span>
   </div>
