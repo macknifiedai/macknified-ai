@@ -1,0 +1,200 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --text: #111111;
+      --sub: #555555;
+      --muted: #999999;
+      --border: #e8e8e8;
+      --step-border: #f0f0f0;
+      --callout-bg: #f9f9f9;
+      --callout-border: #e0e0e0;
+      --accent: #111111;
+      --btn-bg: #111111;
+      --btn-text: #ffffff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141414;
+        --text: #f0f0f0;
+        --sub: #aaaaaa;
+        --muted: #666666;
+        --border: #2a2a2a;
+        --step-border: #222222;
+        --callout-bg: #1e1e1e;
+        --callout-border: #333333;
+        --accent: #f0f0f0;
+        --btn-bg: #f0f0f0;
+        --btn-text: #111111;
+      }
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 60px 32px 120px;
+      font-size: 16px;
+      line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 38px;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .sub {
+      font-size: 16px;
+      color: var(--sub);
+      max-width: 500px;
+      margin-bottom: 32px;
+    }
+
+    .cta {
+      display: inline-block;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 22px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: opacity 0.15s;
+      margin-bottom: 60px;
+    }
+    .cta:hover { opacity: 0.75; }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 0 36px;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 48px;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      margin-bottom: 14px;
+      color: var(--sub);
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 14px;
+      color: var(--sub);
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 36px;
+    }
+
+    .callout {
+      background: var(--callout-bg);
+      border: 1px solid var(--callout-border);
+      border-left: 3px solid var(--text);
+      border-radius: 5px;
+      padding: 14px 18px;
+      margin: 24px 0;
+      font-size: 14px;
+      color: var(--sub);
+    }
+    .callout strong { color: var(--text); }
+
+    .contact-info {
+      background: var(--callout-bg);
+      border: 1px solid var(--callout-border);
+      border-radius: 5px;
+      padding: 18px;
+      margin: 24px 0;
+      font-size: 14px;
+      color: var(--sub);
+    }
+
+    .contact-info p {
+      margin-bottom: 8px;
+    }
+
+    footer {
+      margin-top: 72px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+
+    /* ===== TABLE OF CONTENTS STYLES ===== */
+    .toc {
+      background: var(--callout-bg);
+      border: 1px solid var(--callout-border);
+      border-radius: 5px;
+      padding: 20px;
+      margin: 32px 0;
+    }
+
+    .toc h3 {
+      font-size: 14px;
+      margin-top: 0;
+      margin-bottom: 14px;
+    }
+
+    .toc ul {
+      list-style: none;
+      margin-left: 0;
+      font-size: 14px;
+    }
+
+    .toc li {
+      margin-bottom: 6px;
+    }
+
+    .toc a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
