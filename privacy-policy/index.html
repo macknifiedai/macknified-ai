@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+
+<!-- SEO Meta Tags -->
+<title>Landing Page - Jul 2, 2026</title>
+<meta property="og:title" content="Landing Page - Jul 2, 2026" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Landing Page - Jul 2, 2026" />
+<!-- End SEO Meta Tags -->
+<script data-lp-token-hydrate>
+(function(){try{
+  var slug="lp-mr3tkcrm-djpjl";
+  var SK='lp_access_'+slug;
+  var map={access_token:'lp_pw_',allowlist_access_token:'lp_al_',pin_access_token:'lp_pin_',paywall_access_token:'lp_paid_'};
+  var u=new URL(location.href);var found=null;var changed=false;
+  Object.keys(map).forEach(function(p){var v=u.searchParams.get(p);if(v){found=v;try{localStorage.setItem(map[p]+slug,v);}catch(e){}u.searchParams.delete(p);changed=true;}});
+  if(found){try{sessionStorage.setItem(SK,found);}catch(e){}}
+  else{try{if(!sessionStorage.getItem(SK)){var t=localStorage.getItem('lp_pw_'+slug)||localStorage.getItem('lp_al_'+slug)||localStorage.getItem('lp_pin_'+slug)||localStorage.getItem('lp_paid_'+slug);if(t)sessionStorage.setItem(SK,t);}}catch(e){}}
+  if(changed){try{history.replaceState(null,'',u.toString());}catch(e){}}
+  function getTok(){try{return sessionStorage.getItem(SK)||localStorage.getItem('lp_pw_'+slug)||localStorage.getItem('lp_al_'+slug)||localStorage.getItem('lp_pin_'+slug)||localStorage.getItem('lp_paid_'+slug);}catch(e){return null;}}
+  function needsToken(url,method){if(!url)return false;var s=String(url);var m=(method||'GET').toUpperCase();var isSheetWrite=(m==='POST'||m==='PATCH'||m==='PUT'||m==='DELETE')&&/\/sheet-rows(\/|$|\?)/.test(s);var isSheetRead=/\/sheet-data(\/|$|\?)/.test(s);var isLlm=/\/api\/landing-pages\/public\/[^/]+\/(llm|llm-config)(\/|$|\?)/.test(s);return isSheetWrite||isSheetRead||isLlm;}
+  if(window.fetch){var _f=window.fetch;window.fetch=function(input,init){try{var url=typeof input==='string'?input:(input&&input.url)||'';var method=(init&&init.method)||(input&&input.method)||'GET';if(needsToken(url,method)){var tok=getTok();if(tok){init=init||{};var h=new Headers(init.headers||(typeof input!=='string'?input.headers:undefined)||{});if(!h.has('X-Landing-Page-Token'))h.set('X-Landing-Page-Token',tok);init.headers=h;}}}catch(e){}return _f.call(this,input,init);};}
+  if(window.XMLHttpRequest){var _o=XMLHttpRequest.prototype.open;var _s=XMLHttpRequest.prototype.send;XMLHttpRequest.prototype.open=function(m,u){this.__lpM=m;this.__lpU=u;return _o.apply(this,arguments);};XMLHttpRequest.prototype.send=function(){try{if(needsToken(this.__lpU,this.__lpM)){var tok=getTok();if(tok)this.setRequestHeader('X-Landing-Page-Token',tok);}}catch(e){}return _s.apply(this,arguments);};}
+}catch(e){}})();
+</script>
+
+<script data-field-replace>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var fields={};
+  var paramMap={
+    'first_name':'firstName','last_name':'lastName','full_name':'fullName',
+    'email':'email','phone':'phone','company':'company',
+    'city':'city','state':'state','country':'country'
+  };
+  var skipTags={'SCRIPT':1,'STYLE':1,'NOSCRIPT':1,'TEXTAREA':1,'CODE':1,'PRE':1};
+  var hasUrlFields=false;
+  for(var p in paramMap){
+    var v=params.get(p);
+    if(v){fields[paramMap[p]]=v;hasUrlFields=true;}
+  }
+  var contactId=params.get('contact_id');
+  function esc(s){
+    if(!s)return s;
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  function doReplace(data){
+    var r={};
+    r['{{full_name}}']=esc(((data.firstName||'')+' '+(data.lastName||'')).trim()||((data.fullName||data.name)||''));
+    r['{{first_name}}']=esc(data.firstName||(data.name?data.name.split(' ')[0]:'')||'');
+    r['{{last_name}}']=esc(data.lastName||(data.name&&data.name.indexOf(' ')>-1?data.name.substring(data.name.indexOf(' ')+1):'')||'');
+    r['{{email}}']=esc(data.email||'');
+    r['{{phone}}']=esc(data.phone||'');
+    r['{{company}}']=esc(data.company||'');
+    r['{{city}}']=esc(data.city||'');
+    r['{{state}}']=esc(data.state||'');
+    r['{{country}}']=esc(data.country||'');
+    r['{{date}}']=new Date().toLocaleDateString();
+    r['{{time}}']=new Date().toLocaleTimeString();
+    r['{{location}}']=[data.city,data.state,data.country].filter(Boolean).join(', ');
+    r['{{tracking_id}}']=esc(data.trackingId||'');
+    r['{{lastClickedProduct}}']=esc(data.lastClickedProduct||'');
+    r['{{lastProductClickDate}}']=esc(data.lastProductClickDate||'');
+    r['{{lastClickedProductPrice}}']=esc(data.lastClickedProductPrice||'');
+    r['{{lastClickedProductURL}}']=esc(data.lastClickedProductURL||'');
+    r['{{productsClickedCount}}']=esc(data.productsClickedCount||'0');
+    r['{{ip_address}}']=esc(data.ipAddress||'');
+    r['{{ip}}']=esc(data.ipAddress||'');
+    if(data.customFields){
+      for(var k in data.customFields){
+        r['{{'+k+'}}']=esc(String(data.customFields[k]||''));
+      }
+    }
+    params.forEach(function(v,k){
+      if(!paramMap[k]&&k!=='contact_id'&&k!=='page_id'&&k.indexOf('utm_')!==0){
+        r['{{'+k+'}}']=esc(v);
+      }
+    });
+    var hasValues=false;
+    for(var key in r){if(r[key]){hasValues=true;break;}}
+    if(!hasValues)return;
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        var p=n.parentNode;
+        if(p&&skipTags[p.nodeName])return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while(node=walker.nextNode()){
+      var txt=node.nodeValue;
+      if(txt&&txt.indexOf('{{')>-1){
+        var changed=txt;
+        for(var ph in r){
+          if(r[ph]&&changed.indexOf(ph)>-1){
+            changed=changed.split(ph).join(r[ph]);
+          }
+        }
+        if(changed!==txt)node.nodeValue=changed;
+      }
+    }
+    var attrs=['value','placeholder','content','alt','title'];
+    attrs.forEach(function(attr){
+      var els=document.querySelectorAll('['+attr+'*="{{"]');
+      for(var i=0;i<els.length;i++){
+        var tag=els[i].tagName;
+        if(skipTags[tag])continue;
+        var val=els[i].getAttribute(attr);
+        if(val){
+          var nv=val;
+          for(var ph in r){
+            if(r[ph]&&nv.indexOf(ph)>-1){
+              nv=nv.split(ph).join(r[ph]);
+            }
+          }
+          if(nv!==val)els[i].setAttribute(attr,nv);
+        }
+      }
+    });
+  }
+  function run(){
+    if(contactId){
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','https://app.macknified.com/api/landing/context/'+encodeURIComponent(contactId)+'?page_id=5302');
+      xhr.onload=function(){
+        if(xhr.status===200){
+          try{
+            var resp=JSON.parse(xhr.responseText);
+            if(resp.success&&resp.contact){
+              var merged=resp.contact;
+              for(var k in fields){merged[k]=fields[k];}
+              doReplace(merged);
+              return;
+            }
+          }catch(e){}
+        }
+        if(hasUrlFields)doReplace(fields);
+      };
+      xhr.onerror=function(){if(hasUrlFields)doReplace(fields);};
+      xhr.send();
+    }else if(hasUrlFields){
+      doReplace(fields);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
+<script data-payment>
+(function(){
+  var slug='PzhNqZ';
+  var apiBase='https://app.macknified.com';
+  var successSubtext='';var successBtnLabel='Continue';var successBtnColor='#16a34a';var successRedirect='';
+  function findEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  function findPhone(){var ids=['phone','phoneNumber','phone-number','tel','telephone','mobile','mobileNumber','cell','contact-phone','buyer-phone'];for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.trim())return el.value.trim();}var inputs=document.querySelectorAll('input[type="tel"],input[name*="phone"],input[name*="tel"],input[name*="mobile"],input[placeholder*="phone"],input[placeholder*="Phone"]');for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.trim())return inputs[j].value.trim();}return '';}
+  var __realProcessPayment=function(a,b,c,d,e){
+    var amountCents,email,productName,productDescription,customerName,quantity;
+    if(a&&typeof a==='object'){
+      amountCents=a.amountCents;email=a.email;productName=a.productName;
+      productDescription=a.productDescription||'';customerName=a.name||'';quantity=a.quantity||1;
+    }else{
+      amountCents=typeof a==='number'?a:0;productName=typeof b==='string'?b:'';
+      productDescription=typeof c==='string'?c:'';email='';customerName='';quantity=1;
+    }
+    if(!email)email=findEmail();
+    if(!customerName)customerName=findName();
+    var phone=findPhone();
+    if(!productName){alert('Product name is required.');return Promise.reject('no_product_name');}
+    if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    var __pLoc=(document.documentElement.lang||navigator.language||'en');
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:customerName,phone:phone||'',amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,locale:__pLoc,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
+    });
+  };
+  Object.defineProperty(window,'__processPayment',{value:__realProcessPayment,writable:false,configurable:false});
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('payment')==='success'){
+      var sidP=urlParams.get('session_id');
+      if(sidP){try{fetch(apiBase+'/api/landing-pages/public/'+slug+'/checkout/confirm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:sidP})}).catch(function(){});}catch(e){}}
+      var pName=urlParams.get('product')||'your item';
+      var overlay=document.createElement('div');overlay.id='payment-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      var subTxt=successSubtext||('Thank you for purchasing '+pName+'.');
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">'+esc(subTxt)+'</p><button id="lp-pay-success-btn" style="padding:12px 32px;font-size:16px;font-weight:600;background:'+successBtnColor+';color:white;border:none;border-radius:8px;cursor:pointer;">'+esc(successBtnLabel)+'</button></div>';
+      document.body.appendChild(overlay);
+      var pBtn=document.getElementById('lp-pay-success-btn');
+      if(pBtn){pBtn.addEventListener('click',function(){if(successRedirect){window.location.href=successRedirect;}else{overlay.remove();window.history.replaceState({},'',window.location.pathname);}});}
+    }
+  });
+})();
+</script>
+<script data-cart>
+(function(){
+  var slug='PzhNqZ';
+  var apiBase='https://app.macknified.com';
+  var successSubtext='';var successBtnLabel='Continue';var successBtnColor='#16a34a';var successRedirect='';
+  function findCartEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findCartName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  function findCartPhone(){var ids=['phone','phoneNumber','phone-number','tel','telephone','mobile','mobileNumber','cell','contact-phone','buyer-phone'];for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.trim())return el.value.trim();}var inputs=document.querySelectorAll('input[type="tel"],input[name*="phone"],input[name*="tel"],input[name*="mobile"],input[placeholder*="phone"],input[placeholder*="Phone"]');for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.trim())return inputs[j].value.trim();}return '';}
+  var __realCart=function(arg){
+    var items, email='', customerName='', successUrl, cancelUrl, currency;
+    if(Array.isArray(arg)){items=arg;}
+    else if(arg&&typeof arg==='object'){
+      items=arg.items;email=arg.email||'';customerName=arg.name||arg.customerName||'';
+      successUrl=arg.successUrl;cancelUrl=arg.cancelUrl;currency=arg.currency;
+    }
+    if(!Array.isArray(items)||items.length===0){alert('No items in cart.');return Promise.reject('no_items');}
+    var cleanItems=[];var totalCents=0;
+    for(var i=0;i<items.length;i++){
+      var it=items[i];if(!it||typeof it!=='object'){alert('Invalid item at position '+i);return Promise.reject('bad_item');}
+      var nm=typeof it.name==='string'?it.name.trim():'';
+      if(!nm){alert('Item '+(i+1)+' is missing a name.');return Promise.reject('no_name');}
+      var amt=typeof it.amountCents==='number'?it.amountCents:(typeof it.amount==='number'?Math.round(it.amount*100):NaN);
+      if(!isFinite(amt)||amt<1){alert('Item "'+nm+'" needs a valid amount in cents.');return Promise.reject('bad_amount');}
+      var qty=(typeof it.quantity==='number'&&it.quantity>0)?Math.floor(it.quantity):1;
+      cleanItems.push({name:nm,description:it.description||'',amountCents:amt,quantity:qty});
+      totalCents+=amt*qty;
+    }
+    if(totalCents<50){alert('Cart total must be at least $0.50');return Promise.reject('total_too_low');}
+    if(!email)email=findCartEmail();
+    if(!customerName)customerName=findCartName();
+    var cartPhone=findCartPhone();
+    if(!email){var p=window.prompt('Enter your email for the receipt:','');if(p&&p.indexOf('@')>-1){email=p.trim();}else{alert('An email address is required to complete checkout.');return Promise.reject('no_email');}}
+    var successBase=window.location.href.split('?')[0];
+    var body={email:email,name:customerName,items:cleanItems,locale:(document.documentElement.lang||navigator.language||'en')};
+    if(currency)body.currency=currency;
+    if(cartPhone)body.phone=cartPhone;
+    body.successUrl=successUrl||(successBase+'?cart=success&email='+encodeURIComponent(email)+'&session_id={CHECKOUT_SESSION_ID}');
+    body.cancelUrl=cancelUrl||(successBase+'?cart=cancelled');
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/cart/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process checkout');throw new Error(d.error);}
+    });
+  };
+  try{Object.defineProperty(window,'__processCart',{value:__realCart,writable:false,configurable:false});}catch(e){window.__processCart=__realCart;}
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('cart')==='success'){
+      var sidC=urlParams.get('session_id');
+      if(sidC){try{fetch(apiBase+'/api/landing-pages/public/'+slug+'/checkout/confirm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:sidC})}).catch(function(){});}catch(e){}}
+      if(document.getElementById('payment-success-overlay')||document.getElementById('donation-success-overlay')||document.getElementById('cart-success-overlay'))return;
+      var overlay=document.createElement('div');overlay.id='cart-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+      var subTxt=successSubtext||'Thank you for your order.';
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Order Confirmed!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">'+esc(subTxt)+'</p><button id="lp-cart-success-btn" style="padding:12px 32px;font-size:16px;font-weight:600;background:'+successBtnColor+';color:white;border:none;border-radius:8px;cursor:pointer;">'+esc(successBtnLabel)+'</button></div>';
+      document.body.appendChild(overlay);
+      var cBtn=document.getElementById('lp-cart-success-btn');
+      if(cBtn){cBtn.addEventListener('click',function(){if(successRedirect){window.location.href=successRedirect;}else{overlay.remove();window.history.replaceState({},'',window.location.pathname);}});}
+    }
+  });
+})();
+</script>
+<script data-widget-config>
+  window.WidgetConfig = {"widgetId":"37114762","launcherType":"tab","primaryColor":"#4890ed","tabPosition":"right","tabLabel":"Chat","customFooterText":"Powered by Macknified AI"};
+</script>
+<script src="https://app.macknified.com/widget.js" data-widget="37114762" async></script>  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-section="privacy-policy">
+
+  <!-- ============================================================================ -->
+  <!-- PRIVACY POLICY HEADER: Title and last updated date                          -->
+  <!-- ============================================================================ -->
+  <p class="label">Macknified AI · Legal</p>
+
+  <h1>Privacy Policy</h1>
+
+  <p class="meta">Last updated: July 2, 2026</p>
+
+  <!-- ============================================================================ -->
+  <!-- TABLE OF CONTENTS: Quick navigation to major sections                       -->
+  <!-- ============================================================================ -->
+  <div class="toc">
+    <h3>Contents</h3>
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#data-controller">Data Controller Information</a></li>
+      <li><a href="#legal-bases">Legal Basis for Processing Under GDPR</a></li>
+      <li><a href="#information-collected">Information We Collect</a></li>
+      <li><a href="#how-we-use">How We Use Your Information</a></li>
+      <li><a href="#health-information">Health Information and HIPAA-Regulated Data</a></li>
+      <li><a href="#data-retention">Data Retention</a></li>
+      <li><a href="#google-api">Google API Services — Limited Use</a></li>
+      <li><a href="#third-party">Third-Party Service Providers</a></li>
+      <li><a href="#international-transfers">International Data Transfers</a></li>
+      <li><a href="#cookies">Cookies and Tracking Technologies</a></li>
+      <li><a href="#gdpr-rights">Your Rights Under GDPR</a></li>
+      <li><a href="#california-rights">California Privacy Rights</a></li>
+      <li><a href="#data-security">Data Security</a></li>
+      <li><a href="#automated-decision">Automated Decision-Making</a></li>
+      <li><a href="#childrens-privacy">Children's Privacy</a></li>
+      <li><a href="#changes">Changes to This Privacy Policy</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+    </ul>
+  </div>
+
+  <hr />
+
+  <!-- ============================================================================ -->
+  <!-- INTRODUCTION SECTION: Overview and scope of privacy policy                  -->
+  <!-- ============================================================================ -->
+  <section id="introduction">
+    <h2>Introduction</h2>
+
+    <p>
+      Macknified LLC, doing business as Macknified AI ("Macknified AI," "Macknified," "we," "our," or "us"), is committed to protecting your privacy and safeguarding your personal data.
+    </p>
+
+    <p>
+      This Privacy Policy explains how we collect, use, disclose, and protect your information when you use our website, applications, tools, and services (collectively, the "Services"). It is intended to address applicable privacy and data-protection requirements, including the General Data Protection Regulation ("GDPR"), the California Consumer Privacy Act ("CCPA"), as amended by the California Privacy Rights Act ("CPRA"), and other applicable laws.
+    </p>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- DATA CONTROLLER SECTION: Contact information and controller status          -->
+  <!-- ============================================================================ -->
+  <section id="data-controller">
+    <h2>Data Controller Information</h2>
+
+    <p>
+      Macknified LLC acts as the data controller for personal data collected directly through our Services, except where we process personal data solely on behalf of a customer. In those circumstances, the customer may be the data controller and Macknified LLC may act as a service provider or processor, depending on applicable law and the nature of the Services.
+    </p>
+
+    <p>For questions about privacy or data protection, contact us at:</p>
+
+    <div class="contact-info">
+      <p><strong>Legal Entity:</strong> Macknified LLC</p>
+      <p><strong>Brand Name:</strong> Macknified AI</p>
+      <p><strong>Email:</strong> support@macknified.com</p>
+    </div>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- LEGAL BASES SECTION: GDPR legal bases for data processing                   -->
+  <!-- ============================================================================ -->
+  <section id="legal-bases">
+    <h2>Legal Basis for Processing Under GDPR</h2>
+
+    <p>
+      Where GDPR applies, we process personal data based on one or more of the following legal grounds:
+    </p>
+
+    <ul>
+      <li><strong>Contract Performance:</strong> Processing necessary to provide, operate, and support the Services you request.</li>
+      <li><strong>Legitimate Interests:</strong> Processing necessary for service improvement, fraud prevention, security, account administration, and business operations, where those interests are not overridden by your rights.</li>
+      <li><strong>Consent:</strong> Processing based on your consent, including marketing communications and non-essential cookies.</li>
+      <li><strong>Legal Obligation:</strong> Processing necessary to comply with applicable laws, regulations, lawful requests, tax requirements, and legal proceedings.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- INFORMATION COLLECTED SECTION: What data we collect and categories          -->
+  <!-- ============================================================================ -->
+  <section id="information-collected">
+    <h2>Information We Collect</h2>
+
+    <p>We may collect information when you:</p>
+
+    <ul>
+      <li>Register for an account;</li>
+      <li>Create and configure websites, landing pages, forms, AI chat widgets, automations, or other features;</li>
+      <li>Process payments or manage subscriptions;</li>
+      <li>Connect third-party services or integrations;</li>
+      <li>Contact customer support;</li>
+      <li>Visit our website or interact with our content;</li>
+      <li>Participate in surveys, promotions, demonstrations, or communications with us.</li>
+    </ul>
+
+    <p>The information we may collect includes:</p>
+
+    <ul>
+      <li><strong>Identity Data:</strong> Name, username, business name, account credentials, and profile information.</li>
+      <li><strong>Contact Data:</strong> Email address, phone number, mailing address, and similar contact details.</li>
+      <li><strong>Financial Data:</strong> Payment and billing information. Payments are processed securely through Stripe or other authorized payment providers. Macknified LLC does not intentionally store complete payment card numbers.</li>
+      <li><strong>Technical Data:</strong> IP address, browser type, device information, operating system, cookies, log data, and similar technical identifiers.</li>
+      <li><strong>Usage Data:</strong> Information about how you interact with the Services, including account activity, feature usage, and analytics information.</li>
+      <li><strong>Communication Data:</strong> Support correspondence, chat transcripts, feedback, and communications you send to us.</li>
+      <li><strong>Customer Content:</strong> Information that you or authorized users choose to upload, submit, connect, generate, or process through the Services.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- HOW WE USE INFORMATION SECTION: Purposes for processing data                -->
+  <!-- ============================================================================ -->
+  <section id="how-we-use">
+    <h2>How We Use Your Information</h2>
+
+    <p>We may use personal information to:</p>
+
+    <ul>
+      <li>Provide, operate, maintain, and improve the Services;</li>
+      <li>Create and manage accounts;</li>
+      <li>Process payments, subscriptions, refunds, and billing matters;</li>
+      <li>Provide customer support and respond to inquiries;</li>
+      <li>Communicate service notices, account updates, and security alerts;</li>
+      <li>Send marketing communications where permitted by law or with your consent;</li>
+      <li>Monitor performance, troubleshoot errors, and improve user experience;</li>
+      <li>Detect, investigate, and prevent fraud, abuse, security incidents, and unauthorized activity;</li>
+      <li>Comply with legal obligations and enforce our agreements.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- HEALTH INFORMATION SECTION: HIPAA restrictions and disclaimers              -->
+  <!-- ============================================================================ -->
+  <section id="health-information">
+    <h2>Health Information and HIPAA-Regulated Data</h2>
+
+    <p>
+      Macknified LLC d/b/a Macknified AI is not designed, configured, or authorized for HIPAA-regulated use and does not offer HIPAA-enabled services or Business Associate Agreements.
+    </p>
+
+    <p>
+      Customers must not use the Services to collect, store, transmit, process, display, analyze, disclose, or otherwise handle Protected Health Information ("PHI"), electronic Protected Health Information ("ePHI"), or other regulated health information.
+    </p>
+
+    <p>This includes, without limitation:</p>
+
+    <ul>
+      <li>Medical records or treatment information;</li>
+      <li>Therapy notes or clinical intake information;</li>
+      <li>Diagnoses, medications, or insurance information;</li>
+      <li>Identifiable mental-health or behavioral-health assessments;</li>
+      <li>Patient records; or</li>
+      <li>Other information regulated by HIPAA, the HITECH Act, state health-privacy laws, or similar laws.</li>
+    </ul>
+
+    <p>
+      Customers are responsible for determining whether HIPAA, state privacy laws, professional licensing rules, or other legal requirements apply to their business and use of the Services.
+    </p>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- DATA RETENTION SECTION: How long we keep your information                   -->
+  <!-- ============================================================================ -->
+  <section id="data-retention">
+    <h2>Data Retention</h2>
+
+    <p>
+      We retain personal data only for as long as reasonably necessary to fulfill the purposes for which it was collected, unless a longer retention period is required or permitted by law.
+    </p>
+
+    <p>Our general retention practices may include:</p>
+
+    <ul>
+      <li><strong>Account Data:</strong> Retained while your account is active and for up to 30 days after a verified deletion request, subject to legal, billing, security, and backup requirements.</li>
+      <li><strong>Chat and Conversation Data:</strong> Retained for up to two years or until you request deletion, unless a different retention period is disclosed for a particular feature.</li>
+      <li><strong>Payment Records:</strong> Retained for up to seven years or as required for tax, accounting, fraud prevention, and legal-compliance purposes.</li>
+      <li><strong>Analytics Data:</strong> Aggregated, anonymized, or deleted when no longer reasonably necessary for analysis and service improvement.</li>
+      <li><strong>Marketing Consent Records:</strong> Retained as necessary to document consent, honor opt-out requests, and comply with applicable laws.</li>
+    </ul>
+
+    <p>
+      We may retain de-identified, aggregated, or anonymized information for lawful business purposes where it cannot reasonably identify you.
+    </p>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- GOOGLE API SECTION: Limited use of Google API data                          -->
+  <!-- ============================================================================ -->
+  <section id="google-api">
+    <h2>Google API Services — Limited Use</h2>
+
+    <p>
+      Macknified AI's use and transfer of information received from Google APIs complies with the Google API Services User Data Policy, including applicable Limited Use requirements.
+    </p>
+
+    <p>
+      Information obtained from Google APIs, including Google Calendar, Sheets, Docs, Drive, and Gmail, is used solely to provide or improve the user-facing feature you have enabled. We do not sell Google user data, use it for advertising purposes, or use it to train generalized artificial intelligence or machine-learning models.
+    </p>
+
+    <p>
+      Macknified AI uses technical controls intended to prevent Google API data from being sent to AI providers whose applicable terms permit training on submitted content. Widgets that read from a Google API must use an approved provider configuration, such as OpenAI, Anthropic Claude, or Google Gemini, subject to the applicable service terms and account configuration.
+    </p>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- THIRD-PARTY SECTION: Service providers and data sharing                     -->
+  <!-- ============================================================================ -->
+  <section id="third-party">
+    <h2>Third-Party Service Providers</h2>
+
+    <p>
+      We may share personal information with trusted service providers that process information on our behalf to help operate the Services. These providers may include:
+    </p>
+
+    <ul>
+      <li><strong>Stripe:</strong> Payment processing;</li>
+      <li><strong>Google Analytics:</strong> Website analytics;</li>
+      <li><strong>OpenAI:</strong> AI processing services;</li>
+      <li><strong>Twilio and/or SendGrid:</strong> Email, SMS, and communications services;</li>
+      <li><strong>Hosting, cloud storage, security, customer-support, and infrastructure providers:</strong> As needed to provide and secure the Services.</li>
+    </ul>
+
+    <p>
+      These providers may process information only as authorized by us and subject to applicable contractual and legal requirements.
+    </p>
+
+    <p>We may also disclose information:</p>
+
+    <ul>
+      <li>To comply with legal obligations, subpoenas, court orders, or lawful government requests;</li>
+      <li>To protect the rights, property, safety, and security of Macknified LLC, our users, or others;</li>
+      <li>In connection with a merger, acquisition, financing, reorganization, sale of assets, or similar business transaction;</li>
+      <li>With your consent or at your direction.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- INTERNATIONAL TRANSFERS SECTION: Cross-border data movement                 -->
+  <!-- ============================================================================ -->
+  <section id="international-transfers">
+    <h2>International Data Transfers</h2>
+
+    <p>
+      Your information may be transferred to, stored in, or processed in the United States and other countries where Macknified LLC or its service providers operate.
+    </p>
+
+    <p>
+      Where required by applicable law, including transfers from the European Economic Area or United Kingdom, we use appropriate safeguards such as Standard Contractual Clauses, adequacy decisions, or other legally recognized transfer mechanisms.
+    </p>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- COOKIES SECTION: Use of cookies and tracking technologies                   -->
+  <!-- ============================================================================ -->
+  <section id="cookies">
+    <h2>Cookies and Tracking Technologies</h2>
+
+    <p>
+      We use cookies and similar technologies to operate the Services, remember preferences, understand usage, improve performance, and, where permitted, support marketing activities.
+    </p>
+
+    <p>Types of cookies may include:</p>
+
+    <ul>
+      <li><strong>Essential Cookies:</strong> Necessary for the Services to function, including security, authentication, and core functionality.</li>
+      <li><strong>Analytics Cookies:</strong> Used to understand usage patterns and improve the Services.</li>
+      <li><strong>Marketing Cookies:</strong> Used to measure campaigns and deliver relevant marketing where permitted.</li>
+    </ul>
+
+    <p>
+      Where required by law, we request consent before using non-essential cookies. You may manage cookie preferences through our cookie banner, browser settings, or other available controls.
+    </p>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- GDPR RIGHTS SECTION: User rights under GDPR                                 -->
+  <!-- ============================================================================ -->
+  <section id="gdpr-rights">
+    <h2>Your Rights Under GDPR</h2>
+
+    <p>
+      If you are located in the European Economic Area or United Kingdom, you may have the following rights, subject to applicable limitations and exceptions:
+    </p>
+
+    <ul>
+      <li>Right of access;</li>
+      <li>Right to rectification;</li>
+      <li>Right to erasure;</li>
+      <li>Right to restriction of processing;</li>
+      <li>Right to data portability;</li>
+      <li>Right to object to certain processing;</li>
+      <li>Right to withdraw consent;</li>
+      <li>Right to lodge a complaint with your local data-protection authority.</li>
+    </ul>
+
+    <p>
+      To exercise these rights, contact us at support@macknified.com or use available account settings and data-export features.
+    </p>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- CALIFORNIA RIGHTS SECTION: CCPA/CPRA and California privacy law rights      -->
+  <!-- ============================================================================ -->
+  <section id="california-rights">
+    <h2>California Privacy Rights</h2>
+
+    <p>
+      California residents may have rights under the CCPA, CPRA, and other California privacy laws, including the right to:
+    </p>
+
+    <ul>
+      <li>Know what personal information we collect, use, disclose, and retain;</li>
+      <li>Request access to, correction of, or deletion of certain personal information;</li>
+      <li>Opt out of certain sales or sharing of personal information, where applicable;</li>
+      <li>Limit certain uses of sensitive personal information, where applicable;</li>
+      <li>Receive equal service and pricing without unlawful discrimination for exercising privacy rights.</li>
+    </ul>
+
+    <p>
+      Macknified LLC does not sell personal information for monetary consideration. We do not knowingly sell or share personal information of individuals under 16 years of age.
+    </p>
+
+    <p>
+      To submit a privacy request, contact support@macknified.com. We may need to verify your identity before completing certain requests.
+    </p>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- DATA SECURITY SECTION: Security measures and safeguards                     -->
+  <!-- ============================================================================ -->
+  <section id="data-security">
+    <h2>Data Security</h2>
+
+    <p>
+      We implement reasonable and appropriate technical and organizational safeguards designed to protect personal information, including:
+    </p>
+
+    <ul>
+      <li>Encryption of data in transit using TLS/SSL;</li>
+      <li>Encryption at rest where supported and appropriate;</li>
+      <li>Access controls and authentication mechanisms;</li>
+      <li>Security monitoring, vulnerability management, and periodic assessments;</li>
+      <li>Employee and contractor privacy and security training;</li>
+      <li>Incident-response procedures.</li>
+    </ul>
+
+    <p>
+      No method of internet transmission or electronic storage is completely secure. If a security incident affects personal information, we will investigate and provide notifications as required by applicable law.
+    </p>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- AUTOMATED DECISION-MAKING SECTION: AI and automated processing              -->
+  <!-- ============================================================================ -->
+  <section id="automated-decision">
+    <h2>Automated Decision-Making</h2>
+
+    <p>
+      Some Macknified AI features use automated processing and artificial intelligence to generate content, respond to users, organize information, or assist with workflows.
+    </p>
+
+    <p>
+      Macknified LLC does not intend to make decisions that produce legal or similarly significant effects on individuals solely through automated processing.
+    </p>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- CHILDREN'S PRIVACY SECTION: Protection of children's data                   -->
+  <!-- ============================================================================ -->
+  <section id="childrens-privacy">
+    <h2>Children's Privacy</h2>
+
+    <p>
+      The Services are not directed to children under 16 years of age, and we do not knowingly collect personal information from children under 16 without appropriate authorization.
+    </p>
+
+    <p>
+      If we learn that we have collected personal information from a child in violation of applicable law, we will take appropriate steps to delete or otherwise address that information.
+    </p>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- CHANGES SECTION: Notice of policy updates                                   -->
+  <!-- ============================================================================ -->
+  <section id="changes">
+    <h2>Changes to This Privacy Policy</h2>
+
+    <p>
+      We may update this Privacy Policy from time to time. When we make material changes, we may provide notice through the Services, by email, or by updating the "Last updated" date above.
+    </p>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!-- CONTACT SECTION: How to reach us with privacy questions                     -->
+  <!-- ============================================================================ -->
+  <section id="contact">
+    <h2>Contact Us</h2>
+
+    <p>
+      For questions about this Privacy Policy, privacy requests, or data-protection concerns, contact:
+    </p>
+
+    <div class="contact-info">
+      <p><strong>Macknified LLC d/b/a Macknified AI</strong></p>
+      <p><strong>Email:</strong> support@macknified.com</p>
+    </div>
+  </section>
+
+  <hr />
+
+  <footer>
+    <p>© 2026 Macknified LLC. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
