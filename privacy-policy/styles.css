@@ -1,32 +1,32 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #ffffff;
+      --bg: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
       --text: #111111;
       --sub: #555555;
       --muted: #999999;
       --border: #e8e8e8;
       --step-border: #f0f0f0;
-      --callout-bg: #f9f9f9;
-      --callout-border: #e0e0e0;
-      --accent: #111111;
-      --btn-bg: #111111;
+      --callout-bg: linear-gradient(135deg, #f9fbff 0%, #f5f8ff 100%);
+      --callout-border: #d4e0ff;
+      --accent: #0052cc;
+      --btn-bg: linear-gradient(135deg, #0052cc 0%, #003d99 100%);
       --btn-text: #ffffff;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #141414;
+        --bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
         --text: #f0f0f0;
         --sub: #aaaaaa;
         --muted: #666666;
         --border: #2a2a2a;
-        --step-border: #222222;
-        --callout-bg: #1e1e1e;
-        --callout-border: #333333;
-        --accent: #f0f0f0;
-        --btn-bg: #f0f0f0;
-        --btn-text: #111111;
+        --step-border: #1a1a2e;
+        --callout-bg: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        --callout-border: #0052cc;
+        --accent: #5a9eff;
+        --btn-bg: linear-gradient(135deg, #0052cc 0%, #003d99 100%);
+        --btn-text: #ffffff;
       }
     }
 
@@ -40,12 +40,13 @@
       font-size: 16px;
       line-height: 1.6;
       transition: background 0.2s, color 0.2s;
+      min-height: 100vh;
     }
 
     .label {
       font-size: 12px;
       font-weight: 500;
-      color: var(--muted);
+      color: var(--accent);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       margin-bottom: 20px;
@@ -58,6 +59,10 @@
       letter-spacing: -0.03em;
       color: var(--text);
       margin-bottom: 14px;
+      background: linear-gradient(135deg, #111111 0%, #0052cc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .sub {
@@ -76,14 +81,19 @@
       padding: 11px 22px;
       border-radius: 6px;
       text-decoration: none;
-      transition: opacity 0.15s;
+      transition: opacity 0.15s, transform 0.15s;
       margin-bottom: 60px;
+      box-shadow: 0 4px 12px rgba(0, 82, 204, 0.25);
     }
-    .cta:hover { opacity: 0.75; }
+    .cta:hover { 
+      opacity: 0.85;
+      transform: translateY(-2px);
+    }
 
     hr {
       border: none;
-      border-top: 1px solid var(--border);
+      border-top: 2px solid;
+      border-image: linear-gradient(90deg, #0052cc, #5a9eff) 1;
       margin: 0 0 36px;
     }
 
@@ -94,6 +104,8 @@
       margin-top: 48px;
       margin-bottom: 16px;
       letter-spacing: -0.01em;
+      border-left: 4px solid #0052cc;
+      padding-left: 12px;
     }
 
     h3 {
@@ -132,8 +144,8 @@
 
     .callout {
       background: var(--callout-bg);
-      border: 1px solid var(--callout-border);
-      border-left: 3px solid var(--text);
+      border: 2px solid var(--callout-border);
+      border-left: 4px solid #0052cc;
       border-radius: 5px;
       padding: 14px 18px;
       margin: 24px 0;
@@ -144,12 +156,13 @@
 
     .contact-info {
       background: var(--callout-bg);
-      border: 1px solid var(--callout-border);
+      border: 2px solid var(--callout-border);
       border-radius: 5px;
       padding: 18px;
       margin: 24px 0;
       font-size: 14px;
       color: var(--sub);
+      box-shadow: 0 4px 12px rgba(0, 82, 204, 0.1);
     }
 
     .contact-info p {
@@ -160,23 +173,27 @@
       margin-top: 72px;
       font-size: 12px;
       color: var(--muted);
-      border-top: 1px solid var(--border);
+      border-top: 2px solid;
+      border-image: linear-gradient(90deg, #0052cc, #5a9eff) 1;
       padding-top: 24px;
     }
 
     /* ===== TABLE OF CONTENTS STYLES ===== */
     .toc {
       background: var(--callout-bg);
-      border: 1px solid var(--callout-border);
+      border: 2px solid var(--callout-border);
       border-radius: 5px;
       padding: 20px;
       margin: 32px 0;
+      box-shadow: 0 4px 12px rgba(0, 82, 204, 0.1);
     }
 
     .toc h3 {
       font-size: 14px;
       margin-top: 0;
       margin-bottom: 14px;
+      color: #0052cc;
+      font-weight: 700;
     }
 
     .toc ul {
@@ -193,8 +210,10 @@
       color: var(--accent);
       text-decoration: none;
       font-weight: 500;
+      transition: color 0.15s;
     }
 
     .toc a:hover {
+      color: #003d99;
       text-decoration: underline;
     }
