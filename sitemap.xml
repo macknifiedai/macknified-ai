@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://www.macknified.com/blog/</loc>
+    <lastmod>2026-07-31T11:00:34.845Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.macknified.com/blog/ai-for-restaurants/</loc>
+    <lastmod>2026-07-31T10:46:56.607Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://www.macknified.com/terms-of-service/</loc>
     <lastmod>2026-07-31T10:46:49.590Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -66,11 +76,6 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://www.macknified.com/blog/ai-for-restaurants/</loc>
-    <lastmod>2026-07-31T10:45:51.827Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
     <loc>https://www.macknified.com/blog/ai-content-flywheel/</loc>
     <lastmod>2026-07-31T10:45:46.870Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -103,11 +108,6 @@
   <url>
     <loc>https://www.macknified.com/blog/6-figure-ai-consulting-business/</loc>
     <lastmod>2026-07-31T10:45:18.654Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.macknified.com/blog/</loc>
-    <lastmod>2026-07-31T10:45:13.328Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>
