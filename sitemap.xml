@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://macknified.com/blog/ai-automates-customer-journey/</loc>
+    <lastmod>2026-07-31T08:24:18.039Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://macknified.com/blog/ai-appointment-machine/</loc>
     <lastmod>2026-07-31T08:24:13.328Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -73,11 +78,6 @@
   <url>
     <loc>https://macknified.com/blog/ai-powered-business-stack-2026/</loc>
     <lastmod>2026-07-31T07:01:03.369Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://macknified.com/blog/ai-automates-customer-journey/</loc>
-    <lastmod>2026-07-31T07:00:44.678Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
