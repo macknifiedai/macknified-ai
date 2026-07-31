@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://www.macknified.com/blog/ai-small-business-compete-bigger-brands/</loc>
+    <lastmod>2026-07-31T10:46:05.139Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://www.macknified.com/blog/ai-powered-business-stack-2026/</loc>
     <lastmod>2026-07-31T10:46:00.576Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -103,11 +108,6 @@
   <url>
     <loc>https://www.macknified.com/blog/ai-transforming-real-estate/</loc>
     <lastmod>2026-07-31T09:19:07.431Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.macknified.com/blog/ai-small-business-compete-bigger-brands/</loc>
-    <lastmod>2026-07-31T09:19:03.046Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>
