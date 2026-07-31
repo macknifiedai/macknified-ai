@@ -20,8 +20,8 @@
 <meta name="twitter:title" content="Power Builders — Macknified AI" />
 <meta name="twitter:description" content="AI tools and tactics for founders who build with power." />
 <!-- End SEO Meta Tags -->
-<meta name="sheet-data-url" content="https://paymegpt.com/api/public/landing-pages/5140/sheet-data">
-<meta name="sheet-rows-url" content="https://paymegpt.com/api/public/landing-pages/5140/sheet-rows">
+<meta name="sheet-data-url" content="https://app.macknified.com/api/public/landing-pages/5140/sheet-data">
+<meta name="sheet-rows-url" content="https://app.macknified.com/api/public/landing-pages/5140/sheet-rows">
 <meta name="sheet-writes-enabled" content="true">
 <meta name="sheet-allow-create" content="true">
 <meta name="sheet-allow-delete" content="false">
@@ -306,11 +306,7 @@
     }
   });
 })();
-</script>
-<script data-widget-config>
-  window.WidgetConfig = {"widgetId":"37114762","launcherType":"tab","primaryColor":"#4890ed","tabPosition":"right","tabLabel":"Chat","customFooterText":"Powered by Macknified AI"};
-</script>
-<script src="https://app.macknified.com/widget.js" data-widget="37114762" async></script>  <link rel="stylesheet" href="styles.css">
+</script>  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="loadingScreen">
@@ -425,33 +421,6 @@
     input.addEventListener('keydown',function(e){if(e.key==='Enter')btn.click();});
   })();
 
-  function renderMarkdown(raw){
-    if(!raw)return'';
-    var normalized=raw.replace(/\|\|\|/g,'\n');
-    var lines=normalized.split('\n');var html='';var inOl=false,inUl=false;
-    function closeList(){if(inOl){html+='</ol>';inOl=false;}if(inUl){html+='</ul>';inUl=false;}}
-    function inlineFormat(s){
-      s=s.replace(/\*\*(.+?)\*\*/g,'<strong class="post-strong">$1</strong>');
-      s=s.replace(/\*(.+?)\*/g,'<em class="post-em">$1</em>');
-      s=s.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g,'<a class="post-cite" href="$2" target="_blank" rel="noopener">$1</a>');
-      s=s.replace(/(?<!["\(])(https?:\/\/[^\s\)]+)/g,'<a class="post-cite" href="$1" target="_blank" rel="noopener">$1</a>');
-      return s;
-    }
-    lines.forEach(function(line){
-      var trimmed=line.trim();
-      if(!trimmed){closeList();return;}
-      if(/^##\s/.test(trimmed)){closeList();html+='<div class="post-h2">'+inlineFormat(trimmed.replace(/^##\s+/,''))+'</div>';return;}
-      if(/^###\s/.test(trimmed)||/^####\s/.test(trimmed)){closeList();html+='<div class="post-h3">'+inlineFormat(trimmed.replace(/^#{3,}\s+/,''))+'</div>';return;}
-      if(/^#\s/.test(trimmed)){closeList();html+='<div class="post-h2">'+inlineFormat(trimmed.replace(/^#\s+/,''))+'</div>';return;}
-      var olMatch=trimmed.match(/^(\d+)\.\s+(.*)/);
-      if(olMatch){if(!inOl){if(inUl){html+='</ul>';inUl=false;}html+='<ol class="post-ol">';inOl=true;}html+='<li class="post-li">'+inlineFormat(olMatch[2])+'</li>';return;}
-      if(/^[-*]\s/.test(trimmed)){if(!inUl){if(inOl){html+='</ol>';inOl=false;}html+='<ul class="post-ul">';inUl=true;}html+='<li class="post-li">'+inlineFormat(trimmed.replace(/^[-*]\s+/,''))+'</li>';return;}
-      if(/^\*\*[^*]+\*\*$/.test(trimmed)){closeList();html+='<div class="post-h3">'+trimmed.replace(/^\*\*|\*\*$/g,'')+'</div>';return;}
-      closeList();html+='<p class="post-p">'+inlineFormat(trimmed)+'</p>';
-    });
-    closeList();return html;
-  }
-
   (function(){
     var SHEET_URL='https://app.macknified.com/api/public/landing-pages/5140/sheet-data';
     var metaEl=document.querySelector('meta[name="sheet-data-url"]');
@@ -468,11 +437,11 @@
     topGrid.innerHTML=Array.from({length:4}).map(function(){return'<div class="top-card"><div style="width:100%;aspect-ratio:4/3;" class="shimmer"></div><div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px;"><div style="height:9px;width:70px;border-radius:3px;" class="shimmer"></div><div style="height:13px;width:90%;border-radius:3px;" class="shimmer"></div><div style="height:13px;width:65%;border-radius:3px;" class="shimmer"></div></div></div>';}).join('');
     function navigate(row){
       var slug=row.Slug||row.slug||'';
-      if(slug){window.location.href='/blog/'+slug;}
+      if(slug){window.location.href='/blog/'+slug+'/';}
     }
     function renderTopGrid(rows){
       topGrid.innerHTML=rows.map(function(row,i){
-        var title=row.Title||row.title||'Untitled';var date=row.Date||row.date||'';var img=row.ImageURL||row.imageUrl||row.imageurl||'';var ds=fmtShort(date);var slug=row.Slug||row.slug||'';
+        var title=row.Title||row.title||'Untitled';var date=row.Date||row.date||'';var img=row.ImageURL||row.imageUrl||row.imageurl||'';var ds=fmtShort(date);
         return'<div class="top-card" data-i="'+i+'">'+(img?'<img src="'+esc(img)+'" alt="'+esc(title)+'" class="card-img" loading="lazy" onerror="this.style.display=\'none\'">':'<div class="card-img-ph">'+phSvg+'</div>')+'<div class="card-body">'+(ds?'<div class="card-date">'+esc(ds)+'</div>':'')+'<div class="card-title">'+esc(title)+'</div><div class="card-read">Read →</div></div></div>';
       }).join('');
       topGrid.querySelectorAll('.top-card').forEach(function(el){el.addEventListener('click',function(){navigate(rows[parseInt(el.dataset.i)]);});});
