@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://macknified.com/blog/how-to-write-ai-system-prompt/</loc>
+    <lastmod>2026-07-31T08:24:58.316Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://macknified.com/blog/claude-vs-gpt4o-vs-gemini/</loc>
     <lastmod>2026-07-31T08:24:54.034Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -68,11 +73,6 @@
   <url>
     <loc>https://macknified.com/blog/</loc>
     <lastmod>2026-07-31T08:23:54.523Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://macknified.com/blog/how-to-write-ai-system-prompt/</loc>
-    <lastmod>2026-07-31T08:20:39.077Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
