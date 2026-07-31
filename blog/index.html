@@ -20,8 +20,8 @@
 <meta name="twitter:title" content="Power Builders — Macknified AI" />
 <meta name="twitter:description" content="AI tools and tactics for founders who build with power." />
 <!-- End SEO Meta Tags -->
-<meta name="sheet-data-url" content="https://paymegpt.com/api/public/landing-pages/5140/sheet-data">
-<meta name="sheet-rows-url" content="https://paymegpt.com/api/public/landing-pages/5140/sheet-rows">
+<meta name="sheet-data-url" content="https://app.macknified.com/api/public/landing-pages/5140/sheet-data">
+<meta name="sheet-rows-url" content="https://app.macknified.com/api/public/landing-pages/5140/sheet-rows">
 <meta name="sheet-writes-enabled" content="true">
 <meta name="sheet-allow-create" content="true">
 <meta name="sheet-allow-delete" content="false">
@@ -306,11 +306,7 @@
     }
   });
 })();
-</script>
-<script data-widget-config>
-  window.WidgetConfig = {"widgetId":"37114762","launcherType":"tab","primaryColor":"#4890ed","tabPosition":"right","tabLabel":"Chat","customFooterText":"Powered by Macknified AI"};
-</script>
-<script src="https://app.macknified.com/widget.js" data-widget="37114762" async></script>  <link rel="stylesheet" href="styles.css">
+</script>  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="loadingScreen">
@@ -441,30 +437,29 @@
     topGrid.innerHTML=Array.from({length:4}).map(function(){return'<a class="top-card" href="#"><div style="width:100%;aspect-ratio:4/3;" class="shimmer"></div><div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px;"><div style="height:9px;width:70px;border-radius:3px;" class="shimmer"></div><div style="height:13px;width:90%;border-radius:3px;" class="shimmer"></div><div style="height:13px;width:65%;border-radius:3px;" class="shimmer"></div></div></a>';}).join('');
     function getUrl(row){
       var url=row.PostURL||row.postUrl||row.posturl||'';
-      if(!url){var slug=row.Slug||row.slug||'';if(slug)url='https://macknified.com/blog/'+slug+'/';}
+      if(!url){var slug=row.Slug||row.slug||'';if(slug)url='https://www.macknified.com/blog/'+slug+'/';}
       return url;
     }
     function renderTopGrid(rows){
-      topGrid.innerHTML=rows.map(function(row,i){
+      topGrid.innerHTML=rows.map(function(row){
         var title=row.Title||row.title||'Untitled';
         var date=row.Date||row.date||'';
         var img=row.ImageURL||row.imageUrl||row.imageurl||'';
         var ds=fmtShort(date);
         var url=getUrl(row);
-        var card='<a class="top-card" href="'+esc(url)+'">'
+        return'<a class="top-card" href="'+esc(url)+'">'
           +(img?'<img src="'+esc(img)+'" alt="'+esc(title)+'" class="card-img" loading="lazy" onerror="this.style.display=\'none\'">':'<div class="card-img-ph">'+phSvg+'</div>')
           +'<div class="card-body">'
           +(ds?'<div class="card-date">'+esc(ds)+'</div>':'')
           +'<div class="card-title">'+esc(title)+'</div>'
-          +'<div class="card-read">Read →</div>'
+          +'<div class="card-read">Read \u2192</div>'
           +'</div></a>';
-        return card;
       }).join('');
     }
     function renderRest(rows){
       if(!rows.length){restSection.style.display='none';return;}
       restSection.style.display='block';
-      restList.innerHTML=rows.map(function(row,i){
+      restList.innerHTML=rows.map(function(row){
         var title=row.Title||row.title||'Untitled';
         var date=row.Date||row.date||'';
         var excerpt=row.Excerpt||row.excerpt||'';
@@ -487,6 +482,8 @@
         rows=rows.filter(function(r){return(r.Title||r.title||'').trim();});
         var now=new Date();now.setHours(23,59,59,999);var nowMs=now.getTime();
         rows=rows.filter(function(r){var d=r.Date||r.date||'';if(!d)return true;var ts=parsePostDate(d);if(ts===null)return true;return ts<=nowMs;});
+        /* Only show articles that have a deployed page (PostURL populated) */
+        rows=rows.filter(function(r){return(r.PostURL||r.postUrl||r.posturl||'').trim();});
         rows.sort(function(a,b){return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);});
         if(!rows.length){topGrid.innerHTML='';emptyState.style.display='block';return;}
         emptyState.style.display='none';errorState.style.display='none';
