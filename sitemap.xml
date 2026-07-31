@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://www.macknified.com/blog/ai-for-restaurants/</loc>
+    <lastmod>2026-07-31T09:26:00.712Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://www.macknified.com/terms-of-service/</loc>
     <lastmod>2026-07-31T09:19:49.070Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -63,11 +68,6 @@
   <url>
     <loc>https://www.macknified.com/blog/ai-for-service-businesses/</loc>
     <lastmod>2026-07-31T09:18:53.689Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.macknified.com/blog/ai-for-restaurants/</loc>
-    <lastmod>2026-07-31T09:18:48.880Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
