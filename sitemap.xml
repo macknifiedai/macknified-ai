@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://www.macknified.com/terms-of-service/</loc>
+    <lastmod>2026-07-31T10:46:49.590Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://www.macknified.com/privacy-policy/</loc>
     <lastmod>2026-07-31T10:46:45.139Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -103,11 +108,6 @@
   <url>
     <loc>https://www.macknified.com/blog/</loc>
     <lastmod>2026-07-31T10:45:13.328Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.macknified.com/terms-of-service/</loc>
-    <lastmod>2026-07-31T09:19:49.070Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>
