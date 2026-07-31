@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://macknified.com/blog/replaced-employees-with-ai/</loc>
+    <lastmod>2026-07-31T08:25:12.454Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://macknified.com/blog/one-person-agency-50-clients/</loc>
     <lastmod>2026-07-31T08:25:07.811Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -83,11 +88,6 @@
   <url>
     <loc>https://macknified.com/blog/</loc>
     <lastmod>2026-07-31T08:23:54.523Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://macknified.com/blog/replaced-employees-with-ai/</loc>
-    <lastmod>2026-07-31T07:02:32.280Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
