@@ -1,13 +1,42 @@
+(function() {
+            function killLoader() {
+                var ls = document.getElementById('loadingScreen');
+                if (ls) { ls.style.opacity = '0'; ls.style.visibility = 'hidden'; ls.style.pointerEvents = 'none'; }
+            }
+            // Hard kill after 3 seconds no matter what
+            setTimeout(killLoader, 3000);
+            // Also try on DOMContentLoaded
+            document.addEventListener('DOMContentLoaded', function() { setTimeout(killLoader, 2500); });
+            // Also try on load
+            window.addEventListener('load', function() { setTimeout(killLoader, 2500); });
+        })();
+
 lucide.createIcons();
-        window.addEventListener('load', () => { 
-            setTimeout(() => { document.getElementById('loadingScreen').classList.add('hidden'); }, 2500);
-            // Add shimmer animation to hero titles after reveal
-            setTimeout(() => {
-                document.querySelectorAll('.hero h1 .word').forEach(word => {
-                    word.classList.add('revealed');
-                });
-            }, 2800);
+
+        function dismissLoader() {
+            const ls = document.getElementById('loadingScreen');
+            if (ls && !ls.classList.contains('hidden')) {
+                ls.classList.add('hidden');
+            }
+        }
+
+        function revealHero() {
+            document.querySelectorAll('.hero h1 .word').forEach(word => {
+                word.classList.add('revealed');
+            });
+        }
+
+        // Primary: fire on window load
+        window.addEventListener('load', () => {
+            setTimeout(dismissLoader, 2500);
+            setTimeout(revealHero, 2800);
         });
+
+        // Fallback: force dismiss after 4s no matter what
+        setTimeout(() => {
+            dismissLoader();
+            setTimeout(revealHero, 300);
+        }, 4000);
         
         const cursor = document.getElementById('cursor');
         const cursorDot = document.getElementById('cursorDot');
@@ -16,8 +45,28 @@ lucide.createIcons();
         
         document.querySelectorAll('.bento-card').forEach(card => { card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = ((e.clientX - rect.left) / rect.width) * 100; const y = ((e.clientY - rect.top) / rect.height) * 100; card.style.setProperty('--mouse-x', x + '%'); card.style.setProperty('--mouse-y', y + '%'); }); });
         
-        const particlesContainer = document.getElementById('particles-container');
-        for (let i = 0; i < 50; i++) { const particle = document.createElement('div'); particle.className = 'particle'; particle.style.left = Math.random() * 100 + '%'; particle.style.top = Math.random() * 100 + '%'; particle.style.animationDelay = Math.random() * 20 + 's'; particle.style.animationDuration = (15 + Math.random() * 20) + 's'; particle.style.opacity = 0.1 + Math.random() * 0.3; particle.style.width = (2 + Math.random() * 4) + 'px'; particle.style.height = particle.style.width; particlesContainer.appendChild(particle); }
+        // Background parallax scroll effect
+        const bgParallax = document.getElementById('bgParallax');
+        let lastScrollY = 0;
+        let ticking = false;
+        function updateBgParallax() {
+            const scrollY = window.scrollY;
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            const progress = scrollY / maxScroll;
+            // Fade in/out based on scroll position for a transition feel
+            const opacity = 0.05 + Math.sin(progress * Math.PI) * 0.12;
+            bgParallax.style.opacity = opacity;
+            // Subtle parallax shift
+            bgParallax.style.backgroundPositionY = (50 + progress * 20) + '%';
+            ticking = false;
+        }
+        window.addEventListener('scroll', () => {
+            lastScrollY = window.scrollY;
+            if (!ticking) {
+                requestAnimationFrame(updateBgParallax);
+                ticking = true;
+            }
+        }, { passive: true });
         
         window.addEventListener('scroll', () => { const navbar = document.getElementById('navbar'); if (window.scrollY > 100) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); } });
         
@@ -30,118 +79,66 @@ lucide.createIcons();
         function closeNavDropdown() {
             const dropdown = document.getElementById('navDropdown');
             const btn = document.querySelector('.nav-dropdown-btn');
-            dropdown.classList.remove('active');
-            btn.classList.remove('active');
+            if (dropdown) dropdown.classList.remove('active');
+            if (btn) btn.classList.remove('active');
         }
+
         // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('.nav-dropdown')) {
-                closeNavDropdown();
+            const dropdown = document.getElementById('navDropdown');
+            const btn = document.querySelector('.nav-dropdown-btn');
+            if (dropdown && btn && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
+                btn.classList.remove('active');
             }
         });
-        
-        document.querySelectorAll('.faq-question').forEach(button => { button.addEventListener('click', () => { const faqItem = button.parentElement; const isActive = faqItem.classList.contains('active'); document.querySelectorAll('.faq-item').forEach(item => { item.classList.remove('active'); }); if (!isActive) { faqItem.classList.add('active'); } }); });
-        
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }); });
-        
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.utils.toArray('.service-card').forEach((card, i) => { gsap.from(card, { scrollTrigger: { trigger: card, start: 'top 85%' }, y: 80, opacity: 0, duration: 0.8, delay: i * 0.15, ease: 'power3.out' }); });
-        gsap.utils.toArray('.portfolio-card').forEach((card, i) => { gsap.from(card, { scrollTrigger: { trigger: card, start: 'top 85%' }, y: 80, opacity: 0, duration: 0.8, delay: i * 0.12, ease: 'power3.out' }); });
-        gsap.utils.toArray('.bento-card').forEach((card, i) => { gsap.from(card, { scrollTrigger: { trigger: card, start: 'top 85%' }, y: 60, opacity: 0, duration: 0.7, delay: i * 0.1, ease: 'power3.out' }); });
-        gsap.utils.toArray('.process-step').forEach((step, i) => { gsap.from(step, { scrollTrigger: { trigger: step, start: 'top 85%' }, y: 50, opacity: 0, duration: 0.6, delay: i * 0.12, ease: 'power3.out' }); });
-        gsap.utils.toArray('.faq-item').forEach((item, i) => { gsap.from(item, { scrollTrigger: { trigger: item, start: 'top 90%' }, x: -40, opacity: 0, duration: 0.6, delay: i * 0.1, ease: 'power3.out' }); });
-        gsap.utils.toArray('.section-header').forEach(header => { gsap.from(header, { scrollTrigger: { trigger: header, start: 'top 80%' }, y: 40, opacity: 0, duration: 0.8, ease: 'power3.out' }); });
-        gsap.from('.about-visual', { scrollTrigger: { trigger: '.about-container', start: 'top 70%' }, x: -100, opacity: 0, duration: 1, ease: 'power3.out' });
-        gsap.from('.about-content', { scrollTrigger: { trigger: '.about-container', start: 'top 70%' }, x: 100, opacity: 0, duration: 1, ease: 'power3.out' });
-        gsap.from('.contact-info', { scrollTrigger: { trigger: '.contact-container', start: 'top 70%' }, x: -80, opacity: 0, duration: 0.9, ease: 'power3.out' });
-        gsap.from('.contact-form', { scrollTrigger: { trigger: '.contact-container', start: 'top 70%' }, x: 80, opacity: 0, duration: 0.9, ease: 'power3.out' });
-        gsap.from('.cta-content', { scrollTrigger: { trigger: '.cta-section', start: 'top 75%' }, y: 60, opacity: 0, duration: 0.9, ease: 'power3.out' });
-        gsap.from('.testimonials-container', { scrollTrigger: { trigger: '.testimonials-container', start: 'top 80%' }, opacity: 0, duration: 1, ease: 'power3.out' });
-        
-        // Logo hover animation with GSAP
-        const logoLinks = document.querySelectorAll('.logo');
-        logoLinks.forEach(logo => {
-            const letters = logo.querySelectorAll('.logo-letter');
-            logo.addEventListener('mouseenter', () => {
-                letters.forEach((letter, i) => {
-                    gsap.to(letter, {
-                        y: -8,
-                        scale: 1.15,
-                        duration: 0.3,
-                        delay: i * 0.03,
-                        ease: 'power2.out'
-                    });
-                    gsap.to(letter, {
-                        y: 0,
-                        scale: 1,
-                        duration: 0.4,
-                        delay: i * 0.03 + 0.3,
-                        ease: 'bounce.out'
-                    });
-                });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
             });
         });
 
-        // Typewriter Effect
-        const typewriterWords = [
-            'Work For You',
-            'Save You Time',
-            'Drive Growth',
-            'Scale Fast',
-            'Boost Sales',
-            'Cut Costs',
-            'Never Sleep',
-            'Get Results',
-            'Make Sense',
-            'Just Work'
-        ];
-        
+        // Typewriter effect
         const typewriterEl = document.getElementById('typewriter');
-        let wordIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typeSpeed = 100;
-        
-        function typeWriter() {
-            const currentWord = typewriterWords[wordIndex];
-            
-            if (isDeleting) {
-                typewriterEl.textContent = currentWord.substring(0, charIndex - 1);
-                charIndex--;
-                typeSpeed = 50;
-            } else {
-                typewriterEl.textContent = currentWord.substring(0, charIndex + 1);
-                charIndex++;
-                typeSpeed = 100;
+        if (typewriterEl) {
+            const phrases = ['Work For You', 'Scale Your Business', 'Save You Time', 'Drive Real Results', 'Work Smarter'];
+            let phraseIndex = 0, charIndex = 0, isDeleting = false;
+            function typeWriter() {
+                const current = phrases[phraseIndex];
+                if (isDeleting) {
+                    typewriterEl.textContent = current.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typewriterEl.textContent = current.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+                if (!isDeleting && charIndex === current.length) {
+                    isDeleting = true;
+                    setTimeout(typeWriter, 1800);
+                    return;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                }
+                setTimeout(typeWriter, isDeleting ? 60 : 100);
             }
-            
-            if (!isDeleting && charIndex === currentWord.length) {
-                typeSpeed = 2000;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                wordIndex = (wordIndex + 1) % typewriterWords.length;
-                typeSpeed = 500;
-            }
-            
-            setTimeout(typeWriter, typeSpeed);
+            typeWriter();
         }
-        
-        setTimeout(typeWriter, 1500);
 
-(function(){
-      function showTransition(e){
-        var el=e.currentTarget;
-        var href=el.getAttribute('href');
-        if(!href||href.startsWith('#')||href.startsWith('mailto:')||href.startsWith('tel:'))return;
-        if(el.getAttribute('target')==='_blank')return;
-        e.preventDefault();
-        document.getElementById('pageTransition').classList.add('show');
-        setTimeout(function(){window.location.href=href;},2000);
-      }
-      document.addEventListener('DOMContentLoaded',function(){
-        document.querySelectorAll('a[href]').forEach(function(a){
-          a.addEventListener('click',showTransition);
-        });
-      });
-    })();
+        // GSAP scroll animations
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.utils.toArray('section').forEach(section => {
+                gsap.fromTo(section.querySelectorAll('.service-card, .portfolio-card, .bento-card, .process-step, .faq-item, .value-item, .contact-method'),
+                    { opacity: 0, y: 40 },
+                    { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power2.out',
+                      scrollTrigger: { trigger: section, start: 'top 80%', toggleActions: 'play none none none' }
+                    }
+                );
+            });
+        }
