@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.macknified.com/privacy-policy/</loc>
-    <lastmod>2026-07-11T05:54:19.389Z</lastmod>
+    <loc>https://www.macknified.com/blog/claude-vs-gpt4o-vs-gemini/</loc>
+    <lastmod>2026-07-31T06:18:41.579Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://www.macknified.com/blog/</loc>
-    <lastmod>2026-07-04T22:49:51.964Z</lastmod>
+    <lastmod>2026-07-31T00:36:56.957Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.macknified.com/privacy-policy/</loc>
+    <lastmod>2026-07-28T08:27:00.110Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://www.macknified.com/terms-of-service/</loc>
-    <lastmod>2026-07-02T18:58:17.956Z</lastmod>
+    <lastmod>2026-07-11T06:38:58.042Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>
