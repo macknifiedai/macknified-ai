@@ -7,7 +7,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   
 
 <!-- SEO Meta Tags -->
@@ -20,7 +20,7 @@
 
 
 <!-- End SEO Meta Tags -->
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="/styles.css">
 
 <!-- SEO Meta Tags -->
 <title>Power Builders — Macknified AI</title>
@@ -325,38 +325,23 @@
       <div class="ls-ring ls-ring-1"></div>
       <div class="ls-ring ls-ring-2"></div>
       <div class="ls-ring ls-ring-3"></div>
-      <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Loading" class="ls-logo">
+      <img src="https://app.macknified.com/objects/quick-uploads/448/dff20ae5ed91a48a.jpg" alt="Loading" class="ls-logo">
     </div>
-    <svg viewBox="0 0 300 46" xmlns="http://www.w3.org/2000/svg" style="width:260px;height:auto;margin-bottom:24px;">
-      <defs>
-        <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#3388FF"/><stop offset="100%" style="stop-color:#0066FF"/></linearGradient>
-        <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#FFFFFF"/><stop offset="100%" style="stop-color:#CCCCCC"/></linearGradient>
-      </defs>
-      <text x="2" y="34" fill="url(#lg1)" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:26px;">MACKNI</text>
-      <text x="133" y="34" fill="url(#lg2)" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:26px;">FIED</text>
-      <text x="210" y="34" fill="url(#lg1)" style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:26px;"> AI</text>
-    </svg>
     <div class="ls-bar-wrap"><div class="ls-bar"></div></div>
     <span class="ls-text">Initializing...</span>
   </div>
 
   <nav class="site-nav" data-section="header">
-    <div class="nav-left">
-      <a href="https://macknified.com" class="nav-back-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-        Macknified.com
-      </a>
-      <div class="nav-sep"></div>
-      <a href="https://macknified.com" class="nav-home-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Home
-      </a>
+    <a href="https://macknified.com" class="nav-logo-wrap">
+      <img src="https://app.macknified.com/objects/quick-uploads/448/dff20ae5ed91a48a.jpg" alt="Macknified AI">
+    </a>
+    <div class="nav-links">
+      <a href="https://macknified.com">Home</a>
+      <a href="https://blog.macknified.com">Blog</a>
+      <a href="https://macknified.com/#services">Services</a>
+      <a href="https://macknified.com/#contact">Contact</a>
+      <a href="https://app.macknified.com" class="nav-cta">Get Started</a>
     </div>
-    <div class="nav-brand">
-      <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Macknified AI" class="nav-logo">
-      <div class="nav-title">Power Builders</div>
-    </div>
-    <a href="https://macknified.com/blog" class="nav-tag">Blog</a>
   </nav>
 
   <div class="hero-strip">
@@ -393,8 +378,12 @@
   </section>
 
   <footer class="site-footer" data-section="footer">
-    <div class="footer-copy">© 2025 Macknified LLC · All rights reserved</div>
-    <div class="footer-copy">Powered by <a href="https://macknified.com" style="color:#3388FF;">Macknified AI</a></div>
+    <div class="footer-copy">&copy; 2026 <a href="https://macknified.com">Macknified AI</a> · All rights reserved</div>
+    <div class="footer-links">
+      <a href="https://macknified.com">Home</a>
+      <a href="https://macknified.com/#services">Services</a>
+      <a href="https://macknified.com/#contact">Contact</a>
+    </div>
   </footer>
 
   <script>
@@ -405,14 +394,12 @@
       setTimeout(function(){ls.style.display='none';},800);
     },2000);
   });
-
   function parsePostDate(v){
     if(v===null||v===undefined||v==='')return null;
     var s=String(v).trim();if(!s)return null;
     if(/^\d+(\.\d+)?$/.test(s)){var n=parseFloat(s);if(n>=36526&&n<=80000)return Math.round((n-25569)*86400000);}
     var ts=new Date(s).getTime();return isNaN(ts)?null:ts;
   }
-
   (function(){
     var BLOG_SUB_WH='https://app.macknified.com/api/webhooks/flow/3971/d2fc59a711404f79ed80ebd617d011052f0c06719f0107eb6526677bbff9a06b';
     var btn=document.getElementById('subBtn');
@@ -424,21 +411,14 @@
       err.classList.remove('show');
       if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.classList.add('show');return;}
       btn.disabled=true;btn.textContent='Subscribing…';
-      fetch(BLOG_SUB_WH,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({contactEmail:email,contactName:email.split('@')[0],data:{source:'Power Builders Blog Subscribe',tag:'blog-subscriber'}})})
+      fetch(BLOG_SUB_WH,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contactEmail:email,contactName:email.split('@')[0],data:{source:'Power Builders Blog Subscribe',tag:'blog-subscriber'}})})
       .then(function(){conf.classList.add('show');btn.style.display='none';input.style.display='none';})
       .catch(function(){btn.disabled=false;btn.textContent='Subscribe';err.textContent='Something went wrong — try again.';err.classList.add('show');});
     });
     input.addEventListener('keydown',function(e){if(e.key==='Enter')btn.click();});
   })();
-
   (function(){
     var SHEET_URL='https://app.macknified.com/api/public/landing-pages/5140/sheet-data';
-    var metaEl=document.querySelector('meta[name="sheet-data-url"]');
-    var baseEndpoint=(metaEl&&metaEl.content)?metaEl.content:SHEET_URL;
-    /* Fallback: articles deployed to blog.macknified.com whose sheet rows are missing/misaligned
-       due to a persistent Macknified sheet-append bug. Hardcoded so they still show on the index.
-       Remove an entry here once its row is confirmed correct in the sheet. */
     var FALLBACK_ROWS=[
       {Title:"Building a 6-Figure AI Consulting Business: The Step-by-Step Guide",Date:"2026-07-23T09:00:00.000Z",Excerpt:"The demand for AI consulting is outpacing the supply of qualified consultants. Here's your step-by-step guide to building one.",ImageURL:"https://app.macknified.com/objects/generated-images/448/1782381450892-7c9e8b5f4a3d2e71.png",PostURL:"https://blog.macknified.com/6-figure-ai-consulting-business/",Slug:"6-figure-ai-consulting-business"},
       {Title:"Why Your Business Needs an AI Agent — Not Just a Chatbot",Date:"2026-07-15T09:00:00.000Z",Excerpt:"A chatbot answers questions. An AI agent takes action. Here's the difference — and why it matters for your business.",ImageURL:"https://app.macknified.com/objects/generated-images/448/1782381170203-f41ddb93e7d3f3ad.png",PostURL:"https://blog.macknified.com/ai-agent-vs-chatbot/",Slug:"ai-agent-vs-chatbot"},
@@ -464,43 +444,8 @@
     topGrid.innerHTML=Array.from({length:4}).map(function(){return'<a class="top-card" href="#"><div style="width:100%;aspect-ratio:4/3;" class="shimmer"></div><div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px;"><div style="height:9px;width:70px;border-radius:3px;" class="shimmer"></div><div style="height:13px;width:90%;border-radius:3px;" class="shimmer"></div><div style="height:13px;width:65%;border-radius:3px;" class="shimmer"></div></div></a>';}).join('');
     function getUrl(row){
       var url=row.PostURL||row.postUrl||row.posturl||'';
-      if(!url){var slug=row.Slug||row.slug||'';if(slug)url='https://www.macknified.com/blog/'+slug+'/';}
+      if(!url){var slug=row.Slug||row.slug||'';if(slug)url='https://blog.macknified.com/'+slug+'/';}
       return url;
-    }
-    function renderTopGrid(rows){
-      topGrid.innerHTML=rows.map(function(row){
-        var title=row.Title||row.title||'Untitled';
-        var date=row.Date||row.date||'';
-        var img=row.ImageURL||row.imageUrl||row.imageurl||'';
-        var ds=fmtShort(date);
-        var url=getUrl(row);
-        return'<a class="top-card" href="'+esc(url)+'">'
-          +(img?'<img src="'+esc(img)+'" alt="'+esc(title)+'" class="card-img" loading="lazy" onerror="this.style.display=\'none\'">':'<div class="card-img-ph">'+phSvg+'</div>')
-          +'<div class="card-body">'
-          +(ds?'<div class="card-date">'+esc(ds)+'</div>':'')
-          +'<div class="card-title">'+esc(title)+'</div>'
-          +'<div class="card-read">Read \u2192</div>'
-          +'</div></a>';
-      }).join('');
-    }
-    function renderRest(rows){
-      if(!rows.length){restSection.style.display='none';return;}
-      restSection.style.display='block';
-      restList.innerHTML=rows.map(function(row){
-        var title=row.Title||row.title||'Untitled';
-        var date=row.Date||row.date||'';
-        var excerpt=row.Excerpt||row.excerpt||'';
-        var img=row.ImageURL||row.imageUrl||row.imageurl||'';
-        var ds=fmtShort(date);
-        var url=getUrl(row);
-        return'<a class="rest-row" href="'+esc(url)+'">'
-          +(img?'<img src="'+esc(img)+'" class="rest-thumb" alt="'+esc(title)+'" onerror="this.style.display=\'none\'">':'<div class="rest-thumb-ph">'+phSvg+'</div>')
-          +'<div style="min-width:0;"><div class="rest-title">'+esc(title)+'</div>'
-          +(excerpt?'<div class="rest-excerpt">'+esc(excerpt)+'</div>':'')
-          +'</div>'
-          +(ds?'<div class="rest-date">'+esc(ds)+'</div>':'')
-          +'</a>';
-      }).join('');
     }
     function mergeFallback(rows){
       var seen={};
@@ -518,7 +463,30 @@
       });
       return rows;
     }
-    fetch(baseEndpoint+'?limit=500&t='+Date.now())
+    function renderTopGrid(rows){
+      topGrid.innerHTML=rows.map(function(row){
+        var title=row.Title||row.title||'Untitled';
+        var date=row.Date||row.date||'';
+        var img=row.ImageURL||row.imageUrl||row.imageurl||'';
+        var ds=fmtShort(date);
+        var url=getUrl(row);
+        return'<a class="top-card" href="'+esc(url)+'">'+(img?'<img src="'+esc(img)+'" alt="'+esc(title)+'" class="card-img" loading="lazy" onerror="this.style.display=\'none\'">':'<div class="card-img-ph">'+phSvg+'</div>')+'<div class="card-body">'+(ds?'<div class="card-date">'+esc(ds)+'</div>':'')+'<div class="card-title">'+esc(title)+'</div><div class="card-read">Read \u2192</div></div></a>';
+      }).join('');
+    }
+    function renderRest(rows){
+      if(!rows.length){restSection.style.display='none';return;}
+      restSection.style.display='block';
+      restList.innerHTML=rows.map(function(row){
+        var title=row.Title||row.title||'Untitled';
+        var date=row.Date||row.date||'';
+        var excerpt=row.Excerpt||row.excerpt||'';
+        var img=row.ImageURL||row.imageUrl||row.imageurl||'';
+        var ds=fmtShort(date);
+        var url=getUrl(row);
+        return'<a class="rest-row" href="'+esc(url)+'">'+(img?'<img src="'+esc(img)+'" class="rest-thumb" alt="'+esc(title)+'" onerror="this.style.display=\'none\'">':'<div class="rest-thumb-ph">'+phSvg+'</div>')+'<div style="min-width:0;"><div class="rest-title">'+esc(title)+'</div>'+(excerpt?'<div class="rest-excerpt">'+esc(excerpt)+'</div>':'')+'</div>'+(ds?'<div class="rest-date">'+esc(ds)+'</div>':'')+'</a>';
+      }).join('');
+    }
+    fetch(SHEET_URL+'?limit=500&t='+Date.now())
       .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
       .then(function(result){
         var rows=Array.isArray(result)?result.slice():(result&&Array.isArray(result.data)?result.data.slice():[]);
@@ -526,7 +494,6 @@
         rows=rows.filter(function(r){return(r.Title||r.title||'').trim();});
         var now=new Date();now.setHours(23,59,59,999);var nowMs=now.getTime();
         rows=rows.filter(function(r){var d=r.Date||r.date||'';if(!d)return true;var ts=parsePostDate(d);if(ts===null)return true;return ts<=nowMs;});
-        /* Only show articles that have a deployed page (PostURL populated) */
         rows=rows.filter(function(r){return(r.PostURL||r.postUrl||r.posturl||'').trim();});
         rows.sort(function(a,b){return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);});
         if(!rows.length){topGrid.innerHTML='';emptyState.style.display='block';return;}
@@ -534,8 +501,8 @@
         renderTopGrid(rows.slice(0,4));
         renderRest(rows.slice(4));
       })
-      .catch(function(err){
-        console.error(err);
+      .catch(function(e){
+        console.error(e);
         var rows=mergeFallback([]);
         rows=rows.filter(function(r){return(r.PostURL||r.postUrl||r.posturl||'').trim();});
         rows.sort(function(a,b){return dateVal(b.Date||b.date)-dateVal(a.Date||a.date);});
