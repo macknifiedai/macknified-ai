@@ -1,29 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
+<meta charset="UTF-8">
 
-<!-- SEO Meta Tags -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 
 
 
 
+<meta property="og:url" content="https://www.macknified.com/">
 
 
 
-<!-- End SEO Meta Tags -->
-  <link rel="stylesheet" href="styles.css">
+
+
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Macknified AI","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://www.macknified.com/","offers":[{"@type":"Offer","name":"Basic","price":"49","priceCurrency":"USD","description":"7-day free trial, then $49/month"},{"@type":"Offer","name":"Pro","price":"79","priceCurrency":"USD","description":"Pro plan, $79/month"}],"publisher":{"@type":"Organization","name":"Macknified LLC","email":"support@macknified.com"}}</script>
+
 
 <!-- SEO Meta Tags -->
 <title>Macknified AI | AI Solutions That Work For You</title>
@@ -38,14 +36,18 @@
 <script data-lp-token-hydrate>
 (function(){try{
   var slug="lp-mkklx71g-usxnz";
+  var SITEK="";
   var SK='lp_access_'+slug;
   var map={access_token:'lp_pw_',allowlist_access_token:'lp_al_',pin_access_token:'lp_pin_',paywall_access_token:'lp_paid_'};
+  function siteTok(){try{return SITEK?localStorage.getItem(SITEK):null;}catch(e){return null;}}
   var u=new URL(location.href);var found=null;var changed=false;
-  Object.keys(map).forEach(function(p){var v=u.searchParams.get(p);if(v){found=v;try{localStorage.setItem(map[p]+slug,v);}catch(e){}u.searchParams.delete(p);changed=true;}});
+  var PINP=true;
+  if(!PINP){try{localStorage.removeItem('lp_pin_'+slug);if(SITEK)localStorage.removeItem(SITEK);}catch(e){}}
+  Object.keys(map).forEach(function(p){var v=u.searchParams.get(p);if(v){found=v;try{if(PINP||p!=='pin_access_token'){localStorage.setItem(map[p]+slug,v);if(SITEK&&p==='pin_access_token')localStorage.setItem(SITEK,v);}}catch(e){}if(p==='pin_access_token'){try{sessionStorage.setItem('lp_fresh_'+slug,'1');}catch(e){}}u.searchParams.delete(p);changed=true;}});
   if(found){try{sessionStorage.setItem(SK,found);}catch(e){}}
-  else{try{if(!sessionStorage.getItem(SK)){var t=localStorage.getItem('lp_pw_'+slug)||localStorage.getItem('lp_al_'+slug)||localStorage.getItem('lp_pin_'+slug)||localStorage.getItem('lp_paid_'+slug);if(t)sessionStorage.setItem(SK,t);}}catch(e){}}
+  else{try{if(!sessionStorage.getItem(SK)){var t=localStorage.getItem('lp_pw_'+slug)||localStorage.getItem('lp_al_'+slug)||localStorage.getItem('lp_pin_'+slug)||localStorage.getItem('lp_paid_'+slug)||siteTok();if(t)sessionStorage.setItem(SK,t);}}catch(e){}}
   if(changed){try{history.replaceState(null,'',u.toString());}catch(e){}}
-  function getTok(){try{return sessionStorage.getItem(SK)||localStorage.getItem('lp_pw_'+slug)||localStorage.getItem('lp_al_'+slug)||localStorage.getItem('lp_pin_'+slug)||localStorage.getItem('lp_paid_'+slug);}catch(e){return null;}}
+  function getTok(){try{return sessionStorage.getItem(SK)||localStorage.getItem('lp_pw_'+slug)||localStorage.getItem('lp_al_'+slug)||localStorage.getItem('lp_pin_'+slug)||localStorage.getItem('lp_paid_'+slug)||siteTok();}catch(e){return null;}}
   function needsToken(url,method){if(!url)return false;var s=String(url);var m=(method||'GET').toUpperCase();var isSheetWrite=(m==='POST'||m==='PATCH'||m==='PUT'||m==='DELETE')&&/\/sheet-rows(\/|$|\?)/.test(s);var isSheetRead=/\/sheet-data(\/|$|\?)/.test(s);var isLlm=/\/api\/landing-pages\/public\/[^/]+\/(llm|llm-config)(\/|$|\?)/.test(s);return isSheetWrite||isSheetRead||isLlm;}
   if(window.fetch){var _f=window.fetch;window.fetch=function(input,init){try{var url=typeof input==='string'?input:(input&&input.url)||'';var method=(init&&init.method)||(input&&input.method)||'GET';if(needsToken(url,method)){var tok=getTok();if(tok){init=init||{};var h=new Headers(init.headers||(typeof input!=='string'?input.headers:undefined)||{});if(!h.has('X-Landing-Page-Token'))h.set('X-Landing-Page-Token',tok);init.headers=h;}}}catch(e){}return _f.call(this,input,init);};}
   if(window.XMLHttpRequest){var _o=XMLHttpRequest.prototype.open;var _s=XMLHttpRequest.prototype.send;XMLHttpRequest.prototype.open=function(m,u){this.__lpM=m;this.__lpU=u;return _o.apply(this,arguments);};XMLHttpRequest.prototype.send=function(){try{if(needsToken(this.__lpU,this.__lpM)){var tok=getTok();if(tok)this.setRequestHeader('X-Landing-Page-Token',tok);}}catch(e){}return _s.apply(this,arguments);};}
@@ -316,429 +318,191 @@
     }
   });
 })();
-</script></head>
+</script>
+<script data-widget-config>
+  window.WidgetConfig = {"widgetId":"37114762","launcherType":"tab","primaryColor":"#4890ed","tabPosition":"right","tabLabel":"Chat","customFooterText":"Powered by Macknified AI"};
+</script>
+<script src="https://app.macknified.com/widget.js" data-widget="37114762" async></script>  <link rel="stylesheet" href="styles.css">
+</head>
 <body>
-    <div class="loading-screen" id="loadingScreen" data-section="section-1">
-        <div class="loading-spinner-container">
-            <div class="loading-spinner"></div>
-            <div class="loading-spinner"></div>
-            <div class="loading-spinner"></div>
-            <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Loading" class="loading-logo-img">
-        </div>
-        <div class="loading-logo-animated">
-            <svg viewBox="0 0 340 50" xmlns="http://www.w3.org/2000/svg" style="width: 280px; height: auto;">
-                <defs>
-                    <linearGradient id="logoGradientLoad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" style="stop-color:#3388FF">
-                            <animate attributeName="stop-color" values="#3388FF;#0066FF;#0066FF;#3388FF" dur="2s" repeatCount="indefinite"/>
-                        </stop>
-                        <stop offset="50%" style="stop-color:#0066FF">
-                            <animate attributeName="stop-color" values="#0066FF;#0066FF;#3388FF;#0066FF" dur="2s" repeatCount="indefinite"/>
-                        </stop>
-                        <stop offset="100%" style="stop-color:#0066FF">
-                            <animate attributeName="stop-color" values="#0066FF;#3388FF;#0066FF;#0066FF" dur="2s" repeatCount="indefinite"/>
-                        </stop>
-                    </linearGradient>
-                    <linearGradient id="logoGradientWhiteLoad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" style="stop-color:#FFFFFF"/>
-                        <stop offset="100%" style="stop-color:#E0E0E0"/>
-                    </linearGradient>
-                    <linearGradient id="logoGradientAILoad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" style="stop-color:#0066FF">
-                            <animate attributeName="stop-color" values="#0066FF;#FFFFFF;#0066FF" dur="1s" repeatCount="indefinite"/>
-                        </stop>
-                        <stop offset="100%" style="stop-color:#FFFFFF">
-                            <animate attributeName="stop-color" values="#FFFFFF;#0066FF;#FFFFFF" dur="1s" repeatCount="indefinite"/>
-                        </stop>
-                    </linearGradient>
-                </defs>
-                <g>
-                    <text x="0" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.1s;">M</text>
-                    <text x="28" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.15s;">A</text>
-                    <text x="52" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.2s;">C</text>
-                    <text x="76" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.25s;">K</text>
-                    <text x="100" y="35" fill="url(#logoGradientWhiteLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.3s;">N</text>
-                    <text x="126" y="35" fill="url(#logoGradientWhiteLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.35s;">I</text>
-                    <text x="140" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.4s;">F</text>
-                    <text x="160" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.45s;">I</text>
-                    <text x="174" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.5s;">E</text>
-                    <text x="196" y="35" fill="url(#logoGradientLoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.55s;">D</text>
-                    <text x="235" y="35" fill="url(#logoGradientAILoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.65s;">A</text>
-                    <text x="259" y="35" fill="url(#logoGradientAILoad)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 10px rgba(0, 102, 255, 0.6)); opacity: 0; animation: letterReveal 0.5s ease forwards 0.7s;">I</text>
-                </g>
-            </svg>
-        </div>
-        <div class="loading-bar"></div>
-        <span class="loading-text">Initializing...</span>
+<div class="bgfx" aria-hidden="true"></div>
+
+<header class="mk-nav">
+  <div class="wrap">
+    <a class="mk-logo" href="#top" aria-label="Macknified AI home"><span class="mk-mark" role="img" aria-label="Macknified"></span></a>
+    <button class="mk-burger" aria-label="Menu" aria-expanded="false">☰</button>
+    <nav class="mk-links">
+      <a href="#platform">Platform</a>
+      <a href="#mcp">MCP</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn-p" href="https://app.macknified.com/subscriber/auth?ownerId=448&amp;planId=12">Start free trial</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"></div><div class="hero-shade" aria-hidden="true"></div><canvas class="hero-fx" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow rv"><i></i>Native MCP · run it from Claude or ChatGPT</span>
+      <h1 class="rv">Speak your<br><span class="tw-line"><span class="grad" id="tw">business</span><span class="tw-cur" aria-hidden="true"></span></span><br>into existence.</h1>
+      <p class="lead rv">Macknified AI is the AI business operating system for builders. Agents, automations, CRM, pages, payments, voice and wallet passes — one dashboard you run by typing a sentence.</p>
+      <div class="cta-row rv">
+        <a class="btn btn-p" href="https://app.macknified.com/subscriber/auth?ownerId=448&amp;planId=12">Start 7-day free trial →</a>
+        <a class="btn btn-g" href="#mcp">See how it works</a>
+      </div>
+      <p class="micro rv">7-day free trial · then <b>$49/mo on Basic</b></p>
     </div>
-    <div class="cursor" id="cursor" data-section="section-2"></div>
-    <div class="cursor-dot" id="cursorDot" data-section="section-3"></div>
-    <div class="mesh-gradient" data-section="section-4"></div>
-    <div class="animated-grid" data-section="section-5"></div>
-    <div class="orb orb-1" data-section="section-6"></div>
-    <div class="orb orb-2" data-section="section-7"></div>
-    <div class="orb orb-3" data-section="section-8"></div>
-    <div class="bg-parallax" id="bgParallax"></div>
-    
-    <div class="main-content" data-section="section-10">
-        <nav id="navbar">
-            <div class="logo">
-                <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Macknified AI" class="logo-img">
-                <div class="logo-animated">
-                    <svg viewBox="0 0 340 50" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" style="stop-color:#3388FF">
-                                    <animate attributeName="stop-color" values="#3388FF;#0066FF;#0066FF;#3388FF" dur="4s" repeatCount="indefinite"/>
-                                </stop>
-                                <stop offset="50%" style="stop-color:#0066FF">
-                                    <animate attributeName="stop-color" values="#0066FF;#0066FF;#3388FF;#0066FF" dur="4s" repeatCount="indefinite"/>
-                                </stop>
-                                <stop offset="100%" style="stop-color:#0066FF">
-                                    <animate attributeName="stop-color" values="#0066FF;#3388FF;#0066FF;#0066FF" dur="4s" repeatCount="indefinite"/>
-                                </stop>
-                            </linearGradient>
-                            <linearGradient id="logoGradientWhite" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" style="stop-color:#FFFFFF">
-                                    <animate attributeName="stop-color" values="#FFFFFF;#E0E0E0;#FFFFFF" dur="3s" repeatCount="indefinite"/>
-                                </stop>
-                                <stop offset="100%" style="stop-color:#E0E0E0">
-                                    <animate attributeName="stop-color" values="#E0E0E0;#FFFFFF;#E0E0E0" dur="3s" repeatCount="indefinite"/>
-                                </stop>
-                            </linearGradient>
-                            <linearGradient id="logoGradientAI" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" style="stop-color:#0066FF">
-                                    <animate attributeName="stop-color" values="#0066FF;#FFFFFF;#0066FF" dur="2s" repeatCount="indefinite"/>
-                                </stop>
-                                <stop offset="100%" style="stop-color:#FFFFFF">
-                                    <animate attributeName="stop-color" values="#FFFFFF;#0066FF;#FFFFFF" dur="2s" repeatCount="indefinite"/>
-                                </stop>
-                            </linearGradient>
-                            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                                <feMerge>
-                                    <feMergeNode in="coloredBlur"/>
-                                    <feMergeNode in="SourceGraphic"/>
-                                </feMerge>
-                            </filter>
-                        </defs>
-                        <g filter="url(#glow)">
-                            <text x="0" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0s">M</text>
-                            <text x="28" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.05s">A</text>
-                            <text x="52" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.1s">C</text>
-                            <text x="76" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.15s">K</text>
-                            <text x="100" y="35" class="logo-letter" fill="url(#logoGradientWhite)" style="animation-delay: 0.2s">N</text>
-                            <text x="126" y="35" class="logo-letter" fill="url(#logoGradientWhite)" style="animation-delay: 0.25s">I</text>
-                            <text x="140" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.3s">F</text>
-                            <text x="160" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.35s">I</text>
-                            <text x="174" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.4s">E</text>
-                            <text x="196" y="35" class="logo-letter" fill="url(#logoGradient)" style="animation-delay: 0.45s">D</text>
-                            <text x="235" y="35" class="logo-letter ai" fill="url(#logoGradientAI)" style="animation-delay: 0.55s">A</text>
-                            <text x="259" y="35" class="logo-letter ai" fill="url(#logoGradientAI)" style="animation-delay: 0.6s">I</text>
-                        </g>
-                    </svg>
-                </div>
-                <span class="logo-text"></span>
-            </div>
-            <div class="nav-right">
-                <div class="nav-dropdown">
-                    <button class="nav-dropdown-btn" onclick="toggleNavDropdown()">
-                        <span>Menu</span>
-                        <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </button>
-                    <div class="nav-dropdown-menu" id="navDropdown">
-                        <a href="#home" onclick="closeNavDropdown()">Home</a>
-                        <a href="#services" onclick="closeNavDropdown()">Services</a>
-                        <a href="#portfolio" onclick="closeNavDropdown()">Portfolio</a>
-                        <a href="#testimonials" onclick="closeNavDropdown()">Testimonials</a>
-                        <a href="#process" onclick="closeNavDropdown()">Process</a>
-                        <a href="#about" onclick="closeNavDropdown()">About</a>
-                        <a href="#faq" onclick="closeNavDropdown()">FAQ</a>
-                        <a href="#contact" onclick="closeNavDropdown()">Contact</a>
-                        <a href="https://blog.macknified.com" target="_blank" onclick="closeNavDropdown()">Blog</a>
-                        <a href="https://shop.macknified.com" target="_blank" onclick="closeNavDropdown()">Shop</a>
-                    </div>
-                </div>
-                <a href="https://macknifiedai.github.io/pricing-calculator-final/" class="nav-cta">Start a Project</a>
-            </div>
-        </nav>
+  </div>
+</section>
 
-        <section class="hero" id="home">
-            <div class="hero-badge">
-                <i data-lucide="sparkles"></i>
-                AI-Powered Digital Solutions
-            </div>
-            <h1>
-                <span class="line"><span class="word">AI Solutions That</span></span>
-                <span class="line"><span class="word gradient-text"><span class="typewriter-container"><span class="typewriter-text" id="typewriter"></span><span class="typewriter-cursor"></span></span></span></span>
-            </h1>
-            <p class="hero-subtitle">Custom chatbots, intelligent web applications, and AI automation — built for businesses ready to work smarter and scale faster.</p>
-            <div class="hero-buttons">
-                <a href="#services" class="btn btn-primary">Explore Services<i data-lucide="arrow-right"></i></a>
-                <a href="https://macknifiedai.github.io/pricing-calculator-final/" class="btn btn-secondary">Start a Project<i data-lucide="message-circle"></i></a>
-            </div>
-            <div class="scroll-indicator"><div class="mouse"></div><span>Scroll</span></div>
-        </section>
+<div class="strip"><div class="wrap"><p class="mono">Runs from the AI you already use</p><span>Claude</span><span>ChatGPT</span><span>Any MCP client</span></div></div>
 
-        <section id="services">
-            <div class="section-header">
-                <div class="section-badge"><i data-lucide="layers"></i>Our Services</div>
-                <h2>What We Build</h2>
-                <p>Custom AI solutions designed around your business — not recycled templates or off-the-shelf software.</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon"><i data-lucide="message-square-code"></i></div>
-                    <h3>Custom AI Agents</h3>
-                    <p>Intelligent conversational assistants that handle customer inquiries, capture leads, and provide 24/7 support — trained specifically on your business.</p>
-                    <ul class="service-features">
-                        <li><i data-lucide="check-circle-2"></i>Custom-trained on your business knowledge</li>
-                        <li><i data-lucide="check-circle-2"></i>Natural, human-like conversations</li>
-                        <li><i data-lucide="check-circle-2"></i>Lead capture & qualification</li>
-                        <li><i data-lucide="check-circle-2"></i>Multi-platform deployment</li>
-                        <li><i data-lucide="check-circle-2"></i>Analytics & insights dashboard</li>
-                    </ul>
-                    <div class="service-price">Starting at <span>$500</span></div>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i data-lucide="app-window"></i></div>
-                    <h3>Web Applications</h3>
-                    <p>Custom landing pages, web apps, and interactive tools built with HTML, CSS, and JavaScript — designed and coded from scratch for your needs.</p>
-                    <ul class="service-features">
-                        <li><i data-lucide="check-circle-2"></i>Custom landing pages & microsites</li>
-                        <li><i data-lucide="check-circle-2"></i>Interactive web applications</li>
-                        <li><i data-lucide="check-circle-2"></i>Mobile-responsive design</li>
-                        <li><i data-lucide="check-circle-2"></i>Clean, optimized code</li>
-                        <li><i data-lucide="check-circle-2"></i>Complete ownership & handoff</li>
-                    </ul>
-                    <div class="service-price">Starting at <span>$800</span></div>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i data-lucide="workflow"></i></div>
-                    <h3>Automation & Integration</h3>
-                    <p>Connect your existing systems with AI. Automate repetitive tasks, streamline workflows, and make your tech stack work together.</p>
-                    <ul class="service-features">
-                        <li><i data-lucide="check-circle-2"></i>Workflow analysis & optimization</li>
-                        <li><i data-lucide="check-circle-2"></i>AI-powered task automation</li>
-                        <li><i data-lucide="check-circle-2"></i>Custom API development</li>
-                        <li><i data-lucide="check-circle-2"></i>Cross-platform integration</li>
-                        <li><i data-lucide="check-circle-2"></i>Document & data processing</li>
-                    </ul>
-                    <div class="service-price">Starting at <span>$1,000</span></div>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i data-lucide="lightbulb"></i></div>
-                    <h3>AI Strategy & Consulting</h3>
-                    <p>Not sure where AI fits? We help you cut through the hype, identify real opportunities, and build a practical implementation plan.</p>
-                    <ul class="service-features">
-                        <li><i data-lucide="check-circle-2"></i>Business process review</li>
-                        <li><i data-lucide="check-circle-2"></i>AI opportunity assessment</li>
-                        <li><i data-lucide="check-circle-2"></i>Technology recommendations</li>
-                        <li><i data-lucide="check-circle-2"></i>Implementation roadmap</li>
-                        <li><i data-lucide="check-circle-2"></i>Training & documentation</li>
-                    </ul>
-                    <div class="service-price"><span>$150</span>/hour or project-based</div>
-                </div>
-            </div>
-        </section>
-
-        <div class="diy-section">
-            <div class="diy-card">
-                <h3 class="diy-title">Not Looking for Done-For-You?</h3>
-                <p class="diy-copy">If you're a builder or power user who prefers to design and deploy AI solutions on your own, you can access our AI platform and build independently.</p>
-                <a href="https://app.macknified.com" class="diy-btn">Build It Yourself<i data-lucide="arrow-right"></i></a>
-                <p class="diy-micro">Best for builders, developers, and DIY users</p>
-            </div>
-        </div>
-
-        <section id="portfolio">
-            <div class="section-header">
-                <div class="section-badge"><i data-lucide="briefcase"></i>Case Studies</div>
-                <h2>Our Portfolio</h2>
-                <p>Real projects, real results. See how we've helped businesses transform with AI.</p>
-            </div>
-            <div class="portfolio-grid">
-                <div class="portfolio-card" style="grid-column: 1 / -1; text-align: center; padding: 60px 40px; display: flex; flex-direction: column; align-items: center; gap: 16px;">
-                    <div class="portfolio-icon" style="position: static;"><i data-lucide="sparkles"></i></div>
-                    <h3 style="margin: 0;">Building Our Case Study Library</h3>
-                    <p style="max-width: 480px; color: var(--gray-400);">We're a young agency doing real work for real clients right now. Case studies go up here as projects wrap and clients sign off on the results.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="testimonials">
-            <div class="section-header">
-                <div class="section-badge"><i data-lucide="message-square-quote"></i>Testimonials</div>
-                <h2>What Clients Say</h2>
-                <p>Don't just take our word for it — hear from businesses we've helped.</p>
-            </div>
-            <div class="testimonials-container" style="display: flex; justify-content: center; padding: 40px 20px;">
-                <div class="testimonial-card" style="max-width: 600px; text-align: center;">
-                    <div class="testimonial-quote"><i data-lucide="quote"></i></div>
-                    <p class="testimonial-text">We're early — real client testimonials go up here as projects wrap. Check back soon, or if you're a client, we'd love to hear about your experience.</p>
-                </div>
-            </div>
-        </section>
-        <section id="why">
-            <div class="section-header">
-                <div class="section-badge"><i data-lucide="award"></i>Why Choose Us</div>
-                <h2>The Macknified Difference</h2>
-                <p>No hype, no buzzwords — just intelligent solutions that deliver real results.</p>
-            </div>
-            <div class="bento-grid bento-3">
-                <div class="bento-card large"><i data-lucide="fingerprint"></i><h3>Built Around Your Needs</h3><p>No templates. No one-size-fits-all. Every solution is designed specifically for your business, your workflows, and your goals.</p></div>
-                <div class="bento-card"><i data-lucide="zap"></i><h3>AI Without Complexity</h3><p>We handle the technical side. You get powerful tools that are simple to use.</p></div>
-                <div class="bento-card"><i data-lucide="shield-check"></i><h3>Transparent Pricing</h3><p>Clear quotes upfront. No hidden fees. No surprises.</p></div>
-                <div class="bento-card"><i data-lucide="package"></i><h3>Complete Handoff</h3><p>We build it, train you, and hand it over. You own it completely.</p></div>
-                <div class="bento-card large"><i data-lucide="target"></i><h3>Results Over Hype</h3><p>AI is a tool, not magic. We focus on practical applications that deliver measurable results for your business — not flashy demos.</p></div>
-            </div>
-        </section>
-
-        <section id="process">
-            <div class="section-header">
-                <div class="section-badge"><i data-lucide="git-branch"></i>Our Process</div>
-                <h2>How We Work</h2>
-                <p>Simple, transparent process. No surprises, no runaround.</p>
-            </div>
-            <div class="process-container">
-                <div class="process-line"></div>
-                <div class="process-grid process-4">
-                    <div class="process-step"><div class="process-number">1</div><h3>Discovery</h3><p>Free consultation to understand your business and goals.</p></div>
-                    <div class="process-step"><div class="process-number">2</div><h3>Proposal</h3><p>Clear scope, timeline, and transparent pricing.</p></div>
-                    <div class="process-step"><div class="process-number">3</div><h3>Build</h3><p>We create your solution with regular updates.</p></div>
-                    <div class="process-step"><div class="process-number">4</div><h3>Launch</h3><p>Deploy, test, and train your team to use it.</p></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about">
-            <div class="about-container">
-                <div class="about-visual">
-                    <div class="about-visual-inner"></div>
-                    <div class="about-floating-elements">
-                        <div class="floating-icon"><i data-lucide="bot"></i></div>
-                        <div class="floating-icon"><i data-lucide="code-2"></i></div>
-                        <div class="floating-icon"><i data-lucide="sparkles"></i></div>
-                        <div class="floating-icon"><i data-lucide="cpu"></i></div>
-                        <div class="floating-icon"><i data-lucide="brain"></i></div>
-                    </div>
-                </div>
-                <div class="about-content">
-                    <div class="section-badge"><i data-lucide="info"></i>About Us</div>
-                    <h2>Why <span>Macknified</span> Exists</h2>
-                    <p>We built Macknified AI on a simple belief: <strong>AI should work for businesses, not the other way around.</strong></p>
-                    <p>Too many companies are overwhelmed by AI hype. Enterprise solutions cost a fortune. DIY options are confusing. And most "AI agencies" care more about buzzwords than results.</p>
-                    <p><strong>We do things differently.</strong> Practical solutions. Real results. Fair prices.</p>
-                    <div class="about-values">
-                        <div class="value-item"><i data-lucide="zap"></i><div><h4>Practical Over Flashy</h4><p>Solutions that solve real problems</p></div></div>
-                        <div class="value-item"><i data-lucide="fingerprint"></i><div><h4>Custom Over Cookie-Cutter</h4><p>Built for your specific needs</p></div></div>
-                        <div class="value-item"><i data-lucide="eye"></i><div><h4>Clear Over Complicated</h4><p>Plain language, easy tools</p></div></div>
-                        <div class="value-item"><i data-lucide="users"></i><div><h4>Partnership Over Transaction</h4><p>Long-term success together</p></div></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="faq">
-            <div class="section-header">
-                <div class="section-badge"><i data-lucide="help-circle"></i>FAQ</div>
-                <h2>Common Questions</h2>
-                <p>Quick answers to questions we hear most often.</p>
-            </div>
-            <div class="faq-container">
-                <div class="faq-item"><button class="faq-question">How much does a project cost?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>Every project is unique. Agents typically start around $500, web applications around $800, and automation projects around $1,000. Consulting is $150/hour. After our initial conversation, you'll receive a detailed quote with no hidden fees.</p></div></div>
-                <div class="faq-item"><button class="faq-question">How long does a project take?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>Timeline depends on complexity. Simple chatbots can be ready in 1-2 weeks. Landing pages in 1-2 weeks, full web apps 2-4 weeks. We'll give you a realistic timeline upfront.</p></div></div>
-                <div class="faq-item"><button class="faq-question">What happens after the project is complete?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>We do a complete handoff — you own everything. We train you and your team to use and manage the solution. It's yours to run independently. No monthly fees, no lock-in.</p></div></div>
-                <div class="faq-item"><button class="faq-question">What industries do you work with?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>We work with businesses across many industries — financial services, insurance, professional services, real estate, healthcare, e-commerce, and more.</p></div></div>
-                <div class="faq-item"><button class="faq-question">What if I'm not sure what I need?<i data-lucide="chevron-down"></i></button><div class="faq-answer"><p>That's completely okay! Book a free discovery call and we'll help you figure out the best approach. No pressure, no commitment.</p></div></div>
-            </div>
-        </section>
-
-        <section id="contact">
-            <div class="contact-container contact-centered">
-                <div class="contact-info">
-                    <div class="section-badge"><i data-lucide="mail"></i>Get In Touch</div>
-                    <h2>Let's Build Something Amazing</h2>
-                    <p>Have a project in mind? Use the chat below for quick questions, or get an instant estimate with our pricing calculator.</p>
-                    <div class="contact-methods">
-                        <div class="contact-method"><div class="contact-icon"><i data-lucide="mail"></i></div><div class="contact-method-text"><h4>Email Us</h4><a href="mailto:support@macknified.com">support@macknified.com</a></div></div>
-                        <div class="contact-method"><div class="contact-icon"><i data-lucide="clock"></i></div><div class="contact-method-text"><h4>Response Time</h4><p>Within 24 hours</p></div></div>
-                        <div class="contact-method"><div class="contact-icon"><i data-lucide="globe"></i></div><div class="contact-method-text"><h4>Location</h4><p>United States (Remote)</p></div></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="cta-section">
-            <div class="cta-content">
-                <h2>Ready to <span>Get Started?</span></h2>
-                <p>Let's talk about what AI can do for your business. Get an instant estimate or chat with us — no pressure, no commitment.</p>
-                <a href="https://macknifiedai.github.io/pricing-calculator-final/" class="btn btn-primary">Get Your Free Estimate<i data-lucide="arrow-right"></i></a>
-            </div>
-        </div>
-
-        <footer>
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="logo">
-                        <img src="https://i.ibb.co/Pst2KVgW/macknifiedcirclelogo.png" alt="Macknified AI" class="logo-img">
-                        <div class="logo-animated">
-                            <svg viewBox="0 0 340 50" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <linearGradient id="logoGradientFooter" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" style="stop-color:#3388FF">
-                                            <animate attributeName="stop-color" values="#3388FF;#0066FF;#0066FF;#3388FF" dur="4s" repeatCount="indefinite"/>
-                                        </stop>
-                                        <stop offset="50%" style="stop-color:#0066FF">
-                                            <animate attributeName="stop-color" values="#0066FF;#0066FF;#3388FF;#0066FF" dur="4s" repeatCount="indefinite"/>
-                                        </stop>
-                                        <stop offset="100%" style="stop-color:#0066FF">
-                                            <animate attributeName="stop-color" values="#0066FF;#3388FF;#0066FF;#0066FF" dur="4s" repeatCount="indefinite"/>
-                                        </stop>
-                                    </linearGradient>
-                                    <linearGradient id="logoGradientWhiteFooter" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" style="stop-color:#FFFFFF"/>
-                                        <stop offset="100%" style="stop-color:#E0E0E0"/>
-                                    </linearGradient>
-                                    <linearGradient id="logoGradientAIFooter" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" style="stop-color:#0066FF">
-                                            <animate attributeName="stop-color" values="#0066FF;#FFFFFF;#0066FF" dur="2s" repeatCount="indefinite"/>
-                                        </stop>
-                                        <stop offset="100%" style="stop-color:#FFFFFF">
-                                            <animate attributeName="stop-color" values="#FFFFFF;#0066FF;#FFFFFF" dur="2s" repeatCount="indefinite"/>
-                                        </stop>
-                                    </linearGradient>
-                                </defs>
-                                <g>
-                                    <text x="0" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">M</text>
-                                    <text x="28" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">A</text>
-                                    <text x="52" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">C</text>
-                                    <text x="76" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">K</text>
-                                    <text x="100" y="35" fill="url(#logoGradientWhiteFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));">N</text>
-                                    <text x="126" y="35" fill="url(#logoGradientWhiteFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));">I</text>
-                                    <text x="140" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">F</text>
-                                    <text x="160" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">I</text>
-                                    <text x="174" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">E</text>
-                                    <text x="196" y="35" fill="url(#logoGradientFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">D</text>
-                                    <text x="235" y="35" fill="url(#logoGradientAIFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">A</text>
-                                    <text x="259" y="35" fill="url(#logoGradientAIFooter)" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 28px; filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.5));">I</text>
-                                </g>
-                            </svg>
-                        </div>
-                    </div>
-                    <p>AI solutions that work for you. Custom chatbots, web applications, automation, and consulting for businesses ready to work smarter.</p>
-                </div>
-                <div class="footer-column"><h4>Services</h4><ul><li><a href="#services">AI Agents</a></li><li><a href="#services">Web Applications</a></li><li><a href="#services">Automation</a></li><li><a href="#services">Consulting</a></li></ul></div>
-                <div class="footer-column"><h4>Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#process">Our Process</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li><li><a href="https://blog.macknified.com" target="_blank">Blog</a></li><li><a href="https://shop.macknified.com" target="_blank">Shop</a></li></ul></div>
-                <div class="footer-column"><h4>Legal</h4><ul><li><a href="#terms">Terms of Service</a></li><li><a href="#privacy">Privacy Policy</a></li></ul></div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2025 Macknified LLC. All rights reserved.</p>
-                <div class="footer-legal"><a href="#terms">Terms</a><a href="#privacy">Privacy</a></div>
-            </div>
-        </footer>
+<section id="demo" class="demo">
+  <div class="wrap">
+    <div class="rl-hero-reel rv">
+      <div class="rl-reel-frame"><canvas data-mackfilm="hero" role="img" aria-label="Proof-of-work reel: a one-sentence prompt to Macknified AI builds and publishes a barbershop landing page in 2 minutes 22 seconds."></canvas></div>
     </div>
+    <div>
+      <span class="eyebrow rv">Real build · real clock</span>
+      <h2 class="rv" style="margin:18px 0 16px">Watch one sentence <span class="grad">become a live page.</span></h2>
+      <p class="lead rv">One prompt in Claude. Macknified tools did the rest — published in 2 minutes 22 seconds.</p>
+      <div class="steps">
+        <div class="step glass rv"><span class="n">01</span><div><h3>Typed one sentence</h3><q>Build a landing page for Lakeshore Fade Co., a barbershop in Oakland — services, prices, hours, and a Book Now button.</q></div></div>
+        <div class="step glass rv"><span class="n">02</span><div><h3>Macknified tools built it</h3><div class="tags"><span>create_landing_page</span><span>get_landing_page</span></div></div></div>
+        <div class="step glass rv"><span class="n">03</span><div><h3>Live in 2m 22s</h3><p>Published and verified, ready to take bookings. <a class="demo-link" href="https://app.macknified.com/p/2CuTabYti6" target="_blank" rel="noopener">See the page it built ↗</a></p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script src="script.js"></script>
+<div class="stats"><div class="wrap">
+  <div class="stat glass rv"><b>2m 22s</b><p>Real build: one prompt to a published page</p></div>
+  <div class="stat glass rv"><b data-count="20" data-suffix="+">20+</b><p>Tools in one dashboard</p></div>
+  <div class="stat glass rv"><b data-count="1">1</b><p>Command center for every tool you use</p></div>
+  <div class="stat glass rv"><b data-count="49" data-prefix="$">$49</b><p>/mo on Basic after your free trial</p></div>
+</div></div>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow rv">Stop juggling apps</span><h2 class="rv">Say it once. <span class="grad">Your agents handle the rest.</span></h2><p class="lead rv">Leads in one app, bookings in another, payments somewhere else — and you're the one copying between them. Macknified AI brings it all into one command center, so your agents do the busywork while you run the business.</p></div>
+    <div class="film-wide rv"><canvas data-mackfilm="stack" role="img" aria-label="Scattered business apps pull together into one Macknified AI command center your agents run."></canvas></div>
+  </div>
+</section>
+
+<section id="platform">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow rv">The platform</span><h2 class="rv">Every tool you need. <span class="grad">Already connected.</span></h2><p class="lead rv">No duct tape between apps. Every module shares the same contacts and data, so one agent can answer the lead, book the call, send the invoice and drop the loyalty pass.</p></div>
+    <div class="bento">
+      <div class="bx glass wide rv"><div class="viz"><div class="vz v-chat"><div class="b u">Can I get a fade Saturday at 2?</div><div class="dots"><span></span><span></span><span></span></div><div class="tool">▸ book_appointment()</div><div class="b a">You're booked — Sat 2:00 PM ✓ Text reminder set.</div></div></div><div class="txt"><h3>AI agents with real tools</h3><p>Agents that act, not just chat. Give them custom functions and access to your CRM, calendar, payments and messages — on your site, SMS, voice, or right inside Claude and ChatGPT.</p></div></div>
+      <div class="bx glass rv"><div class="viz"><div class="vz v-flow"><svg viewBox="0 0 196 180" aria-hidden="true"><path class="wire" d="M48 40 H148 V90 H48 V140 H148"/><circle class="pulse" r="5"/><g class="node"><rect x="8" y="26" width="80" height="28" rx="8"/><text x="18" y="44">New lead</text></g><g class="node"><rect x="108" y="26" width="80" height="28" rx="8"/><text x="118" y="44">Wait 5m</text></g><g class="node"><rect x="108" y="76" width="80" height="28" rx="8"/><text x="118" y="94">AI reply</text></g><g class="node"><rect x="8" y="76" width="80" height="28" rx="8"/><text x="18" y="94">Tag: hot</text></g><g class="node"><rect x="8" y="126" width="80" height="28" rx="8"/><text x="18" y="144">Send SMS</text></g><g class="node"><rect x="108" y="126" width="80" height="28" rx="8"/><text x="118" y="144">Book call</text></g></svg></div></div><div class="txt"><h3>No-code automation</h3><p>Triggers, delays, branches and AI steps for follow-ups, onboarding and win-backs.</p></div></div>
+      <div class="bx glass rv"><div class="viz"><div class="vz v-crm"><div class="col"><b>New</b><div class="cd hot"></div><div class="cd"></div><div class="cd"></div></div><div class="col"><b>Booked</b><div class="cd"></div><div class="cd"></div></div><div class="col"><b>Won</b><div class="cd"></div></div></div></div><div class="txt"><h3>CRM &amp; pipelines</h3><p>Contacts, tags, pipelines and tasks. Every message, form and purchase lands on one record.</p></div></div>
+      <div class="bx glass rv"><div class="viz"><div class="vz v-page"><div class="win"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><div><div class="h"></div><div class="l"></div><div class="l" style="width:85%"></div><div class="l" style="width:60%"></div><div class="cta"></div></div><div class="img"></div></div></div><span class="live">● LIVE</span></div></div><div class="txt"><h3>Pages, forms &amp; campaigns</h3><p>Landing pages, forms, email and SMS broadcasts, and social comment automations — built and tracked in one place.</p></div></div>
+      <div class="bx glass rv"><div class="viz"><div class="vz v-pay"><div class="pass"><b>VIP CLUB</b><div class="pts">120 pts</div><div class="qr"></div></div><div class="paid">Stripe payment<br><em>$49.00 · Paid ✓</em></div></div></div><div class="txt"><h3>Payments &amp; wallet passes</h3><p>Sell with your own Stripe. Issue Apple and Google Wallet passes for loyalty, coupons and memberships.</p></div></div>
+      <div class="bx glass rv"><div class="viz"><div class="vz v-voice"><div class="wave"><span style="--h:40%;animation-delay:0s"></span><span style="--h:70%;animation-delay:0.1s"></span><span style="--h:95%;animation-delay:0.2s"></span><span style="--h:60%;animation-delay:0.3s"></span><span style="--h:85%;animation-delay:0.15s"></span><span style="--h:45%;animation-delay:0.35s"></span><span style="--h:100%;animation-delay:0.05s"></span><span style="--h:65%;animation-delay:0.25s"></span><span style="--h:80%;animation-delay:0.4s"></span><span style="--h:50%;animation-delay:0.12s"></span><span style="--h:90%;animation-delay:0.3s"></span><span style="--h:55%;animation-delay:0.2s"></span><span style="--h:75%;animation-delay:0.08s"></span><span style="--h:35%;animation-delay:0.33s"></span></div><div class="call">INCOMING CALL · <em>ORDER TAKEN ✓</em></div></div></div><div class="txt"><h3>Voice agents</h3><p>Voice agents that answer, take orders and book — with every conversation logged back to your CRM.</p></div></div>
+      <div class="bx glass wide rv"><div class="viz"><div class="vz v-studio"><div class="t img"><small>Image</small></div><div class="t vid"><small>Video</small></div><div class="t aud"><span style="height:10px"></span><span style="height:22px"></span><span style="height:34px"></span><span style="height:18px"></span><span style="height:40px"></span><span style="height:26px"></span><span style="height:14px"></span><span style="height:30px"></span><span style="height:20px"></span><span style="height:12px"></span><small>Voice</small></div><div class="t cpy"><i></i><i></i><i></i><i style="width:80%"></i><small>Copy</small></div></div></div><div class="txt"><h3>Content studio</h3><p>Generate images, video, audio and copy inside the platform, then drop it straight into your pages, posts and campaigns. No extra subscriptions.</p></div></div>
+    </div>
+    <div class="marquee" aria-hidden="true"><div class="marquee-track"><span>AI Agents</span><span>Automations</span><span>CRM</span><span>Pipelines</span><span>Email Broadcasts</span><span>SMS</span><span>Voice Agents</span><span>Landing Pages</span><span>Forms</span><span>Booking</span><span>Stripe Payments</span><span>Web Shop</span><span>Apple Wallet</span><span>Google Wallet</span><span>Loyalty</span><span>Image Generation</span><span>Video Generation</span><span>Custom Functions</span><span>MCP</span><span>Webhooks</span><span>Google Sheets</span><span>AI Agents</span><span>Automations</span><span>CRM</span><span>Pipelines</span><span>Email Broadcasts</span><span>SMS</span><span>Voice Agents</span><span>Landing Pages</span><span>Forms</span><span>Booking</span><span>Stripe Payments</span><span>Web Shop</span><span>Apple Wallet</span><span>Google Wallet</span><span>Loyalty</span><span>Image Generation</span><span>Video Generation</span><span>Custom Functions</span><span>MCP</span><span>Webhooks</span><span>Google Sheets</span></div></div>
+  </div>
+</section>
+
+<section id="mcp" class="mcp">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow rv">Native Model Context Protocol</span>
+      <h2 class="rv" style="margin:18px 0 16px">Your AI becomes the <span class="grad">command line</span> for your business.</h2>
+      <p class="lead rv">Connect Macknified AI to Claude or ChatGPT once. After that, you type what you want and the real tools in your account do the work.</p>
+      <div class="steps">
+        <div class="step glass rv"><span class="n">01</span><div><h3>Connect your AI</h3><p>Add your Macknified MCP connection to Claude or ChatGPT from your account.</p></div></div>
+        <div class="step glass rv"><span class="n">02</span><div><h3>Say it in plain English</h3><p>No menus to learn. Just the outcome you want.</p><q>Build my booking page and text every new lead back.</q></div></div>
+        <div class="step glass rv"><span class="n">03</span><div><h3>Real tools run</h3><p>Your AI calls the same tools you'd click by hand.</p><div class="tags"><span>create_landing_page</span><span>create_form</span><span>create_flow</span><span>manage_wallet_pass</span><span>send_message</span></div></div></div>
+        <div class="step glass rv"><span class="n">04</span><div><h3>It's in your account</h3><p>Pages, contacts, flows and passes show up in your dashboard. Tweak anything by hand or just ask again.</p></div></div>
+      </div>
+    </div>
+    <div class="split-film rv"><canvas data-mackfilm="split" role="img" aria-label="Split screen: by hand, sticky notes pile up for three days; with Macknified AI one prompt and three tool calls end in Done."></canvas></div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow rv">Pricing</span><h2 class="rv">Two plans. <span class="grad">Pick your speed.</span></h2><p class="lead rv">Start free on Basic for 7 days, or go Pro for unlimited agents, wallet passes and your whole team.</p></div>
+    <div class="plans">
+      <div class="plan glass hot rv">
+        <span class="tag">Launch price · limited seats</span>
+        <h3>Basic</h3><p class="sub">Start free for 7 days, then $49/month.</p>
+        <div class="price"><b>$49</b><span>/month after 7-day free trial</span></div>
+        <p class="was">Regularly $149/month</p>
+        <ul>
+          <li>7-day free trial</li>
+          <li>3 AI agents + custom functions</li>
+          <li>MCP access from Claude or ChatGPT</li>
+          <li>Landing pages, forms &amp; booking</li>
+          <li>CRM, pipelines &amp; no-code automations</li>
+          <li>Email, SMS &amp; social comment automations</li>
+          <li>Stripe payments &amp; web shop</li>
+          <li>Voice agents</li>
+        </ul>
+        <a class="btn btn-p" href="https://app.macknified.com/subscriber/auth?ownerId=448&amp;planId=12">Start 7-day free trial →</a>
+      </div>
+      <div class="plan glass rv">
+        <span class="tag tag-alt">For growing teams</span>
+        <h3>Pro</h3><p class="sub">More agents, more contacts, more seats.</p>
+        <div class="price"><b>$79</b><span>/month</span></div>
+        <p class="plus">Everything in Basic, plus:</p>
+        <ul>
+          <li>Unlimited AI agents + custom functions</li>
+          <li>Apple &amp; Google Wallet passes</li>
+          <li>Loyalty program &amp; e-commerce</li>
+          <li>Content Studio (copy, image, video)</li>
+          <li>CRM up to 50,000 contacts</li>
+          <li>5 team seats</li>
+        </ul>
+        <a class="btn btn-g" href="https://app.macknified.com/subscriber/auth?ownerId=448&amp;planId=128">Go Pro →</a>
+      </div>
+    </div>
+    <p class="fine">Cancel anytime. Prices in USD. By signing up you agree to our <a href="https://app.macknified.com/p/uEVnPx/lp-mr3tkcrm-djpjl-copy-1783017680675" target="_blank" rel="noopener">Terms of Service</a> and <a href="https://app.macknified.com/p/PzhNqZ/lp-mr3tkcrm-djpjl" target="_blank" rel="noopener">Privacy Policy</a>.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow rv">FAQ</span><h2 class="rv">Straight answers.</h2></div>
+    <div class="faq">
+      <details class="glass rv"><summary>What is MCP and why does it matter?</summary><p>Model Context Protocol is the open standard AI assistants like Claude and ChatGPT use to call outside tools. Macknified AI supports it, so your assistant can build pages, add contacts, run automations and more inside your account — you just ask.</p></details>
+      <details class="glass rv"><summary>Do I need to know how to code?</summary><p>No. Type what you want in plain English, or use the no-code builders in the dashboard. Builders who do code can drop in their own HTML, CSS and functions.</p></details>
+      <details class="glass rv"><summary>What happens after the free trial?</summary><p>Your Basic trial runs 7 days. After that it's $49/month (regularly $149/month). Seats at this price are limited. Cancel anytime.</p></details>
+      <details class="glass rv"><summary>What’s the difference between Basic and Pro?</summary><p>Basic starts with a 7-day free trial, then $49/month, and includes 3 AI agents. Pro is $79/month and includes everything in Basic, plus unlimited AI agents, Apple &amp; Google Wallet passes, loyalty &amp; e-commerce, the Content Studio, CRM up to 50,000 contacts and 5 team seats.</p></details>
+      <details class="glass rv"><summary>Can I use it for my clients?</summary><p>Yes. Builders use it to create pages, agents and automations for the businesses they work with.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap"><div class="box rv">
+    <span class="eyebrow">I have an agent for that.</span>
+    <h2 style="margin-top:18px">Stop managing software. <span class="grad">Start speaking it into existence.</span></h2>
+    <p class="lead">Try every tool free for 7 days. Type what you want and watch it get built.</p>
+    <div class="cta-row"><a class="btn btn-p" href="https://app.macknified.com/subscriber/auth?ownerId=448&amp;planId=12">Start 7-day free trial →</a><a class="btn btn-g" href="#pricing">See pricing</a></div>
+  </div></div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="mk-logo" href="#top" aria-label="Macknified AI"><span class="mk-mark" role="img" aria-label="Macknified"></span></a>
+    <nav><a href="#platform">Platform</a><a href="#pricing">Pricing</a><a href="https://blog.macknified.com" target="_blank" rel="noopener">Blog</a><a href="https://shop.macknified.com" target="_blank" rel="noopener">Shop</a><a href="mailto:support@macknified.com">support@macknified.com</a><a href="https://app.macknified.com/p/uEVnPx/lp-mr3tkcrm-djpjl-copy-1783017680675" target="_blank" rel="noopener">Terms of Service</a><a href="https://app.macknified.com/p/PzhNqZ/lp-mr3tkcrm-djpjl" target="_blank" rel="noopener">Privacy Policy</a></nav>
+    <p>© <span id="mk-year">2026</span> Macknified LLC · Sacramento, CA</p>
+  </div>
+</footer>
+
+
+
+
+
+
+
+  <script src="script.js"></script>
 </body>
 </html>
