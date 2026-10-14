@@ -2,17 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.macknified.com/</loc>
-    <lastmod>2026-10-02T02:07:39.391Z</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://www.macknified.com/terms-of-service/</loc>
-    <lastmod>2026-10-01T16:34:32.433Z</lastmod>
+    <lastmod>2026-10-14T05:22:19.521Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://www.macknified.com/privacy-policy/</loc>
-    <lastmod>2026-10-01T06:55:51.284Z</lastmod>
+    <lastmod>2026-10-14T04:43:40.515Z</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.macknified.com/terms-of-service/</loc>
+    <lastmod>2026-10-14T04:37:25.646Z</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>
